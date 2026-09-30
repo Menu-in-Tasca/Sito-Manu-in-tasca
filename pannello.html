@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow, noai, noimageai">
+<meta name="theme-color" content="#161616">
+<title>Area clienti – Menù in Tasca</title>
+<style>
+:root{--ink:#161616;--soft:#6B645A;--line:#E4DED3;--bg:#F6F5F0;--gold:#9E8762;--gold-d:#76603D;--ok:#1E8E5A;--err:#B03A2E;--card:#fff;}
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);}
+*,*::before,*::after{box-sizing:inherit;}
+[hidden]{display:none !important;}
+html{scroll-padding-top:env(safe-area-inset-top,0px);}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;font-size:16px;-webkit-font-smoothing:antialiased;}
+button,input,select,textarea{font:inherit;color:inherit;}
+.top{background:var(--ink);color:#fff;padding:18px 18px 16px;display:flex;flex-direction:column;align-items:center;gap:6px;position:relative;}
+.top svg{width:150px;height:auto;display:block;}
+.top .loc{font-size:22px;font-weight:800;text-align:center;letter-spacing:-.3px;margin-top:4px;}
+.top .loc:empty{display:none;}
+#esci{position:absolute;top:14px;right:14px;background:transparent;border:1px solid rgba(255,255,255,.4);color:#fff;border-radius:18px;padding:6px 12px;font-size:13px;cursor:pointer;}
+main{max-width:640px;margin:0 auto;padding:18px 14px 110px;}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px 18px;}
+h1{font-size:22px;margin:0 0 6px;}
+.hint{color:var(--soft);font-size:14.5px;line-height:1.5;margin:0 0 14px;}
+label.f{display:block;font-size:14px;font-weight:700;margin:14px 0 6px;}
+input[type=email],input[type=password],input[type=text],select,textarea{width:100%;border:1.5px solid var(--line);border-radius:12px;padding:12px 13px;font-size:16px;background:#fff;}
+textarea{min-height:76px;resize:vertical;}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--gold-d);box-shadow:0 0 0 3px rgba(158,135,98,.22);}
+.btn{border:0;border-radius:14px;padding:13px 16px;font-weight:700;font-size:16px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px;}
+.btn.main{background:var(--ink);color:#fff;width:100%;margin-top:18px;}
+.btn.sec{background:#EFEBE3;color:var(--ink);}
+.btn.danger{background:transparent;color:var(--err);border:1.5px solid #E7C4BF;}
+.btn:disabled{opacity:.55;}
+.err{color:var(--err);font-weight:600;font-size:14px;min-height:20px;margin:10px 0 0;}
+.small{font-size:13px;color:var(--soft);margin:12px 0 0;}
+.bar{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:0 0 6px;}
+.bar a{color:var(--gold-d);font-weight:700;text-decoration:none;font-size:15px;}
+.sez{background:var(--card);border:1px solid var(--line);border-radius:18px;margin:14px 0;overflow:hidden;}
+.sezh{display:flex;justify-content:space-between;align-items:center;padding:14px 14px 10px 16px;gap:10px;}
+.sezh h2{font-size:19px;margin:0;}
+.add{background:#EFEBE3;border:0;border-radius:20px;padding:8px 13px;font-weight:700;font-size:14px;cursor:pointer;white-space:nowrap;}
+.it{display:flex;align-items:center;gap:10px;border-top:1px solid var(--line);padding:0 12px 0 0;}
+.it.off .it-main{opacity:.45;}
+.it-main{flex:1;min-width:0;text-align:left;background:transparent;border:0;padding:12px 4px 12px 16px;cursor:pointer;}
+.it-main b{display:block;font-size:16px;}
+.it-main{display:flex;align-items:center;gap:11px;} .it-main > div{min-width:0;flex:1;}
+.th{width:44px;height:44px;border-radius:10px;object-fit:cover;flex-shrink:0;background:#EFEBE3;}
+.ord{display:flex;flex-direction:column;gap:3px;flex-shrink:0;}
+.ord button{width:30px;height:24px;border:1px solid var(--line);background:#fff;border-radius:7px;font-size:11px;cursor:pointer;color:var(--soft);padding:0;}
+.ord button:disabled{opacity:.3;}
+.sezh .ord{flex-direction:row;margin-left:auto;} .sezh .ord button{height:30px;}
+.acc{margin:0 0 14px;} .acc .piano{display:inline-block;background:var(--ink);color:#fff;border-radius:14px;padding:3px 11px;font-size:12.5px;font-weight:700;letter-spacing:.5px;}
+.acc h2{font-size:17px;margin:8px 0 4px;} .acc .aiuto{display:flex;flex-direction:column;gap:8px;margin-top:12px;}
+.acc .aiuto a{display:flex;justify-content:space-between;align-items:center;gap:10px;text-decoration:none;color:var(--ink);background:#F6F5F0;border:1px solid var(--line);border-radius:12px;padding:11px 13px;font-weight:700;font-size:14.5px;}
+.acc .aiuto a small{font-weight:600;color:var(--gold-d);white-space:nowrap;}
+body.base .ord,body.base .sw,body.base .add,body.base #nuovaSez{display:none !important;}
+body.base .it-main{cursor:default;}
+.stat{margin:0 0 14px;} .stat h2{font-size:17px;margin:0 0 2px;} .stat .big{font-size:30px;font-weight:800;letter-spacing:-.5px;}
+.stat .row{display:flex;gap:18px;align-items:flex-end;flex-wrap:wrap;} .stat small{color:var(--soft);font-size:13px;display:block;}
+.stat svg{width:100%;height:76px;display:block;margin-top:10px;}
+.stat details{margin-top:10px;} .stat summary{cursor:pointer;font-weight:700;font-size:14px;color:var(--gold-d);}
+.stat ul{margin:8px 0 0;padding-left:18px;font-size:14px;line-height:1.6;} .stat h3{font-size:14px;margin:12px 0 0;}
+.fisso{gap:10px;}
+.fisso .btn.anteprima{background:var(--ink);max-width:200px;}
+#dlgPrev{width:100vw;max-width:100vw;height:100vh;max-height:100vh;border-radius:0;margin:0;background:#2A2A2A;}
+.pv-top{display:flex;align-items:center;gap:8px;padding:10px 12px calc(10px);padding-top:calc(10px + env(safe-area-inset-top,0px));background:var(--ink);color:#fff;flex-wrap:wrap;}
+.pv-top .seg{display:flex;background:#3A3A3A;border-radius:10px;padding:3px;}
+.pv-top .seg button{border:0;background:transparent;color:#ddd;padding:7px 12px;border-radius:8px;font-weight:700;font-size:13.5px;cursor:pointer;}
+.pv-top .seg button[aria-pressed=true]{background:#fff;color:var(--ink);}
+.pv-top .x{margin-left:auto;background:transparent;border:1px solid rgba(255,255,255,.35);color:#fff;border-radius:18px;padding:7px 12px;cursor:pointer;font-size:13.5px;}
+.pv-top .agg{background:#fff;color:var(--ink);border:0;border-radius:18px;padding:7px 12px;font-weight:700;cursor:pointer;font-size:13.5px;}
+.pv-body{height:calc(100% - 58px);display:flex;align-items:center;justify-content:center;overflow:hidden;padding:12px;}
+.pv-dev{background:#111;border-radius:26px;padding:10px;box-shadow:0 10px 40px rgba(0,0,0,.4);transform-origin:center center;flex-shrink:0;}
+.pv-dev iframe{border:0;border-radius:18px;background:#fff;display:block;}
+.pv-nota{color:#ccc;font-size:12px;text-align:center;padding:0 12px 8px;}
+.fotobox{display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+.fotobox img{width:88px;height:88px;border-radius:12px;object-fit:cover;border:1px solid var(--line);}
+.fotobox .btn{padding:10px 14px;font-size:14.5px;}
+.it-main .p{color:var(--gold-d);font-weight:700;font-size:14.5px;margin-left:6px;}
+.it-main small{display:block;color:var(--soft);font-size:13.5px;margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.vuota{border-top:1px solid var(--line);padding:14px 16px;color:var(--soft);font-size:14px;}
+.sw{display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;flex-shrink:0;}
+.sw input{position:absolute;opacity:0;width:1px;height:1px;}
+.sw span{width:46px;height:28px;border-radius:14px;background:#CFC8BC;position:relative;transition:background .2s;}
+.sw span::after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;transition:transform .2s;box-shadow:0 1px 3px rgba(0,0,0,.25);}
+.sw input:checked + span{background:var(--ok);}
+.sw input:checked + span::after{transform:translateX(18px);}
+.sw input:focus-visible + span{outline:3px solid var(--gold);outline-offset:2px;}
+.sw em{font-style:normal;font-size:11.5px;font-weight:700;color:var(--soft);}
+.fisso{position:fixed;left:0;right:0;bottom:0;padding:12px 14px calc(12px + env(safe-area-inset-bottom,0px));background:linear-gradient(transparent,var(--bg) 30%);display:flex;justify-content:center;}
+.fisso .btn{width:100%;max-width:612px;background:var(--gold-d);color:#fff;box-shadow:0 6px 18px rgba(0,0,0,.18);}
+dialog{border:0;border-radius:20px;padding:0;width:min(560px,94vw);max-height:90vh;}
+dialog::backdrop{background:rgba(22,22,22,.55);}
+.dlg{padding:20px 18px 18px;overflow:auto;max-height:90vh;}
+.dlg h2{margin:0 0 4px;font-size:20px;}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.algs{display:flex;flex-wrap:wrap;gap:6px;}
+.algs button{border:1.5px solid var(--line);background:#fff;border-radius:18px;padding:6px 10px;font-size:13px;cursor:pointer;}
+.algs button[aria-pressed=true]{background:var(--ink);border-color:var(--ink);color:#fff;}
+.azioni{display:flex;gap:10px;margin-top:20px;flex-wrap:wrap;}
+.azioni .btn{flex:1;}
+#toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%) translateY(20px);background:var(--ink);color:#fff;padding:12px 16px;border-radius:14px;font-size:14.5px;font-weight:600;opacity:0;pointer-events:none;transition:.25s;max-width:90vw;text-align:center;z-index:50;}
+#toast.on{opacity:1;transform:translateX(-50%) translateY(0);}
+#toast.bad{background:var(--err);}
+#carica{position:fixed;inset:0;background:rgba(246,245,240,.6);display:none;align-items:center;justify-content:center;z-index:40;}
+#carica.on{display:flex;}
+#carica i{width:36px;height:36px;border-radius:50%;border:4px solid var(--line);border-top-color:var(--ink);animation:g 0.8s linear infinite;}
+@keyframes g{to{transform:rotate(360deg);}}
+</style>
+</head>
+<body>
+<header class="top">
+  <svg viewBox="0 0 420 110" role="img" aria-label="Menù in Tasca">
+    <g transform="translate(6 6) scale(.42)" fill="none" stroke="#fff" stroke-width="15"><rect x="30" y="16" width="150" height="214" rx="26"/></g>
+    <g transform="translate(6 6) scale(.42)" fill="#fff"><rect x="80" y="12" width="50" height="16" rx="8"/><rect x="66" y="66" width="7" height="44" rx="3.5"/><rect x="78.5" y="66" width="7" height="44" rx="3.5"/><rect x="91" y="66" width="7" height="44" rx="3.5"/><path d="M64 104 H100 Q100 124 86 128 V182 Q86 188 82 188 Q78 188 78 182 V128 Q64 124 64 104Z"/><path d="M124 62 Q146 70 146 118 Q146 136 134 138 V182 Q134 188 129 188 Q124 188 124 182Z"/></g>
+    <text x="112" y="58" fill="#fff" font-family="system-ui,-apple-system,Arial,sans-serif" font-weight="800" font-size="40" letter-spacing="-1">Menù</text>
+    <text x="112" y="98" fill="#9E8762" font-family="Georgia,serif" font-style="italic" font-size="32">in</text>
+    <text x="146" y="98" fill="#fff" font-family="system-ui,-apple-system,Arial,sans-serif" font-weight="800" font-size="40" letter-spacing="-1">Tasca</text>
+  </svg>
+  <div class="loc" id="loc"></div>
+  <button id="esci" type="button" hidden>Esci</button>
+</header>
+
+<main>
+  <section id="login" class="card">
+    <h1>Area clienti</h1>
+    <p class="hint">Entra con l'<b>email con cui hai chiesto il preventivo</b> e la <b>password che ti abbiamo mandato per email</b>.</p>
+    <label class="f" for="em">Email</label>
+    <input id="em" type="email" autocomplete="username" inputmode="email">
+    <label class="f" for="pw">Password</label>
+    <input id="pw" type="password" autocomplete="current-password">
+    <button id="entra" class="btn main" type="button">Entra</button>
+    <p id="lerr" class="err" role="alert"></p>
+    <p class="small">Password dimenticata? Scrivici su WhatsApp al 388 406 4295.</p>
+  </section>
+
+  <section id="app" hidden>
+    <div class="bar"><span class="hint" style="margin:0" id="barHint">Il tuo menu</span><a id="vedi" href="#" target="_blank" rel="noopener" hidden>Vedi il menu ›</a></div>
+    <div class="card acc" id="account" hidden></div>
+    <div class="card stat" id="stat" hidden></div>
+    <div id="lista"></div>
+  </section>
+</main>
+<div class="fisso" id="fisso" hidden><button id="apriPrev" class="btn anteprima" type="button">👁 Anteprima</button><button id="nuovaSez" class="btn" type="button">+ Nuova sezione</button></div>
+<dialog id="dlgPrev" aria-label="Anteprima del menu">
+  <div class="pv-top">
+    <div class="seg" role="group" aria-label="Dispositivo"><button type="button" data-dev="tel" aria-pressed="true">📱 Telefono</button><button type="button" data-dev="tab" aria-pressed="false">Tablet</button></div>
+    <button type="button" class="agg" id="pvAgg">↻ Aggiorna</button>
+    <button type="button" class="x" id="pvX">Chiudi</button>
+  </div>
+  <div class="pv-body" id="pvBody"><div class="pv-dev" id="pvDev"><iframe id="pvFrame" title="Il tuo menu"></iframe></div></div>
+</dialog>
+
+<dialog id="dlg" aria-labelledby="dtit">
+  <div class="dlg">
+    <h2 id="dtit">Nuovo piatto</h2>
+    <label class="f" for="fSez">Sezione</label>
+    <select id="fSez"></select>
+    <label class="f" for="fNome">Nome</label>
+    <input id="fNome" type="text" maxlength="120" placeholder="Es. Spaghetti alle vongole">
+    <div class="row2">
+      <div><label class="f" for="fPrezzo">Prezzo</label><input id="fPrezzo" type="text" inputmode="decimal" maxlength="30" placeholder="Es. 12,00"></div>
+      <div><label class="f" for="fDett">Formato <small style="font-weight:400;color:var(--soft)">(facoltativo)</small></label><input id="fDett" type="text" maxlength="80" placeholder="Es. 33 cl"></div>
+    </div>
+    <label class="f" for="fDesc">Descrizione <small style="font-weight:400;color:var(--soft)">(facoltativa: si traduce da sola)</small></label>
+    <textarea id="fDesc" maxlength="300" placeholder="Es. vongole, aglio e prezzemolo"></textarea>
+    <label class="f">Foto del piatto <small style="font-weight:400;color:var(--soft)">(facoltativa)</small></label>
+    <div class="fotobox"><img id="fImg" alt="Foto del piatto" hidden>
+      <label class="btn sec" for="fFile">📷 Scegli foto</label><input id="fFile" type="file" accept="image/*" hidden>
+      <button class="btn sec" type="button" id="fTogli" hidden>Togli foto</button></div>
+    <label class="f">Allergeni <small style="font-weight:400;color:var(--soft)">(tocca quelli presenti, oppure "Nessun allergene")</small></label>
+    <div class="algs" id="fAlg"></div>
+    <div class="azioni">
+      <button class="btn sec" type="button" id="annulla">Annulla</button>
+      <button class="btn main" type="button" id="salva" style="margin-top:0">Salva</button>
+    </div>
+    <button class="btn danger" type="button" id="elimina" style="width:100%;margin-top:12px" hidden>Elimina questo piatto</button>
+  </div>
+</dialog>
+
+<dialog id="dlgSez" aria-labelledby="stit">
+  <div class="dlg">
+    <h2 id="stit">Nuova sezione</h2>
+    <p class="hint">Es. Aperitivi, Pizze, Dolci. Poi ci aggiungi i piatti.</p>
+    <input id="sNome" type="text" maxlength="60" placeholder="Nome della sezione">
+    <div class="azioni">
+      <button class="btn sec" type="button" id="sAnnulla">Annulla</button>
+      <button class="btn main" type="button" id="sCrea" style="margin-top:0">Crea</button>
+    </div>
+  </div>
+</dialog>
+<div id="toast" role="status" aria-live="polite"></div>
+<div id="carica" aria-hidden="true"><i></i></div>
+
+<script>
+// indirizzo del gestionale (lo stesso del sito)
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyqnPE9ryeK9Ai75AzhLcbDWUKfTAxKh6iT-tmDAP0rzGmPkGc7vY_3GNrzRs99_TSj/exec";
+const ALG = ['Glutine','Crostacei','Uova','Pesce','Arachidi','Soia','Latte','Frutta a guscio','Sedano','Senape','Sesamo','Solfiti','Lupini','Molluschi'];
+const $ = id => document.getElementById(id);
+const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const mem = { get(k){ try { return sessionStorage.getItem(k); } catch(e){ return null; } }, set(k,v){ try { sessionStorage.setItem(k,v); } catch(e){} }, del(k){ try { sessionStorage.removeItem(k); } catch(e){} } };
+let TOKEN = mem.get('mit_token'), DATI = {sezioni: [], piatti: []}, ORA = null;
+
+// anteprima delle foto salvate su Drive
+const thumb = f => { const m = String(f).match(/drive\.google\.com\/(?:file\/d\/|open\?id=|uc\?(?:export=\w+&)?id=)([\w-]{20,})/); return m ? `https://drive.google.com/thumbnail?id=${m[1]}&sz=w300` : f; };
+let FOTO = {nuova: null, togli: false};
+// la foto si rimpicciolisce sul telefono (lato lungo 1400 px) prima di partire
+function rimpicciolisci(file){ return new Promise((ok, ko) => { const r = new FileReader(); r.onerror = ko;
+  r.onload = () => { const im = new Image(); im.onerror = () => ko(new Error('foto')); im.onload = () => {
+    const k = Math.min(1, 1400 / Math.max(im.width, im.height)), c = document.createElement('canvas');
+    c.width = Math.round(im.width * k); c.height = Math.round(im.height * k); c.getContext('2d').drawImage(im, 0, 0, c.width, c.height);
+    ok(c.toDataURL('image/jpeg', 0.82)); }; im.src = r.result; }; r.readAsDataURL(file); }); }
+function mostraFoto(src){ $('fImg').hidden = !src; if (src) $('fImg').src = src; $('fTogli').hidden = !src; }
+function toast(t, bad){ const el = $('toast'); el.textContent = t; el.className = 'on' + (bad ? ' bad' : ''); clearTimeout(toast.t); toast.t = setTimeout(() => el.className = bad ? 'bad' : '', 3200); }
+async function chiama(azione, extra, zitto){
+  if (!zitto) $('carica').classList.add('on');
+  try {
+    const r = await fetch(SCRIPT_URL, {method: 'POST', body: JSON.stringify(Object.assign({azione, token: TOKEN}, extra || {}))});
+    const d = await r.json();
+    if (d.esci) esci(d.errore);
+    return d;
+  } catch (e) {
+    return {ok: false, errore: 'Connessione non riuscita: controlla internet e riprova.'};
+  } finally { $('carica').classList.remove('on'); }
+}
+// ---------- il riquadro del piano e dell'aiuto ----------
+const WA = '393884064295';
+let PIANO = 'Premium';
+const wa = t => `https://wa.me/${WA}?text=${encodeURIComponent(t)}`;
+function account(d){
+  PIANO = d.piano || PIANO; const loc = d.locale || $('loc').textContent, base = PIANO === 'Base';
+  document.body.classList.toggle('base', base);
+  const voci = base ? [
+      ['✏️ Richiedi una modifica', '50 €', `Ciao, sono ${loc}. Vorrei modificare il menu: `],
+      ['🗓️ Rifare menu e grafica per il nuovo anno', '100 €', `Ciao, sono ${loc}. Vorrei rifare menu e grafica per il nuovo anno.`],
+      ['⭐ Passa al Premium e cambialo da solo', '100 € + 35 €/mese', `Ciao, sono ${loc}. Vorrei passare al Premium.`]]
+    : [['🛠️ Qualcosa non funziona', 'gratis', `Ciao, sono ${loc}. C'è un problema con il menu: `],
+      ['✏️ Chiedi a noi una modifica', '30 €', `Ciao, sono ${loc}. Mi fate questa modifica al menu? `],
+      ['🗓️ Menu e grafica nuovi per l\'anno', 'gratis 1 volta l\'anno', `Ciao, sono ${loc}. Vorrei rifare menu e grafica per la nuova stagione.`]];
+  $('account').innerHTML = `<span class="piano">${esc(PIANO.toUpperCase())}</span>
+    <h2>${base ? 'Il tuo menu lo aggiorniamo noi' : 'Il tuo menu lo cambi tu, qui sotto'}</h2>
+    <p class="hint" style="margin:0">${base ? 'Qui vedi il tuo menu e le statistiche. Per cambiare qualcosa, scrivici con un tocco.' : 'Tocca un piatto per cambiarlo. Se ti serve una mano, siamo qui.'}</p>
+    <div class="aiuto">${voci.map(([t, c, m]) => `<a href="${wa(m)}" target="_blank" rel="noopener"><span>${t}</span><small>${esc(c)}</small></a>`).join('')}</div>`;
+  $('account').hidden = false;
+}
+function mostra(d){
+  if (d.locale) $('loc').textContent = d.locale;
+  if (d.menu) { $('vedi').href = d.menu; $('vedi').hidden = false; MENU_LINK = d.menu; }
+  if (d.sezioni) DATI = {sezioni: d.sezioni, piatti: d.piatti || []};
+  $('login').hidden = true; $('app').hidden = false; $('fisso').hidden = false; $('esci').hidden = false;
+  account(d);
+  const L = $('lista');
+  if (!DATI.sezioni.length) { L.innerHTML = '<div class="card"><p class="hint" style="margin:0">Il menu è vuoto. Crea la prima sezione con il pulsante in basso.</p></div>'; return; }
+  L.innerHTML = DATI.sezioni.map(s => {
+    const pp = DATI.piatti.filter(p => p.sezione.toLowerCase() === s.toLowerCase());
+    const si = DATI.sezioni.indexOf(s);
+    return `<div class="sez"><div class="sezh"><h2>${esc(s)}</h2><div class="ord"><button type="button" data-ssu="${esc(s)}" aria-label="Sposta su la sezione ${esc(s)}" ${si === 0 ? 'disabled' : ''}>▲</button><button type="button" data-sgiu="${esc(s)}" aria-label="Sposta giù la sezione ${esc(s)}" ${si === DATI.sezioni.length - 1 ? 'disabled' : ''}>▼</button></div><button class="add" type="button" data-add="${esc(s)}">+ Piatto</button></div>` +
+      (pp.length ? pp.map((p, k) => `<div class="it${p.visibile ? '' : ' off'}">
+        <button class="it-main" type="button" data-r="${p.riga}">${p.foto ? `<img class="th" src="${esc(thumb(p.foto))}" alt="">` : ''}<div><b>${esc(p.nome)}${p.prezzo ? `<span class="p">${esc(p.prezzo)} €</span>` : ''}</b>${p.descrizione || p.dettaglio ? `<small>${esc([p.dettaglio, p.descrizione].filter(Boolean).join(' · '))}</small>` : ''}</div></button>
+        <div class="ord"><button type="button" data-su="${p.riga}" aria-label="Sposta su ${esc(p.nome)}" ${k === 0 ? 'disabled' : ''}>▲</button><button type="button" data-giu="${p.riga}" aria-label="Sposta giù ${esc(p.nome)}" ${k === pp.length - 1 ? 'disabled' : ''}>▼</button></div>
+        <label class="sw"><input type="checkbox" data-v="${p.riga}" ${p.visibile ? 'checked' : ''} aria-label="${esc(p.nome)}: disponibile"><span></span><em>${p.visibile ? "C'è" : 'Finito'}</em></label></div>`).join('')
+        : '<div class="vuota">Nessun piatto: tocca "+ Piatto".</div>') + '</div>';
+  }).join('');
+}
+function esci(msg){
+  TOKEN = null; mem.del('mit_token');
+  $('app').hidden = true; $('fisso').hidden = true; $('esci').hidden = true; $('login').hidden = false; $('loc').textContent = ''; $('vedi').hidden = true;
+  if (msg) $('lerr').textContent = msg;
+}
+$('entra').onclick = async () => {
+  $('lerr').textContent = '';
+  const d = await chiama('login', {email: $('em').value.trim(), password: $('pw').value});
+  if (!d.ok) { $('lerr').textContent = d.errore || 'Non riesco a entrare.'; return; }
+  TOKEN = d.token; mem.set('mit_token', TOKEN); $('pw').value = '';
+  const m = await chiama('leggi'); if (m.ok) { mostra(m); caricaStatistiche(); } else $('lerr').textContent = m.errore;
+};
+$('pw').addEventListener('keydown', e => { if (e.key === 'Enter') $('entra').click(); });
+$('esci').onclick = () => esci();
+
+// modifica e aggiunta dei piatti
+function apri(p, sez){
+  ORA = p || null;
+  $('dtit').textContent = p ? 'Modifica piatto' : 'Nuovo piatto';
+  $('fSez').innerHTML = DATI.sezioni.map(s => `<option ${s === (p ? p.sezione : sez) ? 'selected' : ''}>${esc(s)}</option>`).join('');
+  $('fNome').value = p ? p.nome : ''; $('fPrezzo').value = p ? p.prezzo : ''; $('fDett').value = p ? p.dettaglio : ''; $('fDesc').value = p ? p.descrizione : '';
+  const testo = String(p ? p.allergeni : ''), nessuno = /nessun/i.test(testo);
+  const on = new Set(testo.split(/[^0-9]+/).filter(Boolean).map(Number));
+  $('fAlg').innerHTML = `<button type="button" data-a="0" aria-pressed="${nessuno}">Nessun allergene</button>` +
+    ALG.map((a, i) => `<button type="button" data-a="${i + 1}" aria-pressed="${on.has(i + 1)}">${i + 1} · ${a}</button>`).join('');
+  $('elimina').hidden = !p;
+  FOTO = {nuova: null, togli: false}; $('fFile').value = ''; mostraFoto(p && p.foto ? thumb(p.foto) : '');
+  $('dlg').showModal(); if (!p) setTimeout(() => $('fNome').focus(), 50);
+}
+$('fAlg').onclick = e => { const b = e.target.closest('[data-a]'); if (!b) return;
+  const on = b.getAttribute('aria-pressed') !== 'true'; b.setAttribute('aria-pressed', on);
+  // "Nessun allergene" e i numeri si escludono a vicenda
+  if (on) $('fAlg').querySelectorAll('[data-a]').forEach(x => { if ((x.dataset.a === '0') !== (b.dataset.a === '0')) x.setAttribute('aria-pressed', 'false'); }); };
+$('annulla').onclick = () => $('dlg').close();
+$('fFile').onchange = async () => { const f = $('fFile').files[0]; if (!f) return;
+  try { FOTO.nuova = await rimpicciolisci(f); FOTO.togli = false; mostraFoto(FOTO.nuova); }
+  catch (e) { toast('Questa foto non si riesce ad aprire: provane un\'altra.', true); } };
+$('fTogli').onclick = () => { FOTO = {nuova: null, togli: true}; $('fFile').value = ''; mostraFoto(''); };
+$('salva').onclick = async () => {
+  const piatto = {sezione: $('fSez').value, nome: $('fNome').value.trim(), prezzo: $('fPrezzo').value.trim().replace(/\s*€$/, ''),
+    dettaglio: $('fDett').value.trim(), descrizione: $('fDesc').value.trim(),
+    allergeni: $('fAlg').querySelector('[data-a="0"][aria-pressed=true]') ? 'nessuno' : [...$('fAlg').querySelectorAll('[aria-pressed=true]')].map(b => b.dataset.a).join(', ')};
+  if (FOTO.nuova) piatto.fotoNuova = FOTO.nuova; else if (FOTO.togli) piatto.togliFoto = true;
+  if (!piatto.nome) { toast('Scrivi il nome del piatto.', true); $('fNome').focus(); return; }
+  const d = await chiama('salva', {piatto, riga: ORA ? ORA.riga : 0, nomePrima: ORA ? ORA.nome : ''});
+  if (!d.ok) { toast(d.errore, true); return; }
+  $('dlg').close(); mostra(d); aggiornaAnteprima(); toast('Salvato! Sul menu compare entro pochi secondi.');
+};
+$('elimina').onclick = async () => {
+  if (!ORA || !confirm(`Vuoi eliminare "${ORA.nome}" dal menu?`)) return;
+  const d = await chiama('elimina', {riga: ORA.riga, nomePrima: ORA.nome});
+  if (!d.ok) { toast(d.errore, true); return; }
+  $('dlg').close(); mostra(d); aggiornaAnteprima(); toast('Eliminato.');
+};
+$('lista').addEventListener('click', async e => {
+  const su = e.target.closest('[data-su],[data-giu]');
+  if (su) { const riga = Number(su.dataset.su || su.dataset.giu), p = DATI.piatti.find(x => x.riga === riga);
+    const d = await chiama('sposta', {riga, nomePrima: p.nome, verso: su.dataset.su ? 'su' : 'giu'});
+    if (!d.ok) { toast(d.errore, true); return; } mostra(d); aggiornaAnteprima(); return; }
+  const ss = e.target.closest('[data-ssu],[data-sgiu]');
+  if (ss) { const d = await chiama('spostaSezione', {nome: ss.dataset.ssu || ss.dataset.sgiu, verso: ss.dataset.ssu ? 'su' : 'giu'});
+    if (!d.ok) { toast(d.errore, true); return; } mostra(d); aggiornaAnteprima(); return; }
+  const a = e.target.closest('[data-add]'); if (a) return apri(null, a.dataset.add);
+  const r = e.target.closest('[data-r]'); if (r && PIANO !== 'Base') apri(DATI.piatti.find(p => String(p.riga) === r.dataset.r));
+});
+$('lista').addEventListener('change', async e => {
+  const c = e.target.closest('[data-v]'); if (!c) return;
+  const p = DATI.piatti.find(x => String(x.riga) === c.dataset.v);
+  const d = await chiama('visibile', {riga: p.riga, nomePrima: p.nome, valore: c.checked});
+  if (!d.ok) { c.checked = !c.checked; toast(d.errore, true); return; }
+  mostra(d); aggiornaAnteprima(); toast(c.checked ? `"${p.nome}" è di nuovo sul menu.` : `"${p.nome}" segnato come finito.`);
+});
+// ---------- statistiche ----------
+const NOMI_LINGUE = {it: 'italiano', en: 'inglese', de: 'tedesco', fr: 'francese', es: 'spagnolo'};
+function grafico(giorni){
+  const max = Math.max(1, ...giorni.map(g => g.v)), W = 280, H = 70, bw = W / giorni.length;
+  return `<svg viewBox="0 0 ${W} ${H + 14}" preserveAspectRatio="none" role="img" aria-label="Aperture degli ultimi 14 giorni">` +
+    giorni.map((g, i) => { const h = Math.max(2, Math.round(g.v / max * H)); const oggi = i === giorni.length - 1;
+      return `<rect x="${(i * bw + 2).toFixed(1)}" y="${H - h}" width="${(bw - 4).toFixed(1)}" height="${h}" rx="2" fill="${oggi ? '#76603D' : '#CFC4B1'}"><title>${g.g.split('-').reverse().slice(0, 2).join('/')}: ${g.v}</title></rect>`; }).join('') +
+    `<text x="0" y="${H + 12}" font-size="9" fill="#6B645A">14 giorni fa</text><text x="${W}" y="${H + 12}" font-size="9" fill="#6B645A" text-anchor="end">oggi</text></svg>`;
+}
+async function caricaStatistiche(){
+  const d = await chiama('statistiche', {}, true); if (!d.ok || !d.giorni) return;
+  const oggi = d.giorni[d.giorni.length - 1].v, sett = d.giorni.slice(-7).reduce((a, g) => a + g.v, 0);
+  const lista = (arr, vuoto) => arr.length ? '<ul>' + arr.map(x => `<li>${esc(x.nome)}: <b>${x.n}</b></li>`).join('') + '</ul>' : `<p class="hint" style="margin:6px 0 0">${vuoto}</p>`;
+  const lingue = Object.keys(d.lingue || {}).sort((a, b) => d.lingue[b] - d.lingue[a]).map(l => ({nome: NOMI_LINGUE[l] || l, n: d.lingue[l]}));
+  $('stat').innerHTML = `<h2>Quante persone guardano il menu</h2>
+    <div class="row"><div><span class="big">${oggi}</span><small>oggi</small></div><div><span class="big">${sett}</span><small>ultimi 7 giorni</small></div><div><span class="big">${d.totale}</span><small>ultimi 30 giorni</small></div></div>
+    ${grafico(d.giorni)}
+    <details><summary>Dettagli</summary>
+      <h3>Sezioni più guardate</h3>${lista(d.sezioni, 'Ancora nessun dato.')}
+      <h3>Foto più aperte</h3>${lista(d.foto, 'Ancora nessuna foto aperta.')}
+      <h3>In che lingua lo leggono</h3>${lista(lingue, 'Ancora nessun dato.')}
+      <h3>Filtro allergeni</h3><p class="hint" style="margin:6px 0 0">Usato <b>${d.allergeni || 0}</b> volte negli ultimi 30 giorni.</p>
+      <p class="small">Sono numeri anonimi: una persona conta una volta al giorno. I dati di oggi si aggiornano ogni 15 minuti.</p>
+    </details>`;
+  $('stat').hidden = false;
+}
+// ---------- anteprima del menu, dentro al pannello ----------
+const DEV = {tel: [390, 800], tab: [820, 1180]};
+let DEV_ORA = 'tel', MENU_LINK = '';
+function adatta(){
+  const [w, h] = DEV[DEV_ORA], box = $('pvBody').getBoundingClientRect(), f = $('pvFrame');
+  f.style.width = w + 'px'; f.style.height = h + 'px';
+  const k = Math.min(1, (box.width - 24) / (w + 20), (box.height - 24) / (h + 20));
+  $('pvDev').style.transform = `scale(${k})`;
+}
+function caricaAnteprima(){
+  if (window.ANTEPRIMA_LOCALE) { window.ANTEPRIMA_LOCALE(); return; }
+  if (!MENU_LINK) { toast('Il link del tuo menu non è ancora collegato: scrivici.', true); return; }
+  $('pvFrame').src = MENU_LINK + (MENU_LINK.includes('?') ? '&' : '?') + 'nostat=1&v=' + Date.now();
+}
+function aggiornaAnteprima(){ if ($('dlgPrev').open) setTimeout(caricaAnteprima, window.ANTEPRIMA_LOCALE ? 0 : 1500); }
+$('apriPrev').onclick = () => { $('dlgPrev').showModal(); adatta(); caricaAnteprima(); };
+$('pvX').onclick = () => $('dlgPrev').close();
+$('pvAgg').onclick = caricaAnteprima;
+document.querySelectorAll('[data-dev]').forEach(b => b.onclick = () => { DEV_ORA = b.dataset.dev;
+  document.querySelectorAll('[data-dev]').forEach(x => x.setAttribute('aria-pressed', x === b)); adatta(); });
+window.addEventListener('resize', () => { if ($('dlgPrev').open) adatta(); });
+// nuova sezione
+$('nuovaSez').onclick = () => { $('sNome').value = ''; $('dlgSez').showModal(); setTimeout(() => $('sNome').focus(), 50); };
+$('sAnnulla').onclick = () => $('dlgSez').close();
+$('sCrea').onclick = async () => {
+  const nome = $('sNome').value.trim(); if (!nome) { toast('Scrivi il nome della sezione.', true); return; }
+  const d = await chiama('sezione', {nome});
+  if (!d.ok) { toast(d.errore, true); return; }
+  $('dlgSez').close(); mostra(d); aggiornaAnteprima(); toast(`Sezione "${nome}" creata: ora aggiungi i piatti.`);
+};
+// se la sessione è ancora aperta, rientra da solo
+if (TOKEN) chiama('leggi').then(d => { if (d.ok) { mostra(d); caricaStatistiche(); } });
+</script>
+</body>
+</html>

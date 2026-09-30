@@ -39,3 +39,4 @@ Disallow: /
 # Motori di ricerca normali: benvenuti, ma non indicizzano le demo e lo strumento QR
 User-agent: *
 Disallow: /qr.html
+Disallow: /pannello.html
