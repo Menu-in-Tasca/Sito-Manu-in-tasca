@@ -1,0 +1,1208 @@
+<!DOCTYPE html>
+<html lang="it" data-style="riviera">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="only light">
+<title>Menu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Baloo+2:wght@600;700;800&family=Inter:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Jost:wght@400;500;600&family=Caveat:wght@600;700&family=Nunito:wght@400;600;700&family=Alegreya:ital,wght@0,500;0,700;1,500&family=Alegreya+Sans:wght@400;500;700&family=Syne:wght@700;800&family=Manrope:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#139AC8; --on:#062631; --on-soft:#0E4251; --card:#fff; --ink:#0A2A35; --ink-soft:#4A6570;
+  --accent:#0A4F66; --chip:rgba(255,255,255,.35); --line:#D6E7EE; --cardline:transparent; --glow:rgba(0,0,0,0);
+  --shadow:0 2px 6px rgba(6,38,49,.18); --fh:'Fraunces',Georgia,serif; --fb:'Inter',system-ui,sans-serif;
+}
+html[data-style=elegante]{--fh:'Cormorant Garamond',Georgia,serif; --fb:'Jost',system-ui,sans-serif;}
+html[data-style=lavagna]{--fh:'Caveat','Comic Sans MS',cursive; --fb:'Nunito',system-ui,sans-serif;}
+html[data-style=osteria]{--fh:'Alegreya',Georgia,serif; --fb:'Alegreya Sans',system-ui,sans-serif;}
+html[data-style=notte]{--fh:'Syne',system-ui,sans-serif; --fb:'Manrope',system-ui,sans-serif;}
+*{box-sizing:border-box;}
+html,body{margin:0;height:100%;background:var(--bg);transition:background .25s;}
+body{font-family:var(--fb);color:var(--ink);-webkit-font-smoothing:antialiased;}
+h1,h2,h3{font-family:var(--fh);font-weight:600;margin:0;}
+button{font:inherit;}
+.hidden{display:none !important;}
+
+/* ================= RIVIERA (base) ================= */
+.cover{display:flex;flex-direction:column;align-items:center;text-align:center;gap:12px;padding:8px 0 4px;}
+.medal{width:132px;height:132px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;flex:0 0 auto;
+  box-shadow:0 2px 10px rgba(0,0,0,.15);font-family:'Fraunces',serif;font-size:15px;color:#6b7c83;line-height:1.2;text-align:center;}
+.cover h1{font-size:26px;color:var(--on);}
+.cover .place{font-size:13px;color:var(--on-soft);margin-top:-6px;}
+.hours{background:var(--card);border:1px solid var(--cardline);border-radius:14px;padding:12px 18px;width:100%;max-width:330px;box-shadow:var(--shadow);text-align:left;}
+.hours h3{font-size:14px;color:var(--accent);text-align:center;margin-bottom:6px;}
+.hr{display:flex;justify-content:space-between;font-size:13.5px;padding:5px 0;border-bottom:1px dotted var(--line);}
+.hr:last-child{border-bottom:none;} .hr span:first-child{font-weight:600;}
+.pagehead{margin-bottom:14px;}
+.pagehead .eyebrow{font-size:12.5px;font-weight:600;color:var(--on);}
+.pagehead h2{font-size:25px;color:var(--on);line-height:1.15;}
+.pagehead .sub{font-size:13px;color:var(--on-soft);margin-top:2px;}
+.group-title{font-size:13px;font-weight:700;color:var(--on);margin:18px 0 6px;letter-spacing:.02em;}
+.listino{background:var(--card);border:1px solid var(--cardline);border-radius:12px;padding:2px 14px;box-shadow:var(--shadow);}
+.litem{display:flex;justify-content:space-between;align-items:baseline;gap:10px;padding:10px 0;border-bottom:1px dotted var(--line);}
+.litem:last-child{border-bottom:none;}
+.l-name{font-weight:700;font-size:14.5px;} .l-sub{font-size:11.5px;color:var(--ink-soft);margin-left:5px;}
+.l-comp{display:block;font-size:11.5px;color:var(--ink-soft);margin-top:2px;line-height:1.4;}
+.l-price{font-weight:700;font-size:14px;color:var(--accent);white-space:nowrap;}
+.grid{display:grid;grid-template-columns:1fr;gap:10px;}
+@media(min-width:720px){.grid{grid-template-columns:1fr 1fr;}}
+.card{background:var(--card);border:1px solid var(--cardline);border-left:3px solid var(--accent);border-radius:4px 10px 10px 4px;padding:11px 14px;box-shadow:var(--shadow);}
+.c-top{display:flex;justify-content:space-between;gap:8px;align-items:baseline;}
+.c-name{font-weight:700;font-size:14px;} .c-price{font-weight:700;font-size:13.5px;color:var(--accent);white-space:nowrap;}
+.c-origin{font-size:11px;font-weight:600;color:var(--accent);margin-top:2px;opacity:.85;}
+.c-desc{font-size:12px;color:var(--ink-soft);margin-top:4px;line-height:1.45;}
+.note{margin-top:14px;background:var(--card);border:1px dashed var(--accent);border-radius:10px;padding:9px 12px;text-align:center;font-size:12px;font-weight:600;color:var(--accent);}
+.chip{flex:0 0 auto;font-size:12.5px;font-weight:600;color:var(--on);background:var(--chip);border:1px solid transparent;padding:6px 13px;border-radius:20px;white-space:nowrap;cursor:pointer;}
+.chip.active{background:var(--on);color:var(--bg);}
+.chipbar{display:flex;gap:8px;overflow-x:auto;padding:10px 14px;scrollbar-width:none;}
+.chipbar::-webkit-scrollbar{display:none;}
+
+/* ================= ELEGANTE ================= */
+[data-style=elegante] .sbody{background:#fff;padding:14px 20px;box-shadow:0 12px 30px rgba(0,0,0,.2);border-radius:2px;}
+[data-style=elegante] .listino,[data-style=elegante] .card,[data-style=elegante] .hours{background:transparent;border:none;box-shadow:none;border-radius:0;}
+[data-style=elegante] .listino{padding:0;}
+[data-style=elegante] .litem{border-bottom:1px solid var(--line);padding:11px 0;}
+[data-style=elegante] .grid{gap:0;}
+[data-style=elegante] .card{padding:13px 0;border-bottom:1px solid var(--line);}
+[data-style=elegante] .card:last-child{border-bottom:none;}
+[data-style=elegante] .l-name,[data-style=elegante] .c-name{font-family:var(--fh);font-size:19px;font-weight:600;}
+[data-style=elegante] .l-price,[data-style=elegante] .c-price{font-family:var(--fh);font-size:18px;font-weight:600;}
+[data-style=elegante] .c-origin{font-style:italic;font-weight:400;opacity:1;}
+[data-style=elegante] .pagehead{text-align:center;margin-bottom:18px;}
+[data-style=elegante] .pagehead h2{font-size:34px;font-weight:500;display:flex;align-items:center;justify-content:center;gap:14px;}
+[data-style=elegante] .pagehead h2::before,[data-style=elegante] .pagehead h2::after{content:"";flex:0 1 48px;height:1px;background:var(--on);opacity:.55;}
+[data-style=elegante] .pagehead .eyebrow{font-family:var(--fh);font-style:italic;font-weight:500;font-size:17px;}
+[data-style=elegante] .group-title{font-family:var(--fh);font-style:italic;font-size:19px;font-weight:500;color:var(--accent);text-align:center;margin:14px 0 2px;}
+[data-style=elegante] .note{background:transparent;border:none;border-top:1px solid var(--line);border-radius:0;font-family:var(--fh);font-style:italic;font-weight:500;font-size:16px;}
+[data-style=elegante] .chip{border-radius:2px;background:transparent;border-color:var(--on);font-weight:500;}
+[data-style=elegante] .medal{width:86px;height:86px;font-size:12px;box-shadow:none;border:1px solid rgba(0,0,0,.08);}
+[data-style=elegante] .cover{gap:8px;}
+[data-style=elegante] .cover h1{font-size:40px;font-weight:500;margin-top:6px;}
+[data-style=elegante] .cover .place{font-family:var(--fh);font-style:italic;font-size:17px;margin-top:-2px;}
+[data-style=elegante] .cover .rule{width:70px;height:1px;background:var(--on);opacity:.6;margin:8px 0;}
+[data-style=elegante] .cover .hours{color:var(--on);padding:0;max-width:280px;}
+[data-style=elegante] .cover .hours h3{color:var(--on);font-style:italic;font-weight:500;font-size:18px;}
+[data-style=elegante] .cover .hr{border-bottom-color:var(--on-soft);border-bottom-style:solid;opacity:.95;}
+[data-style=elegante] .tile{border-radius:2px;border-bottom:none;text-align:center;align-items:center;justify-content:center;gap:6px;}
+[data-style=elegante] .tile .t{font-size:22px;font-weight:600;}
+[data-style=elegante] .acc-item{background:transparent;border-radius:0;border-bottom:1px solid var(--on-soft);}
+[data-style=elegante] .acc-head .t{font-size:24px;font-weight:500;}
+[data-style=elegante] .acc-body{padding:0 0 16px;}
+
+/* ================= LAVAGNA ================= */
+[data-style=lavagna] body{background-image:radial-gradient(rgba(255,255,255,.05) 1px,transparent 1.3px),radial-gradient(rgba(0,0,0,.05) 1px,transparent 1.3px),radial-gradient(rgba(255,255,255,.035) 1.5px,transparent 2px);
+  background-size:7px 11px,13px 9px,23px 19px;background-attachment:fixed;}
+[data-style=lavagna] .listino,[data-style=lavagna] .card,[data-style=lavagna] .hours,[data-style=lavagna] .note{background:transparent;box-shadow:none;
+  border:2px dashed var(--line);border-radius:12px 16px 10px 18px;}
+[data-style=lavagna] .litem{border-bottom:1.5px dashed var(--line);}
+[data-style=lavagna] .card:nth-child(odd){transform:rotate(-.7deg);} [data-style=lavagna] .card:nth-child(even){transform:rotate(.6deg);}
+[data-style=lavagna] .l-name,[data-style=lavagna] .c-name{font-family:var(--fh);font-size:24px;font-weight:700;line-height:1.05;}
+[data-style=lavagna] .l-price,[data-style=lavagna] .c-price{font-family:var(--fh);font-size:24px;font-weight:700;}
+[data-style=lavagna] .l-sub{font-size:12px;}
+[data-style=lavagna] .pagehead h2{font-size:44px;font-weight:700;display:inline-block;transform:rotate(-1.5deg);border-bottom:3px solid var(--accent);padding:0 6px 2px 0;line-height:1;}
+[data-style=lavagna] .pagehead .sub{margin-top:8px;}
+[data-style=lavagna] .group-title{font-family:var(--fh);font-size:28px;color:var(--accent);letter-spacing:0;}
+[data-style=lavagna] .note{font-family:var(--fh);font-size:21px;font-weight:700;}
+[data-style=lavagna] .chip{background:transparent;border:1.5px dashed var(--on);font-family:var(--fh);font-size:19px;padding:1px 13px;}
+[data-style=lavagna] .chip.active{border-style:solid;}
+[data-style=lavagna] .cover{align-items:stretch;text-align:left;gap:16px;}
+[data-style=lavagna] .cv-row{display:flex;align-items:center;gap:16px;}
+[data-style=lavagna] .medal{width:96px;height:96px;background:transparent;border:2px dashed var(--on);box-shadow:none;color:var(--on);font-family:var(--fh);font-size:20px;}
+[data-style=lavagna] .cover h1{font-size:52px;font-weight:700;line-height:.95;}
+[data-style=lavagna] .cover .place{margin-top:4px;}
+[data-style=lavagna] .cover .hours{max-width:none;color:var(--on);}
+[data-style=lavagna] .hours h3{font-size:26px;text-align:left;}
+[data-style=lavagna] .tile{background:transparent;border:2px dashed var(--line);box-shadow:none;color:var(--on);border-radius:14px 10px 16px 12px;}
+[data-style=lavagna] .tile .t{font-size:30px;font-weight:700;} [data-style=lavagna] .tile .n{color:var(--on-soft);}
+[data-style=lavagna] .tile:nth-child(odd){transform:rotate(-1deg);} [data-style=lavagna] .tile:nth-child(even){transform:rotate(.8deg);}
+[data-style=lavagna] .acc-item{background:transparent;border:2px dashed var(--line);}
+[data-style=lavagna] .acc-head .t{font-size:30px;font-weight:700;}
+[data-style=lavagna] .sect-nav button,[data-style=lavagna] .back{background:transparent;border:1.5px dashed var(--on);color:var(--on);box-shadow:none;font-family:var(--fh);font-size:19px;}
+
+/* ================= OSTERIA ================= */
+[data-style=osteria] .listino,[data-style=osteria] .card,[data-style=osteria] .hours,[data-style=osteria] .note,[data-style=osteria] .tile{
+  border:4px double var(--accent);border-radius:3px;box-shadow:0 2px 0 rgba(0,0,0,.12);}
+[data-style=osteria] .card{border-left:4px double var(--accent);}
+[data-style=osteria] .l-name,[data-style=osteria] .c-name{font-family:var(--fh);font-size:17px;font-weight:700;}
+[data-style=osteria] .l-price,[data-style=osteria] .c-price{font-family:var(--fh);font-size:17px;}
+[data-style=osteria] .c-origin{font-style:italic;font-weight:500;}
+[data-style=osteria] .pagehead{text-align:center;}
+[data-style=osteria] .pagehead h2{font-size:32px;font-weight:700;}
+[data-style=osteria] .pagehead h2::after{content:"";display:block;width:110px;height:8px;margin:7px auto 0;
+  background:radial-gradient(circle,var(--on) 2.2px,transparent 2.6px) center/11px 8px repeat-x;}
+[data-style=osteria] .pagehead .eyebrow{font-family:var(--fh);font-style:italic;font-weight:500;font-size:16px;}
+[data-style=osteria] .group-title{font-family:var(--fh);font-style:italic;font-weight:500;font-size:20px;text-align:center;letter-spacing:0;}
+[data-style=osteria] .note{font-family:var(--fh);font-style:italic;font-weight:500;font-size:15px;}
+[data-style=osteria] .chip{border-radius:3px;font-family:var(--fh);font-weight:700;}
+[data-style=osteria] .medal{width:124px;height:124px;background:var(--card);border:2px solid var(--accent);box-shadow:0 0 0 5px var(--bg),0 0 0 7px var(--on);font-family:var(--fh);font-size:15px;color:var(--ink-soft);}
+[data-style=osteria] .cover h1{font-size:36px;font-weight:700;}
+[data-style=osteria] .cover .place{font-family:var(--fh);font-style:italic;font-size:15px;}
+[data-style=osteria] .hours h3{font-size:18px;font-style:italic;font-weight:500;}
+[data-style=osteria] .tile{justify-content:center;align-items:center;text-align:center;gap:6px;}
+[data-style=osteria] .tile .t{font-size:21px;font-weight:700;}
+[data-style=osteria] .acc-item{border-radius:3px;}
+[data-style=osteria] .acc-head .t{font-size:22px;font-weight:700;}
+
+/* ================= NOTTE ================= */
+[data-style=notte] .listino,[data-style=notte] .card,[data-style=notte] .hours,[data-style=notte] .note,[data-style=notte] .tile{
+  border:1px solid var(--accent);box-shadow:0 0 14px var(--glow),inset 0 0 10px var(--glow);border-radius:14px;}
+[data-style=notte] .card{border-left:1px solid var(--accent);}
+[data-style=notte] .l-name,[data-style=notte] .c-name{text-transform:uppercase;letter-spacing:.05em;font-size:13.5px;}
+[data-style=notte] .l-price,[data-style=notte] .c-price{font-family:var(--fh);font-size:16px;text-shadow:0 0 10px var(--glow);}
+[data-style=notte] .pagehead h2{font-size:36px;font-weight:800;text-transform:uppercase;letter-spacing:.02em;text-shadow:0 0 18px var(--glow);}
+[data-style=notte] .pagehead .eyebrow{color:var(--accent-on-bg);}
+[data-style=notte] .group-title{font-family:var(--fh);font-size:15px;text-transform:uppercase;letter-spacing:.12em;}
+[data-style=notte] .chip{background:transparent;border-color:var(--on);border-radius:8px;}
+[data-style=notte] .chip.active{box-shadow:0 0 12px var(--glow);}
+[data-style=notte] .cover{align-items:flex-start;text-align:left;gap:14px;}
+[data-style=notte] .medal{width:64px;height:64px;font-size:10px;}
+[data-style=notte] .cover h1{font-size:clamp(28px,9.5vw,54px);overflow-wrap:break-word;font-weight:800;text-transform:uppercase;line-height:.92;text-shadow:0 0 22px var(--glow);margin-top:8px;}
+[data-style=notte] .cover .place{margin-top:0;}
+[data-style=notte] .cover .hours{max-width:340px;}
+[data-style=notte] .hours h3{text-align:left;text-transform:uppercase;letter-spacing:.1em;font-size:13px;}
+[data-style=notte] .tile .t{font-size:20px;font-weight:800;text-transform:uppercase;}
+[data-style=notte] .tile{border-bottom:1px solid var(--accent);}
+[data-style=notte] .acc-item{border:1px solid var(--accent);background:transparent;}
+[data-style=notte] .acc-head .t{font-weight:800;text-transform:uppercase;font-size:18px;}
+[data-style=notte] .sect-nav button,[data-style=notte] .back{border:1px solid var(--accent);}
+
+
+
+/* ================= STRUTTURE DIVERSE PER STILE ================= */
+/* --- Elegante: carta stampata, puntini fino al prezzo --- */
+[data-style=elegante] .ld{padding:10px 0;}
+[data-style=elegante] .ld-row{display:flex;align-items:baseline;gap:6px;}
+[data-style=elegante] .ld-n{font-family:var(--fh);font-size:19px;font-weight:600;color:var(--ink);}
+[data-style=elegante] .ld-n em{font-weight:500;font-size:15px;color:var(--ink-soft);}
+[data-style=elegante] .ld-dots{flex:1;min-width:14px;border-bottom:2px dotted var(--ink-soft);opacity:.55;transform:translateY(-5px);}
+[data-style=elegante] .ld-p{font-family:var(--fh);font-size:18px;font-weight:600;color:var(--accent);white-space:nowrap;}
+[data-style=elegante] .ld-d{font-family:var(--fh);font-style:italic;font-size:15.5px;color:var(--ink-soft);margin-top:1px;line-height:1.35;}
+[data-style=elegante] .sbody{padding:12px 22px 16px;}
+
+/* --- Lavagna: cornice di legno, striscioni, prezzi cerchiati a gesso --- */
+[data-style=lavagna] body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:45;border:9px solid #7a4d2a;
+  border-image:repeating-linear-gradient(90deg,#8a5a33 0 18px,#744826 18px 31px,#9a6a3e 31px 46px) 9;
+  box-shadow:inset 0 0 0 2px rgba(0,0,0,.35),inset 0 0 22px rgba(0,0,0,.4);}
+[data-style=lavagna] .pagehead h2{border-bottom:none;padding:0;transform:rotate(-1.5deg);}
+[data-style=lavagna] .scrib{display:block;width:170px;height:12px;margin:2px 0 0 2px;overflow:visible;}
+[data-style=lavagna] .scrib path{fill:none;stroke:var(--accent);stroke-width:3;stroke-linecap:round;}
+[data-style=lavagna] .banner{display:inline-block;margin:18px 0 8px;padding:3px 26px 5px;background:var(--on);color:var(--bg);font-family:var(--fh);
+  font-size:26px;font-weight:700;line-height:1.1;clip-path:polygon(0 0,100% 0,94% 50%,100% 100%,0 100%,6% 50%);transform:rotate(-1.5deg);}
+[data-style=lavagna] .ch{display:flex;justify-content:space-between;align-items:center;gap:14px;padding:11px 2px;}
+[data-style=lavagna] .ch + .ch{border-top:1.5px dashed var(--line);}
+[data-style=lavagna] .ch-n{font-family:var(--fh);font-size:26px;font-weight:700;line-height:1;color:var(--on);}
+[data-style=lavagna] .ch-s{font-size:12px;color:var(--ink-soft);margin-left:4px;}
+[data-style=lavagna] .ch-d{font-size:12.5px;color:var(--ink-soft);margin-top:4px;line-height:1.35;}
+[data-style=lavagna] .ch-p{flex:0 0 auto;font-family:var(--fh);font-size:21px;font-weight:700;color:var(--accent);border:2px solid var(--accent);
+  border-radius:52% 46% 55% 45% / 50% 55% 45% 52%;padding:5px 11px;min-width:64px;text-align:center;line-height:1.1;white-space:nowrap;transform:rotate(-4deg);}
+[data-style=lavagna] .ch:nth-child(even) .ch-p{transform:rotate(3deg);}
+
+/* --- Osteria: tovaglietta a quadretti, nastri, prezzi a timbro --- */
+[data-style=osteria] body::before,[data-style=osteria] body::after{content:"";position:fixed;left:0;right:0;height:12px;z-index:45;pointer-events:none;
+  background:repeating-conic-gradient(var(--accent) 0 25%,var(--card) 0 50%) 0 0/12px 12px;}
+[data-style=osteria] body::before{top:0;} [data-style=osteria] body::after{bottom:0;}
+[data-style=osteria] .topfix{padding-top:calc(12px + env(safe-area-inset-top,0px));}
+[data-style=osteria] .botnav{padding-bottom:calc(22px + env(safe-area-inset-bottom,0px));}
+[data-style=osteria] .ribbon{display:table;margin:22px auto 10px;background:var(--accent);color:var(--card);font-family:var(--fh);font-style:italic;
+  font-size:19px;font-weight:500;padding:5px 32px 6px;clip-path:polygon(0 0,100% 0,95% 50%,100% 100%,0 100%,5% 50%);}
+[data-style=osteria] .paper{background:var(--card);border:4px double var(--accent);border-radius:3px;padding:2px 14px;box-shadow:0 3px 0 rgba(0,0,0,.15);}
+[data-style=osteria] .os{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 0;}
+[data-style=osteria] .os + .os{border-top:1px dashed var(--line);}
+[data-style=osteria] .os-n{font-family:var(--fh);font-size:18px;font-weight:700;color:var(--ink);}
+[data-style=osteria] .os-s{font-size:13px;color:var(--ink-soft);font-style:italic;margin-left:4px;}
+[data-style=osteria] .os-d{font-size:13.5px;color:var(--ink-soft);margin-top:2px;line-height:1.35;}
+[data-style=osteria] .stamp{flex:0 0 auto;min-width:58px;height:58px;padding:0 9px;border-radius:30px;border:2px solid var(--accent);
+  box-shadow:inset 0 0 0 3px var(--card),inset 0 0 0 4.5px var(--accent);display:flex;align-items:center;justify-content:center;
+  font-family:var(--fh);font-weight:700;font-size:15px;color:var(--accent);white-space:nowrap;line-height:1;transform:rotate(-8deg);}
+
+/* --- Notte: file di schede da scorrere di lato --- */
+[data-style=notte] body{background-image:radial-gradient(120% 55% at 10% 0%,var(--glow),transparent 60%);background-attachment:fixed;}
+[data-style=notte] .pagehead h2{font-size:clamp(21px,6.4vw,44px);letter-spacing:0;overflow-wrap:break-word;}
+[data-style=notte] .gt{display:flex;justify-content:space-between;align-items:baseline;margin:20px 0 8px;gap:10px;}
+[data-style=notte] .gt b{font-family:var(--fh);font-size:15px;text-transform:uppercase;letter-spacing:.12em;color:var(--on);}
+[data-style=notte] .gt span{font-size:12px;color:var(--on-soft);white-space:nowrap;}
+[data-style=notte] .row{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;margin:0 -18px;padding:4px 18px 16px;scrollbar-width:none;}
+[data-style=notte] .row::-webkit-scrollbar{display:none;}
+[data-style=notte] .nc{flex:0 0 74%;max-width:290px;scroll-snap-align:start;background:var(--card);border:1px solid var(--accent);border-radius:18px;
+  padding:16px;box-shadow:0 0 16px var(--glow);display:flex;flex-direction:column;gap:7px;min-height:156px;}
+[data-style=notte] .nc-n{font-family:var(--fh);font-weight:800;text-transform:uppercase;font-size:16px;overflow-wrap:break-word;line-height:1.05;color:#fff;}
+[data-style=notte] .nc-s{font-size:12px;color:var(--accent);font-weight:600;}
+[data-style=notte] .nc-d{font-size:13px;color:var(--ink-soft);line-height:1.4;flex:1;}
+[data-style=notte] .nc-p{align-self:flex-start;background:var(--accent);color:var(--card);font-weight:800;font-family:var(--fh);font-size:15px;
+  border-radius:20px;padding:4px 13px;box-shadow:0 0 14px var(--glow);}
+[data-style=notte] body.m-sfoglia .row{display:grid;grid-template-columns:1fr;margin:0;padding:4px 0 8px;overflow:visible;}
+[data-style=notte] body.m-sfoglia .nc{max-width:none;min-height:0;}
+[data-style=notte] body.m-sfoglia .gt span{display:none;}
+
+/* ---- correzioni comuni ---- */
+html[data-style] .chip.active{background:var(--on);color:var(--bg);border-color:var(--on);border-style:solid;}
+[data-style=notte] .chip.active{box-shadow:0 0 12px var(--glow);}
+[data-style=lavagna] .navbtn{background:transparent;border:1.5px dashed var(--on);color:var(--on);box-shadow:none;}
+/* ---- modello cliente ---- */
+.medal{overflow:hidden;font-family:var(--fh);font-size:34px;font-weight:700;color:var(--accent);}
+.medal img{width:100%;height:100%;object-fit:cover;display:block;}
+[data-style=osteria] .medal img,[data-style=riviera] .medal img{padding:6px;border-radius:50%;background:#fff;}
+.cover > *{flex-shrink:0;}
+.covernote{font-size:12.5px;color:var(--on-soft);text-align:center;max-width:320px;margin:10px auto 0;line-height:1.4;}
+[data-style=lavagna] .covernote,[data-style=notte] .covernote{text-align:left;margin-left:0;}
+.loading{min-height:100dvh;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;color:var(--on);font-size:14px;text-align:center;padding:30px;}
+.loading .dot{width:34px;height:34px;border-radius:50%;border:3px solid var(--chip);border-top-color:var(--on);animation:spin 1s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+/* ---- foto dei prodotti ---- */
+[data-foto]{cursor:pointer;-webkit-tap-highlight-color:transparent;}
+[data-foto]:focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:8px;}
+.cam{display:inline-flex;vertical-align:middle;margin-left:6px;color:var(--accent);opacity:.85;}
+.cam svg{width:16px;height:16px;}
+[data-style=notte] .cam,[data-style=lavagna] .cam{color:var(--accent);}
+.lb{position:fixed;inset:0;z-index:90;background:rgba(0,0,0,.84);display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:calc(56px + env(safe-area-inset-top,0px)) 16px calc(20px + env(safe-area-inset-bottom,0px));gap:12px;}
+.lb[hidden]{display:none;}
+.lb img{max-width:100%;max-height:62dvh;border-radius:14px;object-fit:contain;box-shadow:0 10px 40px rgba(0,0,0,.5);background:#222;}
+.lb .cap{background:#fff;color:#1b2429;border-radius:14px;padding:12px 16px;width:100%;max-width:480px;font-family:var(--fb);}
+.lb .cap .t{display:flex;justify-content:space-between;gap:10px;font-weight:700;font-size:16px;}
+.lb .cap .t b{font-family:var(--fh);}
+.lb .cap .d{font-size:13.5px;color:#55656c;margin-top:4px;line-height:1.45;}
+.lb .x{position:absolute;top:calc(12px + env(safe-area-inset-top,0px));right:14px;width:40px;height:40px;border-radius:50%;border:none;background:#fff;color:#1b2429;font-size:22px;line-height:1;cursor:pointer;}
+.lb .miss{color:#fff;font-size:14px;}
+/* ================= modi di navigazione ================= */
+.m-sfoglia .book{display:flex;height:100dvh;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;scroll-behavior:smooth;scrollbar-width:none;}
+.m-sfoglia .book::-webkit-scrollbar{display:none;}
+.m-sfoglia .page{flex:0 0 100vw;height:100dvh;scroll-snap-align:start;overflow-y:auto;padding:calc(66px + env(safe-area-inset-top,0px)) 20px 100px 34px;position:relative;}
+.m-sfoglia .page::before{content:"";position:absolute;left:14px;top:0;bottom:0;width:1px;background-image:linear-gradient(var(--on) 60%,transparent 0);background-size:1px 10px;opacity:.35;}
+.m-sfoglia .page .cover{min-height:calc(100dvh - 180px);justify-content:center;}
+.topfix{position:fixed;top:0;left:0;right:0;z-index:30;padding-top:env(safe-area-inset-top,0px);background:linear-gradient(var(--bg) 72%,transparent);}
+.botnav{position:fixed;bottom:0;left:0;right:0;z-index:30;display:flex;align-items:center;justify-content:space-between;
+  padding:12px 18px calc(12px + env(safe-area-inset-bottom,0px)) 36px;background:linear-gradient(transparent,var(--bg) 35%);}
+.navbtn{width:42px;height:42px;border-radius:50%;border:none;background:var(--card);color:var(--accent);box-shadow:var(--shadow);display:flex;align-items:center;justify-content:center;cursor:pointer;}
+.navbtn[disabled]{opacity:.35;}
+.navbtn svg{width:18px;height:18px;}
+.pinfo{text-align:center;font-size:12px;color:var(--on);} .pinfo b{display:block;font-family:var(--fh);font-size:14px;}
+.m-scroll .flow{padding:calc(62px + env(safe-area-inset-top,0px)) 18px 110px;max-width:760px;margin:0 auto;}
+.m-scroll .flow section{scroll-margin-top:calc(64px + env(safe-area-inset-top,0px));padding-top:26px;}
+.m-scroll .flow section:first-child{padding-top:6px;}
+.m-schede .acc{padding:calc(20px + env(safe-area-inset-top,0px)) 16px 110px;max-width:760px;margin:0 auto;}
+.acc-cover{margin-bottom:18px;}
+.acc-item{margin-bottom:10px;border-radius:14px;overflow:hidden;background:var(--chip);}
+.acc-head{width:100%;display:flex;justify-content:space-between;align-items:center;border:none;background:transparent;color:var(--on);padding:14px 16px;cursor:pointer;text-align:left;}
+.acc-head .t{font-family:var(--fh);font-size:19px;}
+.acc-head .n{font-size:12px;opacity:.8;margin-right:10px;}
+.acc-head svg{width:18px;height:18px;transition:transform .2s;}
+.acc-item.open .acc-head svg{transform:rotate(180deg);}
+.acc-body{padding:0 12px 14px;}
+.m-tessere .tiles-wrap,.m-tessere .sect-view{padding:calc(20px + env(safe-area-inset-top,0px)) 16px 110px;max-width:760px;margin:0 auto;}
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px;}
+.tile{border:none;border-radius:16px;background:var(--card);box-shadow:var(--shadow);padding:18px 14px 14px;text-align:left;cursor:pointer;min-height:104px;
+  display:flex;flex-direction:column;justify-content:space-between;color:var(--ink);border-bottom:4px solid var(--accent);}
+.tile .t{font-family:var(--fh);font-size:19px;line-height:1.15;}
+.tile .n{font-size:12px;color:var(--ink-soft);}
+.back{border:none;background:var(--chip);color:var(--on);border-radius:20px;padding:7px 14px;font-weight:600;font-size:13px;cursor:pointer;margin-bottom:14px;}
+.sect-nav{display:flex;justify-content:space-between;margin-top:18px;gap:10px;}
+.sect-nav button{flex:1;border:none;background:var(--card);color:var(--accent);border-radius:12px;padding:11px;font-weight:600;cursor:pointer;box-shadow:var(--shadow);}
+.sect-nav button[disabled]{visibility:hidden;}
+
+/* ================= pannello prova (solo demo) ================= */
+.demo-btn{position:fixed;right:14px;bottom:calc(20px + env(safe-area-inset-bottom,0px));z-index:50;width:46px;height:46px;border-radius:50%;border:none;
+  background:#fff;box-shadow:0 3px 12px rgba(0,0,0,.25);font-size:22px;cursor:pointer;}
+body.m-sfoglia .demo-btn{bottom:calc(84px + env(safe-area-inset-bottom,0px));}
+.sheet{position:fixed;left:0;right:0;bottom:0;z-index:60;background:#fff;color:#1b2429;border-radius:20px 20px 0 0;max-height:88dvh;overflow-y:auto;
+  padding:18px 18px calc(18px + env(safe-area-inset-bottom,0px));box-shadow:0 -6px 30px rgba(0,0,0,.25);max-width:560px;margin:0 auto;
+  transform:translateY(105%);transition:transform .25s;font-family:'Inter',sans-serif;}
+.sheet.open{transform:none;}
+.sheet h4{margin:0 0 8px;font-size:14px;}
+.sheet .row{margin-bottom:16px;}
+.pick{display:flex;align-items:center;gap:12px;}
+.pick input[type=color]{width:56px;height:44px;border:none;border-radius:10px;padding:0;background:none;cursor:pointer;}
+.pick .hex{font-size:13px;color:#555;}
+.sw{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;}
+.sw button{width:30px;height:30px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 1px #ccd;cursor:pointer;}
+.seg{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.seg button{border:1px solid #cfd8dc;background:#f5f8f9;border-radius:12px;padding:10px 8px;text-align:left;cursor:pointer;color:#1b2429;}
+.seg button b{display:block;font-size:13.5px;} .seg button span{font-size:11.5px;color:#61737a;}
+.seg button.on{border-color:#1b2429;background:#1b2429;color:#fff;} .seg button.on span{color:#cfd8dc;}
+.styles{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;}
+.styles button{flex:0 0 auto;border:1px solid #cfd8dc;background:#f5f8f9;border-radius:12px;padding:9px 13px;cursor:pointer;color:#1b2429;font-size:15px;}
+.styles button.on{background:#1b2429;color:#fff;border-color:#1b2429;}
+.sheet .close{width:100%;border:none;background:#1b2429;color:#fff;border-radius:12px;padding:12px;font-weight:600;cursor:pointer;}
+/* ================= lingua e allergeni ================= */
+[hidden]{display:none !important;}
+.topfix{display:flex;align-items:center;}
+.topfix .chipbar{flex:1;min-width:0;-webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 24px),transparent);mask-image:linear-gradient(90deg,#000 calc(100% - 24px),transparent);}
+.tools{display:flex;gap:6px;flex:0 0 auto;position:relative;padding:0 12px 0 2px;}
+.tools.float{position:fixed;top:calc(12px + env(safe-area-inset-top,0px));right:12px;z-index:35;padding:0;}
+[data-style=lavagna] .tools.float{top:calc(18px + env(safe-area-inset-top,0px));right:18px;}
+[data-style=osteria] .tools.float{top:calc(22px + env(safe-area-inset-top,0px));}
+.tool{height:34px;min-width:34px;padding:0 9px;border-radius:17px;border:1px solid var(--cardline);background:var(--card);color:var(--accent);box-shadow:var(--shadow);
+  display:inline-flex;align-items:center;justify-content:center;gap:4px;font-weight:700;font-size:12px;letter-spacing:.02em;cursor:pointer;}
+.tool svg{width:17px;height:17px;flex:0 0 auto;}
+.tool .tn{min-width:18px;height:18px;padding:0 5px;border-radius:9px;background:var(--accent);color:var(--card);font-size:11px;display:inline-flex;align-items:center;justify-content:center;}
+.tool:focus-visible,.algbtn:focus-visible,.langmenu button:focus-visible,.ash button:focus-visible{outline:3px solid var(--accent);outline-offset:2px;}
+[data-style=elegante] .tool{border-radius:2px;box-shadow:none;border-color:var(--line);}
+[data-style=osteria] .tool{border-radius:3px;border:2px solid var(--accent);box-shadow:0 2px 0 rgba(0,0,0,.12);}
+[data-style=lavagna] .tool{background:var(--bg);border:1.5px dashed var(--on);color:var(--on);box-shadow:none;}
+[data-style=lavagna] .tool.on{border-style:solid;} [data-style=lavagna] .tool .tn{background:var(--on);color:var(--bg);}
+[data-style=notte] .tool{border-color:var(--accent);box-shadow:0 0 12px var(--glow);}
+.langmenu{position:absolute;top:calc(100% + 8px);right:0;z-index:70;min-width:164px;padding:6px;border-radius:14px;background:#fff;color:#1b2429;
+  box-shadow:0 10px 30px rgba(0,0,0,.28);font-family:var(--fb);}
+.tools:not(.float) .langmenu{right:12px;}
+.langmenu button{display:flex;justify-content:space-between;align-items:center;width:100%;border:none;background:none;color:inherit;padding:11px 12px;
+  border-radius:9px;font-size:15px;text-align:left;cursor:pointer;}
+.langmenu button[aria-checked=true]{font-weight:700;background:#eef3f5;}
+.langmenu button span{color:#0A4F66;font-weight:700;}
+/* numeri degli allergeni accanto al prodotto */
+.alg{display:inline-flex;flex-wrap:wrap;gap:3px;vertical-align:middle;margin-left:6px;line-height:1;}
+.alg i{font:700 9.5px/1 var(--fb);font-style:normal;letter-spacing:0;text-transform:none;width:17px;height:17px;border-radius:50%;
+  border:1.2px solid currentColor;display:inline-flex;align-items:center;justify-content:center;color:var(--accent);opacity:.75;}
+.alg i.hit{background:var(--accent);border-color:var(--accent);color:var(--card);opacity:1;}
+[data-style=lavagna] .alg i{border-style:dashed;opacity:.9;}
+[data-style=lavagna] .alg i.hit{background:var(--on);color:var(--bg);border-style:solid;}
+[data-style=notte] .nc .alg{margin-left:0;}
+[data-style=elegante] .ld-n .alg,[data-style=riviera] .c-name .alg{position:relative;top:-1px;}
+.avoid{opacity:.36;transition:opacity .2s;}
+.avoid .alg i.hit{opacity:1;}
+/* pulsante in copertina */
+.cv-extra{display:flex;justify-content:center;margin-top:12px;}
+[data-style=lavagna] .cv-extra,[data-style=notte] .cv-extra{justify-content:flex-start;}
+.algbtn{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--on);background:transparent;color:var(--on);border-radius:20px;
+  padding:8px 15px;font-size:12.5px;font-weight:600;cursor:pointer;}
+.algbtn svg{width:16px;height:16px;}
+[data-style=elegante] .algbtn{border-radius:2px;}
+[data-style=osteria] .algbtn{border-radius:3px;}
+[data-style=lavagna] .algbtn{border:1.5px dashed var(--on);font-family:var(--fh);font-size:19px;padding:3px 14px;}
+/* scheda degli allergeni (dal basso) */
+.ash-back{position:fixed;inset:0;z-index:80;background:rgba(0,0,0,.45);}
+.ash{position:fixed;left:0;right:0;bottom:0;z-index:81;max-width:560px;margin:0 auto;max-height:88dvh;overflow-y:auto;background:#fff;color:#1b2429;
+  border-radius:20px 20px 0 0;padding:20px 18px calc(18px + env(safe-area-inset-bottom,0px));box-shadow:0 -6px 30px rgba(0,0,0,.25);
+  font-family:var(--fb);transform:translateY(100%);transition:transform .22s ease-out;}
+.ash.open{transform:none;}
+.ash h3{font-family:var(--fh);font-size:22px;color:#1b2429;}
+.ash p{font-size:13.5px;line-height:1.45;color:#55656c;margin:6px 0 14px;}
+.agrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.agrid button{display:flex;align-items:center;gap:9px;min-height:46px;border:1px solid #cfd8dc;background:#f5f8f9;color:#1b2429;border-radius:12px;
+  padding:8px 10px;text-align:left;font-size:13.5px;line-height:1.2;cursor:pointer;}
+.agrid button i{flex:0 0 auto;width:24px;height:24px;border-radius:50%;border:1.5px solid currentColor;display:inline-flex;align-items:center;
+  justify-content:center;font:700 11px/1 var(--fb);font-style:normal;}
+.agrid button[aria-pressed=true]{background:#1b2429;border-color:#1b2429;color:#fff;}
+.ash .count{font-weight:600;color:#1b2429;margin:14px 0 0;min-height:1.4em;}
+.ash .acts{display:flex;gap:8px;margin-top:12px;}
+.ash .acts button{flex:1;border-radius:12px;padding:13px;font-weight:600;font-size:14.5px;cursor:pointer;}
+.ash .clr{border:1px solid #cfd8dc;background:#fff;color:#1b2429;}
+.ash .ok{border:none;background:#1b2429;color:#fff;}
+.ash .fine{font-size:12px;color:#61737a;margin:14px 0 0;}
+.lb .cap .al{font-size:12.5px;font-weight:600;color:#0A4F66;margin-top:6px;}
+/* ================= foto del locale in copertina ================= */
+.cphoto{width:100%;max-width:520px;aspect-ratio:16/10;border-radius:18px;overflow:hidden;background:var(--chip);box-shadow:var(--shadow);}
+.cphoto img{width:100%;height:100%;object-fit:cover;display:block;}
+.cphoto + .medal{margin-top:-78px;position:relative;box-shadow:0 0 0 5px var(--bg),0 2px 10px rgba(0,0,0,.15);}
+[data-style=elegante] .cphoto{border-radius:2px;box-shadow:none;outline:1px solid var(--on);outline-offset:5px;margin:6px 0 4px;}
+[data-style=elegante] .cphoto + .medal{margin-top:-52px;box-shadow:0 0 0 5px var(--bg);}
+[data-style=osteria] .cphoto{border-radius:3px;border:5px solid var(--card);box-shadow:0 0 0 2px var(--accent),0 3px 0 2px rgba(0,0,0,.15);}
+[data-style=osteria] .cphoto + .medal{margin-top:-70px;box-shadow:0 0 0 5px var(--bg),0 0 0 7px var(--on);}
+[data-style=lavagna] .cphoto{max-width:none;border-radius:3px;border:8px solid #f3eee2;border-bottom-width:24px;transform:rotate(-1.4deg);
+  box-shadow:0 8px 18px rgba(0,0,0,.35);background:#f3eee2;}
+[data-style=notte] .cphoto{max-width:none;border-radius:18px;border:1px solid var(--accent);box-shadow:0 0 18px var(--glow);position:relative;}
+[data-style=notte] .cphoto + .medal{margin:-46px 0 0 16px;box-shadow:0 0 0 4px var(--bg),0 0 16px var(--glow);}
+.m-sfoglia .page .cover:has(.cphoto){justify-content:flex-start;}
+
+/* ================= foto del locale come sfondo leggero ================= */
+#bgphoto{position:fixed;inset:0;z-index:0;background:center/cover no-repeat;opacity:0;pointer-events:none;transition:opacity .35s;}
+body.has-bg #bgphoto{opacity:.22;}
+[data-style=notte] body.has-bg #bgphoto,[data-style=lavagna] body.has-bg #bgphoto{opacity:.3;}
+[data-style=osteria] body.has-bg #bgphoto{opacity:.26;mix-blend-mode:multiply;}
+/* "solo foto": la foto è la protagonista, niente colore del locale e niente decorazioni che la coprono */
+body.bg-chiaro #bgphoto{opacity:.72 !important;mix-blend-mode:normal !important;filter:saturate(1.05);}
+body.bg-chiaro #bgphoto::after{content:"";position:absolute;inset:0;background:linear-gradient(rgba(0,0,0,.28),rgba(0,0,0,.42));}
+body.bg-chiaro{background-image:none !important;}
+[data-style=riviera] body.bg-chiaro .cover::before{display:none;}
+[data-style=riviera] body.bg-chiaro .pagehead h2::after{display:none;}
+[data-style=osteria] body.bg-chiaro .topfix,[data-style=osteria] body.bg-chiaro .botnav{background:linear-gradient(rgba(0,0,0,.55),transparent);}
+body.bg-chiaro .cover h1,body.bg-chiaro .pagehead h2,body.bg-chiaro .place,body.bg-chiaro .covernote{text-shadow:0 1px 8px rgba(0,0,0,.45);}
+body.has-bg #app{position:relative;z-index:1;}
+body.has-bg .page,body.has-bg .flow,body.has-bg .tiles-wrap,body.has-bg .acc,body.has-bg .sect-view{background:transparent;}
+/* pulsante delle demo: foto in alto / di sfondo */
+.phswitch{display:inline-flex;gap:0;margin:14px auto 0;color:var(--on);border:1.5px solid var(--on);border-radius:22px;overflow:hidden;font-size:12.5px;font-weight:700;}
+.cover .phswitch{align-self:center;}
+.phswitch button{border:0;background:transparent;color:inherit;padding:7px 12px;font:inherit;cursor:pointer;}
+.phswitch button.on{background:var(--on);color:var(--bg);}
+[data-style=lavagna] .phswitch,[data-style=notte] .phswitch{align-self:flex-start;}
+
+/* ================= menu in pausa (stagionale) ================= */
+.pausa{min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:10px;padding:40px 24px;color:var(--on);position:relative;z-index:1;}
+.pausa h1{font-family:var(--fh);font-size:34px;margin:10px 0 0;line-height:1.1;}
+.pausa .place{margin:0;color:var(--on-soft);}
+.pausa-big{font-family:var(--fh);font-size:26px;font-weight:700;margin:28px 0 0;max-width:320px;line-height:1.2;}
+.pausa-when{margin:0;font-size:17px;color:var(--on-soft);}
+
+/* ================= filtro allergeni: non indicati, nascondi ================= */
+.unk{flex-wrap:wrap;outline:1.5px dashed currentColor;outline-offset:3px;border-radius:6px;}
+.unkb{flex-basis:100%;display:block;font-size:11.5px;font-weight:700;margin-top:3px;opacity:.85;}
+body.av-hide .avoid{display:none !important;}
+.avhide{display:flex;align-items:center;gap:10px;margin:14px 0 4px;font-weight:600;font-size:14.5px;cursor:pointer;}
+.avhide input{width:20px;height:20px;accent-color:#161616;flex-shrink:0;}
+/* ================= recensioni e firma ================= */
+.revfoot{display:flex;justify-content:center;padding:18px 16px 26px;}
+.revbtn{display:inline-block;margin:0 auto;padding:10px 16px;border-radius:22px;background:var(--on);color:var(--bg) !important;font-weight:700;font-size:14px;text-decoration:none;}
+.credit{display:block;margin:16px auto 4px;font-size:11px;opacity:.6;color:inherit !important;text-decoration:none;letter-spacing:.2px;}
+.cover .revbtn,.cover .credit{align-self:center;text-align:center;}
+[data-style=lavagna] .cover .revbtn,[data-style=lavagna] .cover .credit,[data-style=notte] .cover .revbtn,[data-style=notte] .cover .credit{align-self:flex-start;}
+/* =====================================================================
+   CARATTERE DEGLI STILI
+   Riviera  = stabilimento balneare: tenda a righe, salvagente, biglietto, onde
+   Elegante = carta stampata da ristorante: arco, cornici sottili, corsivo, numeri romani
+   Osteria  = tovaglia a quadretti, tovagliette di carta smerlata, etichette, timbri
+   ===================================================================== */
+
+/* ---------------- RIVIERA ---------------- */
+html[data-style=riviera]{--fh:'Baloo 2','Arial Rounded MT Bold',system-ui,sans-serif;}
+[data-style=riviera] .cover::before{content:"";align-self:stretch;height:44px;margin:-4px -2px 4px;
+  background:repeating-linear-gradient(90deg,var(--card) 0 22px,var(--accent) 22px 44px);
+  -webkit-mask:radial-gradient(circle 11px at 11px 0,#000 97%,transparent) 0 100%/22px 11px repeat-x,linear-gradient(#000 0 0) 0 0/100% calc(100% - 11px) no-repeat;
+          mask:radial-gradient(circle 11px at 11px 0,#000 97%,transparent) 0 100%/22px 11px repeat-x,linear-gradient(#000 0 0) 0 0/100% calc(100% - 11px) no-repeat;}
+/* il logo dentro un salvagente */
+[data-style=riviera] .medal{width:138px;height:138px;
+  background:radial-gradient(circle,#fff 0 56%,transparent 56.5%),repeating-conic-gradient(from 22.5deg,var(--accent) 0 45deg,#fff 45deg 90deg);
+  box-shadow:0 0 0 2px var(--accent),0 4px 12px rgba(0,0,0,.2);font-size:28px;}
+[data-style=riviera] .medal img{padding:22px;background:transparent;}
+[data-style=riviera] .cphoto{border-radius:26px;}
+[data-style=riviera] .cphoto + .medal{margin-top:-80px;box-shadow:0 0 0 2px var(--accent),0 0 0 7px var(--bg),0 4px 12px rgba(0,0,0,.2);}
+[data-style=riviera] .cover h1{font-size:34px;font-weight:800;line-height:1;margin-top:4px;}
+[data-style=riviera] .cover .place{margin-top:-4px;}
+/* orari su un biglietto con le tacche */
+[data-style=riviera] .hours{border-radius:12px;box-shadow:none;padding:12px 26px 10px;
+  -webkit-mask:radial-gradient(circle 11px at 0 50%,transparent 96%,#000) left/51% 100% no-repeat,radial-gradient(circle 11px at 100% 50%,transparent 96%,#000) right/51% 100% no-repeat;
+          mask:radial-gradient(circle 11px at 0 50%,transparent 96%,#000) left/51% 100% no-repeat,radial-gradient(circle 11px at 100% 50%,transparent 96%,#000) right/51% 100% no-repeat;}
+[data-style=riviera] .hours h3{font-size:17px;font-weight:700;border-bottom:2px dashed var(--line);padding-bottom:6px;margin-bottom:4px;}
+[data-style=riviera] .hr{border-bottom:none;}
+/* titoli a sinistra con l'onda */
+[data-style=riviera] .pagehead h2{font-size:36px;font-weight:800;line-height:1;}
+[data-style=riviera] .pagehead h2::after{content:"";display:block;width:132px;height:12px;margin-top:6px;background:var(--on);
+  -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 12'%3E%3Cpath d='M0 6 Q10 0 20 6 T40 6' fill='none' stroke='black' stroke-width='3'/%3E%3C/svg%3E") 0 0/40px 12px repeat-x;
+          mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 12'%3E%3Cpath d='M0 6 Q10 0 20 6 T40 6' fill='none' stroke='black' stroke-width='3'/%3E%3C/svg%3E") 0 0/40px 12px repeat-x;}
+[data-style=riviera] .pagehead .eyebrow{font-family:var(--fh);font-size:16px;font-weight:600;}
+[data-style=riviera] .listino{border-radius:22px;padding:4px 16px;}
+[data-style=riviera] .litem{border-bottom:1px solid var(--line);align-items:center;padding:11px 0;}
+[data-style=riviera] .l-price,[data-style=riviera] .c-price{background:var(--line);color:var(--accent);border-radius:20px;padding:4px 11px;font-size:13.5px;}
+[data-style=riviera] .group-title{display:inline-block;background:var(--on);color:var(--bg);border-radius:20px;padding:4px 13px;font-family:var(--fh);font-size:15px;letter-spacing:0;margin:20px 0 8px;}
+[data-style=riviera] .card{border:none;border-radius:20px;padding:14px 16px;border-top:6px solid var(--accent);}
+[data-style=riviera] .c-top{align-items:center;}
+[data-style=riviera] .note{border-radius:22px;border-width:2px;font-family:var(--fh);font-size:15px;}
+[data-style=riviera] .tile{border-bottom:none;border-radius:22px;padding-top:24px;
+  background:repeating-linear-gradient(90deg,var(--accent) 0 12px,var(--line) 12px 24px) top/100% 9px no-repeat,var(--card);}
+[data-style=riviera] .tile .t{font-size:22px;font-weight:700;}
+[data-style=riviera] .acc-item{border-radius:22px;}
+[data-style=riviera] .acc-head .t{font-size:23px;font-weight:700;}
+[data-style=riviera] .chip{font-family:var(--fh);font-size:15px;padding:4px 14px;}
+
+/* ---------------- ELEGANTE ---------------- */
+[data-style=elegante] .cover{gap:6px;}
+[data-style=elegante] .cphoto{max-width:260px;aspect-ratio:4/5;border-radius:130px 130px 3px 3px;outline:1px solid var(--on);outline-offset:7px;margin:10px 0 8px;}
+[data-style=elegante] .cphoto + .medal{margin-top:16px;box-shadow:0 0 0 4px var(--bg),0 0 0 5px var(--on);}
+[data-style=elegante] .medal{width:74px;height:74px;box-shadow:0 0 0 4px var(--bg),0 0 0 5px var(--on);border:none;font-size:22px;font-weight:500;font-style:italic;}
+[data-style=elegante] .cover h1{font-size:46px;font-weight:500;line-height:1.02;margin-top:10px;}
+[data-style=elegante] .cover .place{font-family:var(--fb);font-style:normal;font-size:11px;letter-spacing:.24em;text-transform:uppercase;margin-top:6px;}
+[data-style=elegante] .cover .rule{position:relative;width:132px;height:14px;opacity:1;margin:12px 0 6px;background:
+  linear-gradient(var(--on),var(--on)) left center/54px 1px no-repeat,linear-gradient(var(--on),var(--on)) right center/54px 1px no-repeat;}
+[data-style=elegante] .cover .rule::after{content:"";position:absolute;left:50%;top:50%;width:7px;height:7px;background:var(--on);transform:translate(-50%,-50%) rotate(45deg);}
+[data-style=elegante] .cover .hours h3{font-size:21px;}
+[data-style=elegante] .cover .hr{border-bottom:none;justify-content:center;gap:14px;font-size:14px;}
+[data-style=elegante] .cover .hr span:first-child{font-weight:400;font-style:italic;font-family:var(--fh);font-size:17px;}
+/* barra delle sezioni: parole in corsivo, sottolineata quella attiva */
+[data-style=elegante] .chipbar{gap:2px;}
+[data-style=elegante] .chip,html[data-style=elegante] .chip.active{background:transparent;border:none;border-radius:0;color:var(--on);font-family:var(--fh);font-style:italic;
+  font-weight:500;font-size:18px;padding:3px 9px;box-shadow:none;}
+html[data-style=elegante] .chip.active{box-shadow:inset 0 -1px 0 var(--on);}
+/* il foglio della sezione con doppia cornice sottile */
+[data-style=elegante] .sbody{padding:26px 26px 22px;border-radius:0;outline:1px solid var(--line);outline-offset:-10px;}
+[data-style=elegante] .pagehead .sub{font-family:var(--fb);font-size:11px;letter-spacing:.2em;text-transform:uppercase;margin-top:8px;}
+[data-style=elegante] .group-title{font-size:21px;margin:20px 0 4px;}
+[data-style=elegante] .group-title::before,[data-style=elegante] .group-title::after{content:"·";margin:0 10px;font-style:normal;}
+[data-style=elegante] .tiles{counter-reset:t;gap:12px;}
+[data-style=elegante] .tile{counter-increment:t;background:transparent;box-shadow:none;border:1px solid var(--on);outline:1px solid var(--on);outline-offset:-6px;color:var(--on);min-height:118px;}
+[data-style=elegante] .tile::before{content:counter(t,upper-roman);font-family:var(--fh);font-style:italic;font-size:15px;opacity:.8;}
+[data-style=elegante] .tile .n{color:var(--on-soft);font-size:11px;letter-spacing:.18em;text-transform:uppercase;}
+[data-style=elegante] .acc{counter-reset:t;}
+[data-style=elegante] .acc-item{counter-increment:t;}
+[data-style=elegante] .acc-head .t::before{content:counter(t,upper-roman) ".";font-size:15px;font-style:italic;margin-right:12px;opacity:.75;vertical-align:middle;}
+[data-style=elegante] .navbtn,[data-style=elegante] .sect-nav button,[data-style=elegante] .back{background:transparent;color:var(--on);border:1px solid var(--on);border-radius:0;box-shadow:none;}
+[data-style=elegante] .sect-nav button,[data-style=elegante] .back{font-family:var(--fh);font-style:italic;font-size:17px;}
+[data-style=elegante] .note{font-size:17px;}
+
+/* ---------------- OSTERIA ---------------- */
+/* tovaglia a quadretti su tutto lo sfondo (al posto delle strisce in alto e in basso) */
+[data-style=osteria] body{background-image:linear-gradient(90deg,var(--check) 50%,transparent 50%),linear-gradient(var(--check) 50%,transparent 50%);
+  background-size:30px 30px;background-attachment:fixed;}
+[data-style=osteria] body::before,[data-style=osteria] body::after{content:none;}
+[data-style=osteria] .topfix{padding-top:env(safe-area-inset-top,0px);background:linear-gradient(var(--bg) 70%,transparent);}
+[data-style=osteria] .botnav{padding-bottom:calc(12px + env(safe-area-inset-bottom,0px));}
+[data-style=osteria] .tools.float{top:calc(12px + env(safe-area-inset-top,0px));}
+/* tovagliette di carta con il bordo smerlato */
+[data-style=osteria] .paper,[data-style=osteria] .hours,[data-style=osteria] .note{border:none;border-radius:0;background:var(--card);
+  box-shadow:inset 0 0 0 11px var(--card),inset 0 0 0 12.5px var(--accent);padding:20px 24px;
+  -webkit-mask:radial-gradient(circle 7px at 50% 0,transparent 96%,#000) top/18px 51% repeat-x,radial-gradient(circle 7px at 50% 100%,transparent 96%,#000) bottom/18px 51% repeat-x;
+          mask:radial-gradient(circle 7px at 50% 0,transparent 96%,#000) top/18px 51% repeat-x,radial-gradient(circle 7px at 50% 100%,transparent 96%,#000) bottom/18px 51% repeat-x;}
+[data-style=osteria] .note{padding:18px 22px;}
+[data-style=osteria] .os + .os{border-top:1px dashed var(--line);}
+/* titolo della sezione su un'etichetta con gli angoli tagliati */
+[data-style=osteria] .pagehead h2{display:inline-block;background:var(--card);color:var(--accent);padding:12px 30px 10px;font-size:30px;
+  clip-path:polygon(14px 0,calc(100% - 14px) 0,100% 14px,100% calc(100% - 14px),calc(100% - 14px) 100%,14px 100%,0 calc(100% - 14px),0 14px);
+  box-shadow:inset 0 0 0 5px var(--card),inset 0 0 0 6.5px var(--accent);}
+[data-style=osteria] .pagehead h2::after{content:none;}
+[data-style=osteria] .pagehead .eyebrow{margin-bottom:6px;font-size:18px;}
+[data-style=osteria] .pagehead .sub{margin-top:8px;font-style:italic;font-size:14px;}
+/* copertina: logo a timbro, luogo sul nastro, foto a francobollo */
+[data-style=osteria] .medal{border:2px dashed var(--accent);box-shadow:0 0 0 6px var(--card),0 0 0 8px var(--accent),0 4px 0 8px rgba(0,0,0,.12);transform:rotate(-6deg);}
+[data-style=osteria] .cphoto{border-radius:0;border:none;padding:11px;background:var(--card);transform:rotate(1.5deg);box-shadow:none;
+  -webkit-mask:linear-gradient(#000 0 0) content-box,radial-gradient(circle 5px,transparent 96%,#000) -6px -6px/14px 14px round;
+          mask:linear-gradient(#000 0 0) content-box,radial-gradient(circle 5px,transparent 96%,#000) -6px -6px/14px 14px round;}
+[data-style=osteria] .cphoto img{border-radius:0;}
+[data-style=osteria] .cphoto + .medal{margin-top:-66px;box-shadow:0 0 0 6px var(--card),0 0 0 8px var(--accent);}
+[data-style=osteria] .cover h1{font-size:40px;line-height:1.02;margin-top:6px;text-shadow:0 2px 0 rgba(0,0,0,.18);}
+[data-style=osteria] .cover .place{background:var(--accent);color:var(--card);font-size:16px;padding:5px 34px 6px;margin-top:0;
+  clip-path:polygon(0 0,100% 0,94% 50%,100% 100%,0 100%,6% 50%);}
+[data-style=osteria] .hours h3{font-size:20px;}
+[data-style=osteria] .hr{border-bottom:1px dashed var(--line);}
+/* barra: etichette squadrate */
+[data-style=osteria] .chip{background:var(--card);color:var(--accent);border:none;border-radius:2px;box-shadow:0 2px 0 rgba(0,0,0,.18);}
+html[data-style=osteria] .chip.active{background:var(--accent);color:var(--card);box-shadow:inset 0 0 0 2px var(--card),0 2px 0 rgba(0,0,0,.18);}
+[data-style=osteria] .tile{border:none;border-radius:0;background:var(--card);color:var(--accent);min-height:112px;
+  box-shadow:inset 0 0 0 5px var(--card),inset 0 0 0 6.5px var(--accent),0 3px 0 rgba(0,0,0,.15);
+  clip-path:polygon(12px 0,calc(100% - 12px) 0,100% 12px,100% calc(100% - 12px),calc(100% - 12px) 100%,12px 100%,0 calc(100% - 12px),0 12px);}
+[data-style=osteria] .tile .n{font-style:italic;}
+[data-style=osteria] .acc-item{background:var(--card);border-radius:0;}
+[data-style=osteria] .acc-head{color:var(--accent);}
+[data-style=osteria] .navbtn,[data-style=osteria] .sect-nav button{border-radius:2px;box-shadow:0 2px 0 rgba(0,0,0,.18);}
+[data-style=osteria] .back{background:var(--card);color:var(--accent);border-radius:2px;}
+@media (prefers-reduced-motion: reduce){*{transition:none !important;scroll-behavior:auto !important;}}
+</style>
+</head>
+<body class="m-sfoglia">
+<div id="app"></div>
+<div class="lb" id="lb" hidden role="dialog" aria-modal="true" aria-label="Foto del prodotto">
+  <button class="x" id="lbX" aria-label="Chiudi">×</button>
+  <img id="lbImg" alt="">
+  <p class="miss" id="lbMiss" hidden>Foto non disponibile</p>
+  <div class="cap"><div class="t"><b id="lbN"></b><span id="lbP"></span></div><div class="d" id="lbD"></div><div class="al" id="lbA" hidden></div></div>
+</div>
+<div class="ash-back" id="ashBack" hidden></div>
+<div class="ash" id="ash" hidden role="dialog" aria-modal="true" aria-labelledby="ashT"></div>
+
+
+<div id="mit-boot" style="font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;text-align:center;padding:40vh 24px 0;color:#667;font-size:15px;line-height:1.5">Caricamento del menu…</div>
+<script id="mit-main" type="text/plain">
+// =====================================================================
+//  PAGINA MENU UNICA: la configurazione di ogni locale arriva dal gestionale
+// =====================================================================
+const CONFIG = Object.assign({FOTO: "alto", LOGO: "", STATISTICHE: "https://script.google.com/macros/s/AKfycbyqnPE9ryeK9Ai75AzhLcbDWUKfTAxKh6iT-tmDAP0rzGmPkGc7vY_3GNrzRs99_TSj/exec"}, window.MIT_CONFIG);
+// Il resto (SHEET_ID, STYLE, COLOR, MODE, LINGUE, LOGO) arriva dal gestionale, in base a ?c=nome-del-locale
+// =====================================================================
+const STYLE_COLOR = {riviera:'#139AC8', elegante:'#0F3D5E', lavagna:'#2E3A33', osteria:'#B5532E', notte:'#1B1036'};
+
+// ---------------- lingue ----------------
+const UI = {
+  it: {name:'Italiano', hours:'Orari', items:n => `${n} ${n===1?'voce':'voci'}`, props:n => `${n} ${n===1?'proposta':'proposte'} · scorri di lato`,
+    all:'Tutte le sezioni', prev:'Pagina precedente', next:'Pagina successiva', tap:'Tocca per vedere la foto', nophoto:'Foto non disponibile',
+    close:'Chiudi', lang:'Lingua', alg:'Allergeni', algBtn:'Allergeni e intolleranze', contains:'Allergeni',
+    algIntro:'Tocca gli allergeni che vuoi evitare: i prodotti che li contengono diventano grigi, oppure spariscono se scegli "Nascondi".',
+    algNone:'Nessun allergene scelto.', algHit:n => n===1 ? '1 prodotto li contiene.' : `${n} prodotti li contengono.`,
+    algUnk:n => n===1 ? '1 prodotto non ha gli allergeni indicati: chiedi al personale.' : `${n} prodotti non hanno gli allergeni indicati: chiedi al personale.`,
+    unk:'Allergeni non indicati: chiedi al personale', hide:'Nascondi i prodotti che li contengono',
+    review:'Ti è piaciuto? Lasciaci una recensione', credit:'Menu digitale di Menù in Tasca',
+    algZero:'Nessun prodotto del menu risulta contenerli.',
+    algFine:'I numeri accanto ai prodotti indicano gli allergeni (Reg. UE 1169/2011). Le indicazioni sono a titolo informativo: in caso di allergie o intolleranze chiedi sempre al personale.',
+    clear:'Azzera', done:'Fatto', loading:'Caricamento del menu…', down:'Il menu non è raggiungibile in questo momento.<br>Riprova tra poco.',
+    demo:'Menu di esempio: questo modello non è ancora collegato al foglio Google del locale.'},
+  en: {name:'English', hours:'Opening hours', items:n => `${n} ${n===1?'item':'items'}`, props:n => `${n} ${n===1?'choice':'choices'} · swipe sideways`,
+    all:'All sections', prev:'Previous page', next:'Next page', tap:'Tap to see the photo', nophoto:'Photo not available',
+    close:'Close', lang:'Language', alg:'Allergens', algBtn:'Allergens and intolerances', contains:'Allergens',
+    algIntro:'Tap the allergens you want to avoid: items that contain them turn grey, or disappear if you choose "Hide".',
+    algNone:'No allergens selected.', algHit:n => n===1 ? '1 item contains them.' : `${n} items contain them.`,
+    algUnk:n => n===1 ? '1 item has no allergen information: please ask our staff.' : `${n} items have no allergen information: please ask our staff.`,
+    unk:'Allergens not listed: please ask our staff', hide:'Hide items that contain them',
+    review:'Enjoyed it? Leave us a review', credit:'Digital menu by Menù in Tasca',
+    algZero:'No item on the menu is listed as containing them.',
+    algFine:'The numbers next to each item show its allergens (EU Reg. 1169/2011). This is for information only: if you have allergies or intolerances, always ask our staff.',
+    clear:'Clear', done:'Done', loading:'Loading the menu…', down:'The menu can\'t be reached right now.<br>Please try again shortly.',
+    demo:'Sample menu: this template is not yet linked to the venue\'s Google Sheet.'},
+  de: {name:'Deutsch', hours:'Öffnungszeiten', items:n => `${n} ${n===1?'Eintrag':'Einträge'}`, props:n => `${n} ${n===1?'Angebot':'Angebote'} · seitlich wischen`,
+    all:'Alle Bereiche', prev:'Vorherige Seite', next:'Nächste Seite', tap:'Tippen, um das Foto zu sehen', nophoto:'Foto nicht verfügbar',
+    close:'Schließen', lang:'Sprache', alg:'Allergene', algBtn:'Allergene und Unverträglichkeiten', contains:'Allergene',
+    algIntro:'Tippen Sie auf die Allergene, die Sie meiden möchten: Produkte, die sie enthalten, werden grau oder verschwinden, wenn Sie "Ausblenden" wählen.',
+    algNone:'Keine Allergene ausgewählt.', algHit:n => n===1 ? '1 Produkt enthält sie.' : `${n} Produkte enthalten sie.`,
+    algUnk:n => n===1 ? 'Bei 1 Produkt sind keine Allergene angegeben: bitte Personal fragen.' : `Bei ${n} Produkten sind keine Allergene angegeben: bitte Personal fragen.`,
+    unk:'Allergene nicht angegeben: bitte Personal fragen', hide:'Produkte ausblenden, die sie enthalten',
+    review:'Hat es Ihnen gefallen? Bewerten Sie uns', credit:'Digitale Speisekarte von Menù in Tasca',
+    algZero:'Laut Speisekarte enthält kein Produkt diese Allergene.',
+    algFine:'Die Zahlen neben den Produkten zeigen die Allergene (EU-Verordnung 1169/2011). Die Angaben dienen nur zur Information: Bei Allergien oder Unverträglichkeiten fragen Sie bitte immer das Personal.',
+    clear:'Zurücksetzen', done:'Fertig', loading:'Speisekarte wird geladen…', down:'Die Speisekarte ist gerade nicht erreichbar.<br>Bitte versuchen Sie es gleich noch einmal.',
+    demo:'Beispielkarte: Diese Vorlage ist noch nicht mit der Google-Tabelle des Lokals verbunden.'},
+};
+const ALLERGENS = [
+  {it:'Glutine', en:'Gluten', de:'Gluten'}, {it:'Crostacei', en:'Crustaceans', de:'Krebstiere'}, {it:'Uova', en:'Eggs', de:'Eier'},
+  {it:'Pesce', en:'Fish', de:'Fisch'}, {it:'Arachidi', en:'Peanuts', de:'Erdnüsse'}, {it:'Soia', en:'Soy', de:'Soja'},
+  {it:'Latte', en:'Milk', de:'Milch'}, {it:'Frutta a guscio', en:'Tree nuts', de:'Schalenfrüchte'}, {it:'Sedano', en:'Celery', de:'Sellerie'},
+  {it:'Senape', en:'Mustard', de:'Senf'}, {it:'Sesamo', en:'Sesame', de:'Sesam'}, {it:'Solfiti', en:'Sulphites', de:'Sulfite'},
+  {it:'Lupini', en:'Lupin', de:'Lupinen'}, {it:'Molluschi', en:'Molluscs', de:'Weichtiere'},
+];
+const store = { get(k){ try { return localStorage.getItem(k); } catch (e) { return null; } }, set(k,v){ try { localStorage.setItem(k,v); } catch (e) {} } };
+const LANGS = (() => { const l = String(CONFIG.LINGUE || 'it').toLowerCase().split(/[\s,;|]+/).filter(x => UI[x]);
+  return ['it', ...new Set(l.filter(x => x !== 'it'))]; })();
+let LANG = (() => { const saved = store.get('mit-lang'); if (LANGS.includes(saved)) return saved;
+  const nav = (navigator.languages || [navigator.language || 'it']).map(x => String(x).slice(0,2).toLowerCase());
+  return nav.find(x => LANGS.includes(x)) || 'it'; })();
+const T = k => (UI[LANG][k] ?? UI.it[k]);
+const L = o => o == null ? '' : typeof o === 'string' ? o : (o[LANG] || o.it || '');
+
+let INFO = {name:{}, place:{}, hours:[], note:{}, photo:''};
+let SECTIONS = [], HAS_ALG = false;
+let AVOID = new Set(String(store.get('mit-avoid') || '').split(',').map(Number).filter(n => n >= 1 && n <= 14));
+
+// ---------------- colori automatici ----------------
+const hex2rgb = h => { h = h.replace('#',''); return [0,2,4].map(i => parseInt(h.substr(i,2),16)); };
+const rgb2hex = c => '#' + c.map(v => Math.round(Math.max(0,Math.min(255,v))).toString(16).padStart(2,'0')).join('');
+const rgba = (c,a) => `rgba(${c.map(Math.round).join(',')},${a})`;
+const mix = (a,b,t) => a.map((v,i) => v + (b[i]-v)*t);
+const lum = c => { const f = v => { v/=255; return v<=0.03928 ? v/12.92 : Math.pow((v+0.055)/1.055,2.4); };
+  const [r,g,b] = c.map(f); return 0.2126*r + 0.7152*g + 0.0722*b; };
+const contrast = (a,b) => { const [x,y] = [lum(a),lum(b)].sort((p,q)=>q-p); return (x+0.05)/(y+0.05); };
+const W=[255,255,255], K=[0,0,0];
+const toward = (base, to, ref, target) => { let a = base; for (let t=0; contrast(a,ref) < target && t <= 1.001; t += 0.04) a = mix(base, to, t); return a; };
+let STYLE = 'riviera', COLOR = '#139AC8';
+function applyColor(hex){
+  COLOR = hex;
+  const bg = hex2rgb(hex), Lm = lum(bg), r = document.documentElement.style, set = (k,v) => r.setProperty(k,v);
+  const light = contrast(bg,K) > contrast(bg,W);
+  const on = light ? mix(bg,K,0.84) : W;
+  set('--bg', hex); set('--on', rgb2hex(on));
+  set('--on-soft', light ? rgb2hex(mix(bg,K,0.66)) : 'rgba(255,255,255,.82)');
+  set('--chip', light ? 'rgba(0,0,0,.07)' : 'rgba(255,255,255,.28)');
+  set('--check', light ? 'rgba(0,0,0,.045)' : 'rgba(255,255,255,.13)');   // quadretti della tovaglia (Osteria)
+  const accOnBg = toward(bg, light ? K : W, bg, 4.5);
+  set('--accent-on-bg', rgb2hex(accOnBg));
+  let card, acc, ink, inkSoft, line, cardline = 'transparent', glow = 'rgba(0,0,0,0)';
+  if (STYLE === 'lavagna') {
+    card = bg; acc = accOnBg; ink = on; inkSoft = light ? mix(bg,K,0.66) : mix(bg,W,0.78);
+    line = rgba(on, .45);
+    set('--card', hex); set('--ink', rgb2hex(ink)); set('--ink-soft', rgb2hex(inkSoft)); set('--accent', rgb2hex(acc)); set('--line', line);
+  } else if (STYLE === 'notte') {
+    card = Lm < 0.03 ? mix(bg,W,0.07) : mix(bg,K,0.62);
+    const sat = Math.max(...bg) - Math.min(...bg);
+    const base = sat < 40 ? [255,64,170] : bg;
+    acc = toward(base, W, card, 4.6);
+    set('--card', rgb2hex(card)); set('--ink', '#FFFFFF'); set('--ink-soft', 'rgba(255,255,255,.74)');
+    set('--accent', rgb2hex(acc)); set('--line', rgba(acc,.35)); glow = rgba(acc,.4);
+  } else {
+    card = STYLE === 'osteria' ? [251,246,234] : W;
+    acc = toward(bg, K, card, 4.6);
+    ink = mix(acc, K, STYLE === 'osteria' ? 0.6 : 0.55);
+    inkSoft = mix(mix(acc,K,0.4),[140,150,155],0.55);
+    line = rgb2hex(mix(acc, card, 0.84));
+    if (Lm > 0.72 && STYLE !== 'elegante') cardline = rgb2hex(mix(bg,K,0.12));
+    set('--card', rgb2hex(card)); set('--ink', rgb2hex(ink)); set('--ink-soft', rgb2hex(inkSoft)); set('--accent', rgb2hex(acc)); set('--line', line);
+  }
+  set('--cardline', cardline); set('--glow', glow);
+  const m = document.querySelector('meta[name=theme-color]') || Object.assign(document.createElement('meta'),{name:'theme-color'});
+  m.content = hex; document.head.appendChild(m);
+}
+
+// ---------------- blocchi ----------------
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const E = esc;
+const eur = p => { p = String(p || '').trim(); if (!p) return ''; return p.includes('€') ? p : p.split('/').map(x => x.trim() + '€').join(' / '); };
+const count = s => s.groups.reduce((n,g) => n + g.items.length, 0);
+const TT = s => L(s.title);                                                     // titolo della sezione
+const CH = s => LANG === 'it' ? (s.chip || s.title.it) : (s.title[LANG] || s.chip || s.title.it);   // nome nella barra
+const algNames = a => a.map(n => ALLERGENS[n-1][LANG]).join(', ');
+const CAM_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg>';
+const ALG_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22V7"/><path d="M12 7c-1.5-1.2-1.5-3.8 0-5 1.5 1.2 1.5 3.8 0 5z"/><path d="M12 12.5c-2.8 0-4.6-1.6-4.6-4.1 2.7 0 4.6 1.5 4.6 4.1z"/><path d="M12 12.5c2.8 0 4.6-1.6 4.6-4.1-2.7 0-4.6 1.5-4.6 4.1z"/><path d="M12 17.5c-2.8 0-4.6-1.6-4.6-4.1 2.7 0 4.6 1.5 4.6 4.1z"/><path d="M12 17.5c2.8 0 4.6-1.6 4.6-4.1-2.7 0-4.6 1.5-4.6 4.1z"/></svg>';
+const GLOBE_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.4 2.5 3.7 5.5 3.7 9s-1.3 6.5-3.7 9c-2.4-2.5-3.7-5.5-3.7-9S9.6 5.5 12 3z"/></svg>';
+// attributi di una voce: allergeni (per il filtro) e foto (per aprirla)
+const FA = e => ` data-a="${e.a.join(',')}"` + (e.ak === false ? ' data-ak="0"' : '') +
+  (e.f ? ` data-foto="${E(e.f)}" data-n="${E(e.n)}" data-p="${E(e.p)}" data-d="${E(e.d)}" data-al="${E(algNames(e.a))}" role="button" tabindex="0"` : '');
+const CAM = f => f ? `<span class="cam" title="${E(T('tap'))}">${CAM_SVG}</span>` : '';
+const ALG = a => !a.length ? '' : `<span class="alg" title="${E(algNames(a))}" aria-label="${E(T('contains') + ': ' + algNames(a))}">${a.map(n => `<i data-k="${n}" aria-hidden="true">${n}</i>`).join('')}</span>`;
+// le voci di un gruppo, gia' nella lingua scelta
+const entries = g => g.items.map(i => ({n:L(i.n), sub:L(i.sub), d:L(i.d), p:eur(i.p), f:i.f || '', a:i.a || [], ak: i.ak}));
+function riviera(s, g){
+  let h = L(g.title) ? `<div class="group-title">${E(L(g.title))}</div>` : '';
+  const es = entries(g);
+  if (s.style === 'list') h += '<div class="listino">' + es.map(e =>
+    `<div class="litem"${FA(e)}><span><span class="l-name">${E(e.n)}${CAM(e.f)}</span>${e.sub?`<span class="l-sub">${E(e.sub)}</span>`:''}${ALG(e.a)}${e.d?`<span class="l-comp">${E(e.d)}</span>`:''}</span><span class="l-price">${E(e.p)}</span></div>`).join('') + '</div>';
+  else h += '<div class="grid">' + es.map(e =>
+    `<div class="card"${FA(e)}><div class="c-top"><span class="c-name">${E(e.n)}${CAM(e.f)}${ALG(e.a)}</span>${e.p?`<span class="c-price">${E(e.p)}</span>`:''}</div><div class="c-origin">${E(e.sub)}</div><div class="c-desc">${E(e.d)}</div></div>`).join('') + '</div>';
+  return h;
+}
+const RENDER = {
+  riviera,
+  elegante: (s,g) => (L(g.title) ? `<div class="group-title">${E(L(g.title))}</div>` : '') + entries(g).map(e =>
+    `<div class="ld"${FA(e)}><div class="ld-row"><span class="ld-n">${E(e.n)}${CAM(e.f)}${e.sub?` <em>${E(e.sub)}</em>`:''}${ALG(e.a)}</span>${e.p?`<span class="ld-dots"></span><span class="ld-p">${E(e.p)}</span>`:''}</div>${e.d?`<div class="ld-d">${E(e.d)}</div>`:''}</div>`).join(''),
+  lavagna: (s,g) => (L(g.title) ? `<div class="banner">${E(L(g.title))}</div>` : '') + '<div class="board">' + entries(g).map(e =>
+    `<div class="ch"${FA(e)}><div><span class="ch-n">${E(e.n)}${CAM(e.f)}</span>${e.sub?`<span class="ch-s">${E(e.sub)}</span>`:''}${ALG(e.a)}${e.d?`<div class="ch-d">${E(e.d)}</div>`:''}</div>${e.p?`<span class="ch-p">${E(e.p)}</span>`:''}</div>`).join('') + '</div>',
+  osteria: (s,g) => (L(g.title) ? `<div class="ribbon">${E(L(g.title))}</div>` : '') + '<div class="paper">' + entries(g).map(e =>
+    `<div class="os"${FA(e)}><div><span class="os-n">${E(e.n)}${CAM(e.f)}</span>${e.sub?`<span class="os-s">${E(e.sub)}</span>`:''}${ALG(e.a)}${e.d?`<div class="os-d">${E(e.d)}</div>`:''}</div>${e.p?`<span class="stamp">${E(e.p)}</span>`:''}</div>`).join('') + '</div>',
+  notte: (s,g) => { const es = entries(g); return `<div class="gt"><b>${E(L(g.title) || TT(s))}</b><span>${E(T('props')(es.length))}</span></div><div class="row">` +
+    es.map(e => `<div class="nc"${FA(e)}><span class="nc-n">${E(e.n)}${CAM(e.f)}</span>${e.sub?`<span class="nc-s">${E(e.sub)}</span>`:''}${ALG(e.a)}<span class="nc-d">${E(e.d)}</span>${e.p?`<span class="nc-p">${E(e.p)}</span>`:''}</div>`).join('') + '</div>'; },
+};
+function body(s){
+  let h = s.groups.map(g => g.text ? `<div class="note">${E(L(g.text))}</div>` : RENDER[STYLE](s,g)).join('');
+  if (L(s.note)) h += `<div class="note">${E(L(s.note))}</div>`;
+  return `<div class="sbody">${h}</div>`;
+}
+const SCRIB = '<svg class="scrib" viewBox="0 0 200 12" preserveAspectRatio="none" aria-hidden="true"><path d="M2 8 C 30 1, 60 12, 92 6 S 152 1, 198 7"/></svg>';
+const head = s => `<div class="pagehead"><div class="eyebrow">${E(L(s.eyebrow))}</div><h2>${E(TT(s))}</h2>${STYLE==='lavagna'?SCRIB:''}<div class="sub">${E(L(s.sub))}</div></div>`;
+const hoursBox = () => !INFO.hours.length ? '' : `<div class="hours"><h3>${E(T('hours'))}</h3>${INFO.hours.map(t => { const [a,b] = L(t).split('|');
+  return `<div class="hr"><span>${E((a||'').trim())}</span><span>${E((b||'').trim())}</span></div>`; }).join('')}</div>`;
+const initials = () => ((L(INFO.name)).match(/\b\p{L}/gu) || []).slice(0,2).join('').toUpperCase();
+const LOGO = () => CONFIG.LOGO ? `<div class="medal"><img src="${E(CONFIG.LOGO)}" alt="" data-i="${E(initials())}" onerror="this.parentNode.textContent=this.dataset.i"></div>` : `<div class="medal">${E(initials())}</div>`;
+function coverSrc(f){
+  f = String(f || '').trim();
+  const m = f.match(/drive\.google\.com\/(?:file\/d\/|open\?id=|uc\?(?:export=\w+&)?id=)([\w-]{20,})/i) || f.match(/docs\.google\.com\/uc\?(?:export=\w+&)?id=([\w-]{20,})/i);
+  if (m) return `https://drive.google.com/thumbnail?id=${m[1]}&sz=w1600`;
+  return f;   // link diretto, data: oppure nome di un file accanto alla pagina (es. copertina.jpg)
+}
+// foto del locale: in alto (copertina) oppure come sfondo leggero dietro tutto il menu
+let PHOTOMODE = null;
+const NEUTRO = '#1C1C1C';   // "solo foto": fondo scuro neutro, la foto si vede bene e i testi restano leggibili
+let BASE_COLOR = null;   // scelta fatta al volo (pulsante delle demo, anteprima del sito)
+const readPhotoMode = v => { v = String(v || '').toLowerCase();
+  if (/solo foto|senza colore|chiar|neutr|bianc/.test(v)) return 'sfondo-chiaro';
+  if (!v.includes('sfond')) return 'alto';
+  return 'sfondo'; };
+const photoMode = () => PHOTOMODE || INFO.photoMode || readPhotoMode(CONFIG.FOTO);
+const PHOTO = () => INFO.photo && !photoMode().startsWith('sfondo') ? `<div class="cphoto"><img src="${E(coverSrc(INFO.photo))}" alt=""></div>` : '';
+function applyBg(){
+  let bg = document.getElementById('bgphoto');
+  if (!bg) { bg = document.createElement('div'); bg.id = 'bgphoto'; bg.setAttribute('aria-hidden', 'true'); document.body.prepend(bg); }
+  const on = !!INFO.photo && photoMode().startsWith('sfondo');
+  bg.style.backgroundImage = on ? `url("${coverSrc(INFO.photo).replace(/"/g, '%22')}")` : 'none';
+  document.body.classList.toggle('has-bg', on);
+  // "solo foto": niente colore del locale, fondo chiaro neutro con la foto leggera sopra
+  const chiaro = on && photoMode() === 'sfondo-chiaro';
+  document.body.classList.toggle('bg-chiaro', chiaro);
+  if (chiaro) { if (COLOR !== NEUTRO) { BASE_COLOR = COLOR; applyColor(NEUTRO); } }
+  else if (BASE_COLOR) { const c = BASE_COLOR; BASE_COLOR = null; applyColor(c); }
+}
+const PH_TXT = {it: ['In alto', 'Sfondo', 'Solo foto'], en: ['On top', 'Background', 'Photo only'], de: ['Oben', 'Hintergrund', 'Nur Foto']};
+const PHSWITCH = () => (typeof DEMO_FOTO_SWITCH !== 'undefined' && DEMO_FOTO_SWITCH && INFO.photo)
+  ? `<div class="phswitch" role="group">${['alto', 'sfondo', 'sfondo-chiaro'].map((m, i) => `<button type="button" data-ph="${m}" class="${photoMode() === m ? 'on' : ''}" aria-pressed="${photoMode() === m}">${E((PH_TXT[LANG] || PH_TXT.it)[i])}</button>`).join('')}</div>` : '';
+document.addEventListener('click', e => { const b = e.target.closest && e.target.closest('[data-ph]'); if (!b) return;
+  PHOTOMODE = b.dataset.ph; setMode(mode, where()); });
+const NAME = () => E(L(INFO.name));
+const COVERS = {
+  riviera:  () => `<div class="cover">${PHOTO()}${LOGO()}<h1>${NAME()}</h1><div class="place">${E(L(INFO.place))}</div>${hoursBox()}</div>`,
+  elegante: () => `<div class="cover">${PHOTO()}${LOGO()}<h1>${NAME()}</h1><div class="place">${E(L(INFO.place))}</div><div class="rule"></div>${hoursBox()}</div>`,
+  lavagna:  () => `<div class="cover">${PHOTO()}<div class="cv-row">${LOGO()}<div><h1>${NAME()}</h1><div class="place">${E(L(INFO.place))}</div></div></div>${hoursBox()}</div>`,
+  osteria:  () => `<div class="cover">${PHOTO()}${LOGO()}<h1>${NAME()}</h1><div class="place">${E(L(INFO.place))}</div>${hoursBox()}</div>`,
+  notte:    () => `<div class="cover">${PHOTO()}${LOGO()}<h1>${NAME()}</h1><div class="place">${E(L(INFO.place))}</div>${hoursBox()}</div>`,
+};
+const cover = () => { const c = COVERS[STYLE]();
+  const n = PHSWITCH() + (L(INFO.note) ? `<p class="covernote">${E(L(INFO.note))}</p>` : '') +
+    (HAS_ALG ? `<div class="cv-extra"><button class="algbtn" data-tool="alg">${ALG_SVG}<span>${E(T('algBtn'))}</span></button></div>` : '') +
+    (INFO.credits !== false ? `<a class="credit" href="https://menu-in-tasca.github.io/" target="_blank" rel="noopener">${E(T('credit'))}</a>` : '');
+  const i = c.lastIndexOf('</div>'); return c.slice(0, i) + n + c.slice(i); };
+// recensione: in fondo alle pagine del menu
+const REV = () => INFO.review ? `<div class="revfoot"><a class="revbtn" href="${E(INFO.review)}" target="_blank" rel="noopener">★ ${E(T('review'))}</a></div>` : '';
+const chips = (active) => `<div class="chipbar">${SECTIONS.map(s=>`<button class="chip${s.id===active?' active':''}" data-go="${s.id}">${E(CH(s))}</button>`).join('')}</div>`;
+const arrow = d => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="${d}"/></svg>`;
+// pulsanti in alto a destra: allergeni e lingua
+function tools(float){
+  const many = LANGS.length > 1;
+  if (!many && !HAS_ALG && !INFO.review) return '';
+  return `<div class="tools${float ? ' float' : ''}">` +
+    (INFO.review ? `<a class="tool" href="${E(INFO.review)}" target="_blank" rel="noopener" aria-label="${E(T('review'))}"><span aria-hidden="true" style="font-size:17px">★</span></a>` : '') +
+    (HAS_ALG ? `<button class="tool${AVOID.size ? ' on' : ''}" data-tool="alg" aria-label="${E(T('alg'))}">${ALG_SVG}<span class="tn"${AVOID.size ? '' : ' hidden'}>${AVOID.size}</span></button>` : '') +
+    (many ? `<button class="tool" data-tool="lang" aria-haspopup="menu" aria-expanded="false" aria-label="${E(T('lang'))}">${GLOBE_SVG}<span>${LANG.toUpperCase()}</span></button>
+      <div class="langmenu" role="menu" hidden>${LANGS.map(l => `<button role="menuitemradio" aria-checked="${l===LANG}" data-lang="${l}" lang="${l}">${UI[l].name}<span aria-hidden="true">${l===LANG ? '✓' : ''}</span></button>`).join('')}</div>` : '') +
+    '</div>';
+}
+
+// ---------------- 4 modi di navigazione ----------------
+const app = document.getElementById('app');
+let mode = 'sfoglia', cleanup = () => {}, TOPEN = null;
+const MODES = {
+  sfoglia(at){
+    const pages = [{id:'cover',title:L(INFO.name),html:cover()}, ...SECTIONS.map(s=>({id:s.id,title:TT(s),html:head(s)+body(s)+REV()}))];
+    app.innerHTML = `<div class="topfix" id="top">${chips('')}${tools(false)}</div><div class="book" id="book">${pages.map(p=>`<section class="page" data-id="${p.id}" data-title="${E(p.title)}">${p.html}</section>`).join('')}</div>
+      <div class="botnav"><button class="navbtn" id="prev" aria-label="${E(T('prev'))}">${arrow('M15 18l-6-6 6-6')}</button>
+      <div class="pinfo"><b id="pt"></b><span id="pc"></span></div><button class="navbtn" id="next" aria-label="${E(T('next'))}">${arrow('M9 18l6-6-6-6')}</button></div>`;
+    const book = document.getElementById('book'), idx = () => book.clientWidth ? Math.min(pages.length-1, Math.max(0, Math.round(book.scrollLeft/book.clientWidth))) : 0;
+    const go = i => book.scrollTo({left:Math.max(0,Math.min(pages.length-1,i))*book.clientWidth, behavior:'smooth'});
+    const upd = () => { const i = idx(), p = pages[i]; document.getElementById('pt').textContent = p.title; document.getElementById('pc').textContent = `${i+1} / ${pages.length}`;
+      document.getElementById('prev').disabled = i===0; document.getElementById('next').disabled = i===pages.length-1;
+      document.querySelectorAll('#top .chip').forEach(c => { const on = c.dataset.go===p.id; c.classList.toggle('active', on); if (on) c.scrollIntoView({inline:'center',block:'nearest'}); }); };
+    let t; book.addEventListener('scroll', () => { clearTimeout(t); t = setTimeout(upd, 60); });
+    document.getElementById('prev').onclick = () => go(idx()-1); document.getElementById('next').onclick = () => go(idx()+1);
+    document.getElementById('top').onclick = e => { const c = e.target.closest('[data-go]'); if (c) go(pages.findIndex(p=>p.id===c.dataset.go)); };
+    if (at) { book.style.scrollBehavior = 'auto'; book.scrollLeft = at * book.clientWidth; book.style.scrollBehavior = ''; }
+    upd();
+    return () => idx();
+  },
+  scroll(at){
+    app.innerHTML = `<div class="topfix" id="top">${chips(SECTIONS[0].id)}${tools(false)}</div><div class="flow"><section id="s-cover">${cover()}</section>${SECTIONS.map(s=>`<section id="s-${s.id}">${head(s)+body(s)}</section>`).join('')}${REV()}</div>`;
+    document.getElementById('top').onclick = e => { const c = e.target.closest('[data-go]'); if (c) document.getElementById('s-'+c.dataset.go).scrollIntoView({behavior:'smooth'}); };
+    const io = new IntersectionObserver(es => es.forEach(en => { if (en.isIntersecting){ const id = en.target.id.slice(2);
+      document.querySelectorAll('#top .chip').forEach(c => { const on = c.dataset.go===id; c.classList.toggle('active',on); if(on) c.scrollIntoView({inline:'center',block:'nearest'}); }); } }),
+      {rootMargin:'-40% 0px -55% 0px'});
+    SECTIONS.forEach(s => io.observe(document.getElementById('s-'+s.id)));
+    cleanup = () => io.disconnect();
+    if (at) window.scrollTo({top:at, behavior:'instant'});
+    return () => window.scrollY;
+  },
+  schede(at){
+    app.innerHTML = `${tools(true)}<div class="acc"><div class="acc-cover">${cover()}</div>${SECTIONS.map(s=>`<div class="acc-item" id="a-${s.id}">
+      <button class="acc-head" aria-expanded="false"><span class="t">${E(TT(s))}</span><span style="display:flex;align-items:center"><span class="n">${E(T('items')(count(s)))}</span>${arrow('M6 9l6 6 6-6')}</span></button>
+      <div class="acc-body hidden">${body(s)}</div></div>`).join('')}${REV()}</div>`;
+    const toggle = (it, scroll) => { const b = it.querySelector('.acc-head'), open = !it.classList.contains('open');
+      app.querySelectorAll('.acc-item').forEach(x => { x.classList.remove('open'); x.querySelector('.acc-body').classList.add('hidden'); x.querySelector('.acc-head').setAttribute('aria-expanded','false'); });
+      if (open){ it.classList.add('open'); it.querySelector('.acc-body').classList.remove('hidden'); b.setAttribute('aria-expanded','true'); if (scroll) it.scrollIntoView({behavior:'smooth',block:'start'}); } };
+    app.querySelectorAll('.acc-head').forEach(b => b.onclick = () => toggle(b.parentElement, true));
+    if (at) { const it = document.getElementById(at.id); if (it) toggle(it, false); window.scrollTo({top:at.y, behavior:'instant'}); }
+    return () => ({id: app.querySelector('.acc-item.open')?.id, y: window.scrollY});
+  },
+  tessere(at){
+    const home = () => { TOPEN = null; app.innerHTML = `${tools(true)}<div class="tiles-wrap">${cover()}<div class="tiles">${SECTIONS.map(s=>`<button class="tile" data-go="${s.id}"><span class="t">${E(TT(s))}</span><span class="n">${E(T('items')(count(s)))}</span></button>`).join('')}</div></div>`;
+      app.querySelectorAll('.tile').forEach(t => t.onclick = () => open(t.dataset.go)); applyAvoid(); fixImages(); window.scrollTo(0,0); };
+    const open = (id, y) => { const i = SECTIONS.findIndex(s=>s.id===id), s = SECTIONS[i]; if (!s) return home(); TOPEN = id;
+      app.innerHTML = `${tools(true)}<div class="sect-view"><button class="back" id="back">‹ ${E(T('all'))}</button>${head(s)+body(s)}
+        <div class="sect-nav"><button id="sp" ${i===0?'disabled':''}>‹ ${E(SECTIONS[i-1] ? CH(SECTIONS[i-1]) : '')}</button><button id="sn" ${i===SECTIONS.length-1?'disabled':''}>${E(SECTIONS[i+1] ? CH(SECTIONS[i+1]) : '')} ›</button></div>${REV()}</div>`;
+      document.getElementById('back').onclick = home;
+      document.getElementById('sp').onclick = () => open(SECTIONS[i-1].id); document.getElementById('sn').onclick = () => open(SECTIONS[i+1].id);
+      applyAvoid(); window.scrollTo({top:y || 0, behavior:'instant'}); };
+    if (at && at.id) open(at.id, at.y); else home();
+    return () => ({id: TOPEN, y: window.scrollY});
+  }
+};
+let where = () => null;
+// ---------------- menu stagionale: fuori dai mesi di apertura compare "Ci vediamo la prossima stagione" ----------------
+const MESI = {it: ['gennaio','febbraio','marzo','aprile','maggio','giugno','luglio','agosto','settembre','ottobre','novembre','dicembre'],
+  en: ['January','February','March','April','May','June','July','August','September','October','November','December'],
+  de: ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember']};
+function mesiAperti(txt){
+  let s = String(txt || '').toLowerCase().replace(/\bda(l)?\s+/g, '').replace(/\s+(a|al|fino a)\s+/g, '-');
+  if (!s.trim()) return null;
+  const num = w => { w = (w || '').trim(); const n = parseInt(w, 10); if (n >= 1 && n <= 12) return n;
+    const i = MESI.it.findIndex(m => w.startsWith(m.slice(0, 3))); return i >= 0 ? i + 1 : 0; };
+  const set = new Set();
+  s.split(/,|;|\s+e\s+/).forEach(part => { const [a, b] = part.split('-').map(num); if (!a) return;
+    if (!b) { set.add(a); return; } let m = a; for (let k = 0; k < 12; k++) { set.add(m); if (m === b) break; m = m % 12 + 1; } });
+  return set.size ? set : null;
+}
+function inPausa(){
+  if (/[?&]aperto=1/.test(location.search)) return null;           // per controllare il menu anche fuori stagione
+  const aperti = mesiAperti(INFO.months); if (!aperti) return null;
+  const ora = new Date().getMonth() + 1; if (aperti.has(ora)) return null;
+  let m = ora; for (let k = 0; k < 12; k++) { m = m % 12 + 1; if (aperti.has(m)) return m; }
+  return null;
+}
+const PAUSA_TXT = {it: ['Ci vediamo la prossima stagione!', 'Riapriamo a'], en: ['See you next season!', 'We reopen in'], de: ['Bis zur nächsten Saison!', 'Wir öffnen wieder im']};
+function mostraPausa(m){
+  const t = PAUSA_TXT[LANG] || PAUSA_TXT.it;
+  document.body.className = 'm-pausa';
+  app.innerHTML = `<main class="pausa">${LOGO()}<h1>${E(L(INFO.name))}</h1>${L(INFO.place) ? `<p class="place">${E(L(INFO.place))}</p>` : ''}
+    <p class="pausa-big">${E(t[0])}</p><p class="pausa-when">${E(t[1])} ${E((MESI[LANG] || MESI.it)[m - 1])}</p></main>`;
+  fixImages(); applyBg();
+}
+function setMode(m, at){ const pausa = inPausa(); if (pausa) { cleanup(); cleanup = () => {}; mostraPausa(pausa); return; }
+  cleanup(); cleanup = () => {}; mode = m; document.body.className = 'm-' + m; if (!at) window.scrollTo(0,0);
+  where = MODES[m](at) || (() => null); applyAvoid(); fixImages(); applyBg(); }
+// logo mancante -> iniziali del locale; foto di copertina mancante -> si toglie
+function fixImages(){
+  app.querySelectorAll('.medal img').forEach(img => { const f = () => img.replaceWith(document.createTextNode(initials()));
+    if (img.complete && !img.naturalWidth && img.getAttribute('src')) f(); else img.addEventListener('error', f, {once:true}); });
+  app.querySelectorAll('.cphoto img').forEach(img => { const f = () => img.parentElement.remove();
+    if (img.complete && !img.naturalWidth) f(); else img.addEventListener('error', f, {once:true}); });
+}
+
+// ---------------- lingua ----------------
+function setLang(l){
+  if (!LANGS.includes(l)) return;
+  LANG = l; store.set('mit-lang', l); document.documentElement.lang = l;
+  document.title = L(INFO.name) ? `${L(INFO.name)} – Menu` : 'Menu';
+  setMode(mode, where());
+  document.querySelector('[data-tool=lang]')?.focus({preventScroll:true});
+}
+function closeLangMenu(){ const m = document.querySelector('.langmenu'); if (m && !m.hidden) { m.hidden = true; document.querySelector('[data-tool=lang]')?.setAttribute('aria-expanded','false'); } }
+
+// ---------------- allergeni ----------------
+const norm = x => String(x ?? '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim().toLowerCase();
+const ALG_KEYS = ALLERGENS.map(a => [a.it, a.en, a.de].map(norm));
+function parseAlg(s){      // "1, 7" oppure "glutine, latte" -> [1, 7]
+  const out = new Set();
+  String(s || '').split(/[,;\/·+\n]|\s-\s|\se\s/).forEach(t => { t = norm(t); if (!t) return;
+    const m = t.match(/^(\d{1,2})\b/);
+    if (m) { const n = +m[1]; if (n >= 1 && n <= 14) out.add(n); return; }
+    if (t.length < 3) return;
+    const i = ALG_KEYS.findIndex(ks => ks.some(k => k.startsWith(t) || t.startsWith(k.slice(0, 5))));
+    if (i >= 0) out.add(i + 1); });
+  return [...out].sort((a, b) => a - b);
+}
+let AVHIDE = store.get('mit-avhide') === '1';
+function applyAvoid(){
+  document.body.classList.toggle('av-hide', AVHIDE && AVOID.size > 0);
+  document.querySelectorAll('[data-a]').forEach(el => {
+    const a = el.dataset.a.split(',').map(Number);
+    el.classList.toggle('avoid', a.some(n => AVOID.has(n)));
+    // allergeni non indicati: non li consideriamo "sicuri"
+    const unk = AVOID.size > 0 && el.dataset.ak === '0';
+    el.classList.toggle('unk', unk);
+    let b = el.querySelector(':scope > .unkb');
+    if (unk && !b) { b = document.createElement('span'); b.className = 'unkb'; b.textContent = T('unk'); el.appendChild(b); }
+    else if (!unk && b) b.remove();
+    el.querySelectorAll('.alg i').forEach(i => i.classList.toggle('hit', AVOID.has(+i.dataset.k)));
+  });
+  document.querySelectorAll('.tool[data-tool=alg]').forEach(b => { b.classList.toggle('on', AVOID.size > 0);
+    const n = b.querySelector('.tn'); if (n) { n.textContent = AVOID.size; n.hidden = !AVOID.size; } });
+}
+const ash = document.getElementById('ash'), ashBack = document.getElementById('ashBack');
+let ashFocus = null;
+function algCount(){
+  if (!AVOID.size) return T('algNone');
+  let n = 0, u = 0; SECTIONS.forEach(s => s.groups.forEach(g => g.items.forEach(i => { if ((i.a || []).some(x => AVOID.has(x))) n++; else if (i.ak === false) u++; })));
+  return (n ? T('algHit')(n) : T('algZero')) + (u ? ' ' + T('algUnk')(u) : '');
+}
+function openAlg(from){
+  ashFocus = from || document.activeElement;
+  ash.innerHTML = `<h3 id="ashT">${E(T('alg'))}</h3><p>${E(T('algIntro'))}</p>
+    <div class="agrid">${ALLERGENS.map((a, i) => `<button aria-pressed="${AVOID.has(i+1)}" data-av="${i+1}"><i>${i+1}</i><span>${E(a[LANG])}</span></button>`).join('')}</div>
+    <label class="avhide"><input type="checkbox" id="avHide" ${AVHIDE ? 'checked' : ''}><span>${E(T('hide'))}</span></label>
+    <p class="count" id="ashC" aria-live="polite">${E(algCount())}</p>
+    <div class="acts"><button class="clr" data-ash="clear">${E(T('clear'))}</button><button class="ok" data-ash="done">${E(T('done'))}</button></div>
+    <p class="fine">${E(T('algFine'))}</p>`;
+  ash.hidden = false; ashBack.hidden = false;
+  requestAnimationFrame(() => { ash.classList.add('open'); ash.querySelector('.agrid button').focus({preventScroll:true}); });
+}
+function closeAlg(){ ash.classList.remove('open'); ash.hidden = true; ashBack.hidden = true; if (ashFocus && ashFocus.isConnected) ashFocus.focus({preventScroll:true}); }
+function saveAvoid(){ store.set('mit-avoid', [...AVOID].join(',')); applyAvoid();
+  ash.querySelectorAll('[data-av]').forEach(b => b.setAttribute('aria-pressed', AVOID.has(+b.dataset.av)));
+  document.getElementById('ashC').textContent = algCount(); }
+ash.addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b) return;
+  if (b.dataset.av) { const n = +b.dataset.av; const prima = AVOID.size; AVOID.has(n) ? AVOID.delete(n) : AVOID.add(n); saveAvoid(); if (!prima && AVOID.size) statistica('allergeni'); }
+  else if (b.dataset.ash === 'clear') { AVOID.clear(); saveAvoid(); }
+  else if (b.dataset.ash === 'done') closeAlg();
+});
+ash.addEventListener('change', e => { if (e.target.id !== 'avHide') return; AVHIDE = e.target.checked; store.set('mit-avhide', AVHIDE ? '1' : ''); applyAvoid(); });
+ashBack.onclick = closeAlg;
+
+// ---------------- pulsanti (lingua, allergeni) ----------------
+document.addEventListener('click', e => {
+  const b = e.target.closest('[data-tool],[data-lang]');
+  if (b && b.dataset.lang) { setLang(b.dataset.lang); return; }
+  if (b && b.dataset.tool === 'lang') { const m = document.querySelector('.langmenu'), open = m.hidden;
+    m.hidden = !open; b.setAttribute('aria-expanded', open); if (open) m.querySelector('[aria-checked=true]').focus({preventScroll:true}); return; }
+  closeLangMenu();
+  if (b && b.dataset.tool === 'alg') openAlg(b);
+});
+document.addEventListener('keydown', e => { if (e.key !== 'Escape') return; closeLangMenu(); if (!ash.hidden) closeAlg(); });
+
+// ---------------- foto dei prodotti ----------------
+const lb = document.getElementById('lb'), lbImg = document.getElementById('lbImg');
+function fotoSrc(f){
+  f = String(f).trim();
+  // link di Google Drive: prendo l'anteprima gia' rimpicciolita
+  const m = f.match(/drive\.google\.com\/(?:file\/d\/|open\?id=|uc\?(?:export=\w+&)?id=)([\w-]{20,})/i) || f.match(/docs\.google\.com\/uc\?(?:export=\w+&)?id=([\w-]{20,})/i);
+  if (m) return `https://drive.google.com/thumbnail?id=${m[1]}&sz=w1400`;
+  if (/^(https?:|data:)/i.test(f)) return f;
+  return 'foto/' + f.replace(/^\/?foto\//i, '');
+}
+let lastFocus = null;
+function openFoto(el){
+  lastFocus = el;
+  const miss = document.getElementById('lbMiss'); miss.hidden = true; miss.textContent = T('nophoto'); lbImg.hidden = false;
+  document.getElementById('lbX').setAttribute('aria-label', T('close'));
+  lbImg.src = fotoSrc(el.dataset.foto); lbImg.alt = el.dataset.n || '';
+  document.getElementById('lbN').textContent = el.dataset.n || '';
+  document.getElementById('lbP').textContent = el.dataset.p || '';
+  document.getElementById('lbD').textContent = el.dataset.d || '';
+  const al = document.getElementById('lbA'); al.textContent = el.dataset.al ? `${T('contains')}: ${el.dataset.al}` : ''; al.hidden = !el.dataset.al;
+  lb.hidden = false; document.getElementById('lbX').focus();
+  statistica('foto', el.dataset.n || '');
+}
+function closeFoto(){ lb.hidden = true; lbImg.removeAttribute('src'); if (lastFocus) lastFocus.focus({preventScroll:true}); }
+lbImg.onerror = () => { lbImg.hidden = true; document.getElementById('lbMiss').hidden = false; };
+document.getElementById('lbX').onclick = closeFoto;
+lb.addEventListener('click', e => { if (e.target === lb) closeFoto(); });
+document.addEventListener('click', e => { const el = e.target.closest('[data-foto]'); if (el && lb.hidden) openFoto(el); });
+document.addEventListener('keydown', e => {
+  if (!lb.hidden && e.key === 'Escape') closeFoto();
+  const el = e.target.closest && e.target.closest('[data-foto]');
+  if (el && lb.hidden && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); openFoto(el); }
+});
+
+// ---------------- lettura dal foglio Google ----------------
+function readTab(tab){             // legge una scheda del foglio con uno <script>: nessun blocco del browser
+  return new Promise((resolve, reject) => {
+    const cb = 'mit_' + tab.replace(/\W/g,'') + '_' + Date.now(), el = document.createElement('script');
+    const done = () => { clearTimeout(timer); try { delete window[cb]; } catch (e) {} el.remove(); };
+    const timer = setTimeout(() => { done(); reject('timeout'); }, 9000);
+    window[cb] = data => { done();
+      if (!data || data.status === 'error' || !data.table) return reject('errore');
+      const head = data.table.cols.map(c => norm(c.label));
+      const rows = data.table.rows.map(r => (r.c || []).map(c => c ? String(c.f ?? c.v ?? '').trim() : ''));
+      resolve(rows.map(r => Object.fromEntries(head.map((h,i) => [h, r[i] ?? ''])))); };
+    el.onerror = () => { done(); reject('rete'); };
+    el.src = `https://docs.google.com/spreadsheets/d/${CONFIG.SHEET_ID}/gviz/tq?tqx=out:json;responseHandler:${cb}&headers=1&sheet=${encodeURIComponent(tab)}&t=${Date.now()}`;
+    document.head.appendChild(el);
+  });
+}
+const visible = r => !norm(r.visibile).startsWith('n');
+const tri = (r, k) => ({it: r[k] || '', en: r[k + ' en'] || '', de: r[k + ' de'] || ''});   // testo nelle 3 lingue
+const has = t => !!(t.it || t.en || t.de);
+// traduzione automatica (scheda Traduzioni, fatta da Google): vale solo dove la colonna EN/DE scritta a mano e' vuota
+const okT = v => (v && !/^(#|loading|caricamento)/i.test(String(v).trim())) ? String(v).trim() : '';
+const fill = (t, en, de) => { if (t.it) { if (!t.en) t.en = okT(en); if (!t.de) t.de = okT(de); } return t; };
+function buildMenu(menu, sez, info, trad){
+  const AUTO = new Map(), AUTOS = new Map(), AUTOI = new Map();
+  (trad || []).forEach(r => {
+    if (r.nome) AUTO.set(norm(r.sezione) + '|' + norm(r.nome) + '|' + norm(r.dettaglio), r);
+    if (r.sez) AUTOS.set(norm(r.sez), r);
+    if (r.info) AUTOI.set(norm(r.info), r);
+  });
+  // --- Info: nome, luogo, orari, nota, foto di copertina ---
+  const I = {name:{}, place:{}, hours:[], note:{}, photo:'', photoMode:'', months:'', review:'', credits:true};
+  (info || []).forEach(r => { const c = norm(r.campo), t = tri(r, 'testo');
+    if (!has(t)) return;
+    if (!c.startsWith('nome') && !c.startsWith('foto') && !c.startsWith('copertina') && !c.startsWith('posizione') && !c.startsWith('mesi') && !c.includes('recension') && !c.startsWith('crediti')) { const a = AUTOI.get(norm(t.it)) || {}; fill(t, a['info en'], a['info de']); }
+    if (c.startsWith('nome')) I.name = t; else if (c.startsWith('luogo') || c.startsWith('citta')) I.place = t;
+    else if (c.startsWith('orari')) I.hours.push(t);
+    else if (c.startsWith('nota')) I.note = t;
+    else if (c.startsWith('posizione')) I.photoMode = readPhotoMode(t.it);
+    else if (c.startsWith('mesi')) I.months = t.it;
+    else if (c.includes('recension')) { const v = String(t.it || '').trim();
+      if (/^https?:\/\//i.test(v)) I.review = v;
+      else if (/^ChIJ[\w-]{10,}$/.test(v)) I.review = 'https://search.google.com/local/writereview?placeid=' + v; }   // Place ID: apre subito la recensione
+    else if (c.startsWith('crediti')) I.credits = !norm(t.it).startsWith('n');
+    else if (c.startsWith('foto') || c.startsWith('copertina') || c.startsWith('immagine')) I.photo = t.it || t.en || t.de; });
+  // --- Sezioni: ordine, aspetto, titoli, nascoste ---
+  const cfg = new Map();
+  (sez || []).forEach((r, i) => { if (!r.sezione) return; const a = AUTOS.get(norm(r.sezione)) || {};
+    cfg.set(norm(r.sezione), {ord: parseFloat(String(r.ordine).replace(',','.')) || (100 + i), cards: norm(r.aspetto).startsWith('sched'),
+      title: fill(tri(r, 'sezione'), a['sez en'], a['sez de']), sub: fill(tri(r, 'sottotitolo'), a['sotto en'], a['sotto de']),
+      eyebrow: fill(tri(r, 'sopratitolo'), a['sopra en'], a['sopra de']), chip: r['nome breve'] || '', show: visible(r)}); });
+  // --- Menu: prodotti e note ---
+  const secs = new Map();
+  (menu || []).forEach((r, i) => { if (!r.sezione || !r.nome || !visible(r)) return;
+    const k = norm(r.sezione);
+    if (!secs.has(k)) { const c = cfg.get(k) || {ord: 1000 + i, cards: false, title: {it: r.sezione}, sub: {}, eyebrow: {}, chip: '', show: true};
+      secs.set(k, {id: 's' + secs.size, title: {...c.title, it: r.sezione}, chip: c.chip, eyebrow: c.eyebrow, sub: c.sub, style: c.cards ? 'cards' : 'list',
+        ord: c.ord, show: c.show, groups: [], note: {}}); }
+    const S = secs.get(k);
+    const a = AUTO.get(k + '|' + norm(r.nome) + '|' + norm(r.dettaglio)) || {};
+    if (norm(r.nome) === 'nota') { const d = fill(tri(r, 'descrizione'), a['descrizione en'], a['descrizione de']); if (!r.categoria) S.note = d; else S.groups.push({title: {}, items: [], text: d}); return; }
+    let g = S.groups.find(x => !x.text && norm(x.title.it) === norm(r.categoria));
+    if (!g) { g = {title: fill(tri(r, 'categoria'), a['categoria en'], a['categoria de']), items: []}; S.groups.push(g); }
+    else { if (r['categoria en']) g.title.en = g.title.en || r['categoria en']; if (r['categoria de']) g.title.de = g.title.de || r['categoria de']; }
+    // nelle schede il testo piccolo e' l'origine (Dettaglio EN/DE la traduce), negli elenchi e' il dettaglio
+    const sub = S.style === 'cards'
+      ? fill({it: r.origine || r.dettaglio || '', en: r['dettaglio en'] || '', de: r['dettaglio de'] || ''},
+             r.origine ? a['origine en'] : a['dettaglio en'], r.origine ? a['origine de'] : a['dettaglio de'])
+      : fill(tri(r, 'dettaglio'), a['dettaglio en'], a['dettaglio de']);
+    g.items.push({n: tri(r, 'nome'), sub, d: fill(tri(r, 'descrizione'), a['descrizione en'], a['descrizione de']),
+      p: r.prezzo || '', f: r.foto || '', a: parseAlg(r.allergeni), ak: /\S/.test(String(r.allergeni == null ? '' : r.allergeni))});
+  });
+  const list = [...secs.values()].filter(x => x.show).sort((a, b) => a.ord - b.ord);
+  list.forEach(x => { x.groups = x.groups.filter(g => g.items.length || g.text); });
+  return {info: I, sections: list};
+}
+const CACHE = 'mit-menu2-' + CONFIG.SHEET_ID;
+// ---------------- statistiche anonime: solo numeri, nessun dato personale, nessun cookie ----------------
+function statistica(tipo, nome){
+  try {
+    if (typeof COLLEGATO === 'undefined' || !COLLEGATO || !CONFIG.STATISTICHE || window.self !== window.top) return;   // niente conteggi da demo e anteprime
+    if (/[?&](aperto=1|nostat)/.test(location.search)) return;
+    const body = JSON.stringify({azione: 'stat', id: CONFIG.SHEET_ID, tipo, nome: nome || '', lingua: LANG});
+    if (navigator.sendBeacon) navigator.sendBeacon(CONFIG.STATISTICHE, body);
+    else fetch(CONFIG.STATISTICHE, {method: 'POST', body, mode: 'no-cors', keepalive: true});
+  } catch (e) {}
+}
+const SEZ_VISTE = new Set();
+function sezioneAttuale(){
+  const w = where && where();
+  if (mode === 'sfoglia') return typeof w === 'number' && w > 0 ? (SECTIONS[w - 1] || {}).id : null;
+  if (mode === 'schede') return w && w.id ? String(w.id).replace(/^a-/, '') : null;
+  if (mode === 'tessere') return w && w.id;
+  let best = null;                                                   // scorrimento: la sezione che si sta leggendo
+  SECTIONS.forEach(x => { const el = document.getElementById('s-' + x.id); if (el && el.getBoundingClientRect().top < innerHeight * 0.45) best = x.id; });
+  return best;
+}
+function tracciaSezione(){ try { const id = sezioneAttuale(); if (!id || SEZ_VISTE.has(id)) return; SEZ_VISTE.add(id);
+  const s = SECTIONS.find(x => x.id === id); if (s) statistica('sezione', s.title.it || L(s.title)); } catch (e) {} }
+document.addEventListener('click', () => setTimeout(tracciaSezione, 500));
+window.addEventListener('scroll', () => { clearTimeout(tracciaSezione.t); tracciaSezione.t = setTimeout(tracciaSezione, 900); }, {passive: true});
+let STAT_VISTA = false;
+function show(data){
+  INFO = data.info; SECTIONS = data.sections;
+  HAS_ALG = SECTIONS.some(s => s.groups.some(g => g.items.some(i => (i.a || []).length)));
+  document.documentElement.lang = LANG;
+  document.title = L(INFO.name) ? `${L(INFO.name)} – Menu` : 'Menu';
+  setMode(CONFIG.MODE, app.childElementCount && SECTIONS.length ? where() : null);
+  if (!STAT_VISTA) { STAT_VISTA = true;
+    const k = 'mit-vista-' + new Date().toISOString().slice(0, 10);          // una apertura per persona al giorno
+    let gia = false; try { gia = sessionStorage.getItem(k) === '1'; sessionStorage.setItem(k, '1'); } catch (e) {}
+    if (!gia) statistica('vista'); }
+}
+STYLE = CONFIG.STYLE; document.documentElement.dataset.style = STYLE; applyColor(CONFIG.COLOR); mode = CONFIG.MODE;
+const COLLEGATO = /^[A-Za-z0-9_-]{30,}$/.test(CONFIG.SHEET_ID) && !/INCOLLA/i.test(CONFIG.SHEET_ID);
+const DEMO = {"menu": [{"sezione": "Caffetteria", "categoria": "", "nome": "Caffè / Decaffeinato", "dettaglio": "", "origine": "", "descrizione": "", "prezzo": "1,30 / 1,50", "visibile": "sì", "foto": "", "allergeni": "nessuno", "categoria en": "", "nome en": "Espresso / Decaf", "dettaglio en": "", "descrizione en": "", "categoria de": "", "nome de": "Espresso / Entkoffeiniert", "dettaglio de": "", "descrizione de": ""}, {"sezione": "Caffetteria", "categoria": "", "nome": "Cappuccino", "dettaglio": "", "origine": "", "descrizione": "", "prezzo": "1,70", "visibile": "sì", "foto": "", "allergeni": "7", "categoria en": "", "nome en": "Cappuccino", "dettaglio en": "", "descrizione en": "", "categoria de": "", "nome de": "Cappuccino", "dettaglio de": "", "descrizione de": ""}, {"sezione": "Caffetteria", "categoria": "", "nome": "Cappuccino", "dettaglio": "soia / avena", "origine": "", "descrizione": "", "prezzo": "1,90", "visibile": "sì", "foto": "", "allergeni": "1, 6", "categoria en": "", "nome en": "Cappuccino", "dettaglio en": "soy / oat", "descrizione en": "", "categoria de": "", "nome de": "Cappuccino", "dettaglio de": "Soja / Hafer", "descrizione de": ""}, {"sezione": "Caffetteria", "categoria": "", "nome": "Latte macchiato", "dettaglio": "", "origine": "", "descrizione": "", "prezzo": "1,80", "visibile": "sì", "foto": "", "allergeni": "7", "categoria en": "", "nome en": "Latte macchiato", "dettaglio en": "", "descrizione en": "", "categoria de": "", "nome de": "Latte macchiato", "dettaglio de": "", "descrizione de": ""}, {"sezione": "Caffetteria", "categoria": "", "nome": "Orzo", "dettaglio": "piccolo / grande", "origine": "", "descrizione": "", "prezzo": "1,40 / 1,60", "visibile": "sì", "foto": "", "allergeni": "1", "categoria en": "", "nome en": "Barley coffee", "dettaglio en": "small / large", "descrizione en": "", "categoria de": "", "nome de": "Gerstenkaffee", "dettaglio de": "klein / groß", "descrizione de": ""}, {"sezione": "Caffetteria", "categoria": "", "nome": "Tè e tisane", "dettaglio": "", "origine": "", "descrizione": "", "prezzo": "2,50", "visibile": "sì", "foto": "", "allergeni": "nessuno", "categoria en": "", "nome en": "Tea and herbal tea", "dettaglio en": "", "descrizione en": "", "categoria de": "", "nome de": "Tee und Kräutertee", "dettaglio de": "", "descrizione de": ""}, {"sezione": "Caffetteria", "categoria": "", "nome": "Spremuta d'arancia", "dettaglio": "", "origine": "", "descrizione": "", "prezzo": "3,50", "visibile": "sì", "foto": "", "allergeni": "nessuno", "categoria en": "", "nome en": "Fresh orange juice", "dettaglio en": "", "descrizione en": "", "categoria de": "", "nome de": "Frisch gepresster Orangensaft", "dettaglio de": "", "descrizione de": ""}, {"sezione": "Aperitivi", "categoria": "", "nome": "NOTA", "dettaglio": "", "origine": "", "descrizione": "Ogni aperitivo include un tagliere della casa.", "prezzo": "", "visibile": "sì", "foto": "", "allergeni": "", "categoria en": "", "nome en": "", "dettaglio en": "", "descrizione en": "Every aperitivo comes with a house sharing board.", "categoria de": "", "nome de": "", "dettaglio de": "", "descrizione de": "Zu jedem Aperitif gibt es eine Platte des Hauses."}, {"sezione": "Aperitivi", "categoria": "", "nome": "Spritz", "dettaglio": "", "origine": "", "descrizione": "prosecco, bitter e soda", "prezzo": "6,50", "visibile": "sì", "foto": "", "allergeni": "12", "categoria en": "", "nome en": "Spritz", "dettaglio en": "", "descrizione en": "prosecco, bitter and soda", "categoria de": "", "nome de": "Spritz", "dettaglio de": "", "descrizione de": "Prosecco, Bitter und Soda"}, {"sezione": "Aperitivi", "categoria": "", "nome": "Hugo", "dettaglio": "", "origine": "", "descrizione": "prosecco, sambuco, menta e soda", "prezzo": "6,50", "visibile": "sì", "foto": "", "allergeni": "12", "categoria en": "", "nome en": "Hugo", "dettaglio en": "", "descrizione en": "prosecco, elderflower, mint and soda", "categoria de": "", "nome de": "Hugo", "dettaglio de": "", "descrizione de": "Prosecco, Holunderblüte, Minze und Soda"}, {"sezione": "Aperitivi", "categoria": "", "nome": "Negroni", "dettaglio": "", "origine": "", "descrizione": "gin, bitter e vermouth rosso", "prezzo": "7,50", "visibile": "sì", "foto": "", "allergeni": "12", "categoria en": "", "nome en": "Negroni", "dettaglio en": "", "descrizione en": "gin, bitter and red vermouth", "categoria de": "", "nome de": "Negroni", "dettaglio de": "", "descrizione de": "Gin, Bitter und roter Wermut"}, {"sezione": "Aperitivi", "categoria": "", "nome": "Americano", "dettaglio": "", "origine": "", "descrizione": "bitter, vermouth rosso e soda", "prezzo": "7,00", "visibile": "sì", "foto": "", "allergeni": "12", "categoria en": "", "nome en": "Americano", "dettaglio en": "", "descrizione en": "bitter, red vermouth and soda", "categoria de": "", "nome de": "Americano", "dettaglio de": "", "descrizione de": "Bitter, roter Wermut und Soda"}, {"sezione": "Birre", "categoria": "", "nome": "Bionda alla spina", "dettaglio": "piccola / grande", "origine": "", "descrizione": "", "prezzo": "4,00 / 5,50", "visibile": "sì", "foto": "", "allergeni": "1", "categoria en": "", "nome en": "Draught lager", "dettaglio en": "small / large", "descrizione en": "", "categoria de": "", "nome de": "Helles vom Fass", "dettaglio de": "klein / groß", "descrizione de": ""}, {"sezione": "Birre", "categoria": "", "nome": "Rossa artigianale", "dettaglio": "33 cl", "origine": "", "descrizione": "", "prezzo": "5,50", "visibile": "sì", "foto": "", "allergeni": "1", "categoria en": "", "nome en": "Craft red ale", "dettaglio en": "33 cl", "descrizione en": "", "categoria de": "", "nome de": "Rotes Craft-Bier", "dettaglio de": "33 cl", "descrizione de": ""}, {"sezione": "Birre", "categoria": "", "nome": "IPA", "dettaglio": "33 cl", "origine": "", "descrizione": "agrumata e luppolata", "prezzo": "6,00", "visibile": "sì", "foto": "", "allergeni": "1", "categoria en": "", "nome en": "IPA", "dettaglio en": "33 cl", "descrizione en": "citrusy and hoppy", "categoria de": "", "nome de": "IPA", "dettaglio de": "33 cl", "descrizione de": "zitrusfrisch und hopfig"}, {"sezione": "Cocktail", "categoria": "", "nome": "Tramonto sul molo", "dettaglio": "", "origine": "", "descrizione": "rum bianco, passion fruit, lime e granatina", "prezzo": "9,00", "visibile": "sì", "foto": "", "allergeni": "nessuno", "categoria en": "", "nome en": "Tramonto sul molo", "dettaglio en": "", "descrizione en": "white rum, passion fruit, lime and grenadine", "categoria de": "", "nome de": "Tramonto sul molo", "dettaglio de": "", "descrizione de": "weißer Rum, Maracuja, Limette und Grenadine"}, {"sezione": "Cocktail", "categoria": "", "nome": "Pineta", "dettaglio": "", "origine": "", "descrizione": "gin, rosmarino, pompelmo e tonica", "prezzo": "9,00", "visibile": "sì", "foto": "", "allergeni": "nessuno", "categoria en": "", "nome en": "Pineta", "dettaglio en": "", "descrizione en": "gin, rosemary, grapefruit and tonic", "categoria de": "", "nome de": "Pineta", "dettaglio de": "", "descrizione de": "Gin, Rosmarin, Grapefruit und Tonic"}, {"sezione": "Cocktail", "categoria": "", "nome": "Lungomare", "dettaglio": "", "origine": "", "descrizione": "vodka, pesca bianca, basilico e soda", "prezzo": "9,00", "visibile": "sì", "foto": "", "allergeni": "nessuno", "categoria en": "", "nome en": "Lungomare", "dettaglio en": "", "descrizione en": "vodka, white peach, basil and soda", "categoria de": "", "nome de": "Lungomare", "dettaglio de": "", "descrizione de": "Wodka, weißer Pfirsich, Basilikum und Soda"}, {"sezione": "Cocktail", "categoria": "", "nome": "Moscow Mule", "dettaglio": "", "origine": "", "descrizione": "vodka, lime e ginger beer", "prezzo": "8,00", "visibile": "sì", "foto": "", "allergeni": "nessuno", "categoria en": "", "nome en": "Moscow Mule", "dettaglio en": "", "descrizione en": "vodka, lime and ginger beer", "categoria de": "", "nome de": "Moscow Mule", "dettaglio de": "", "descrizione de": "Wodka, Limette und Ginger Beer"}, {"sezione": "Analcolici", "categoria": "", "nome": "Virgin Mojito", "dettaglio": "", "origine": "", "descrizione": "lime, menta, zucchero di canna e soda", "prezzo": "6,00", "visibile": "sì", "foto": "", "allergeni": "nessuno", "categoria en": "", "nome en": "Virgin Mojito", "dettaglio en": "", "descrizione en": "lime, mint, cane sugar and soda", "categoria de": "", "nome de": "Virgin Mojito", "dettaglio de": "", "descrizione de": "Limette, Minze, Rohrzucker und Soda"}, {"sezione": "Analcolici", "categoria": "", "nome": "Estratto verde", "dettaglio": "", "origine": "", "descrizione": "mela, sedano, zenzero e limone", "prezzo": "5,00", "visibile": "sì", "foto": "", "allergeni": "9", "categoria en": "", "nome en": "Green juice", "dettaglio en": "", "descrizione en": "apple, celery, ginger and lemon", "categoria de": "", "nome de": "Grüner Saft", "dettaglio de": "", "descrizione de": "Apfel, Sellerie, Ingwer und Zitrone"}, {"sezione": "Analcolici", "categoria": "", "nome": "Crodino", "dettaglio": "", "origine": "", "descrizione": "aperitivo analcolico, ghiaccio e arancia", "prezzo": "4,00", "visibile": "sì", "foto": "", "allergeni": "nessuno", "categoria en": "", "nome en": "Crodino", "dettaglio en": "", "descrizione en": "alcohol-free aperitivo, ice and orange", "categoria de": "", "nome de": "Crodino", "dettaglio de": "", "descrizione de": "alkoholfreier Aperitif, Eis und Orange"}, {"sezione": "Vini", "categoria": "Bianchi e bollicine", "nome": "Lugana", "dettaglio": "", "origine": "Lago di Garda", "descrizione": "Fresco e sapido, frutta bianca e una nota minerale.", "prezzo": "5 / 22", "visibile": "sì", "foto": "", "allergeni": "12", "categoria en": "Whites and sparkling", "nome en": "Lugana", "dettaglio en": "Lake Garda", "descrizione en": "Fresh and savoury, white fruit and a mineral note.", "categoria de": "Weiß- und Schaumweine", "nome de": "Lugana", "dettaglio de": "Gardasee", "descrizione de": "Frisch und würzig, weiße Früchte und eine mineralische Note."}, {"sezione": "Vini", "categoria": "Bianchi e bollicine", "nome": "Prosecco Valdobbiadene", "dettaglio": "", "origine": "Veneto", "descrizione": "Bollicina fine e fruttata, ideale per l'aperitivo.", "prezzo": "5 / 20", "visibile": "sì", "foto": "", "allergeni": "12", "categoria en": "", "nome en": "Prosecco Valdobbiadene", "dettaglio en": "", "descrizione en": "Fine, fruity bubbles, perfect for aperitivo.", "categoria de": "", "nome de": "Prosecco Valdobbiadene", "dettaglio de": "", "descrizione de": "Feine, fruchtige Perlage, ideal zum Aperitif."}, {"sezione": "Vini", "categoria": "Rossi", "nome": "Sangiovese Superiore", "dettaglio": "", "origine": "Romagna", "descrizione": "Il rosso di casa: ciliegia e una nota terrosa.", "prezzo": "5 / 20", "visibile": "sì", "foto": "", "allergeni": "12", "categoria en": "Reds", "nome en": "Sangiovese Superiore", "dettaglio en": "", "descrizione en": "Our house red: cherry and an earthy note.", "categoria de": "Rotweine", "nome de": "Sangiovese Superiore", "dettaglio de": "", "descrizione de": "Unser Hauswein: Kirsche und eine erdige Note."}, {"sezione": "Vini", "categoria": "Rossi", "nome": "Primitivo di Manduria", "dettaglio": "", "origine": "Puglia", "descrizione": "Caldo e avvolgente, frutti neri e spezie.", "prezzo": "6 / 26", "visibile": "sì", "foto": "", "allergeni": "12", "categoria en": "", "nome en": "Primitivo di Manduria", "dettaglio en": "Apulia", "descrizione en": "Warm and rounded, dark fruit and spice.", "categoria de": "", "nome de": "Primitivo di Manduria", "dettaglio de": "Apulien", "descrizione de": "Warm und vollmundig, dunkle Früchte und Gewürze."}, {"sezione": "Gin", "categoria": "", "nome": "Malfy Con Limone", "dettaglio": "", "origine": "Italia", "descrizione": "Limoni della costiera: fresco e agrumato.", "prezzo": "", "visibile": "sì", "foto": "", "allergeni": "nessuno", "categoria en": "", "nome en": "Malfy Con Limone", "dettaglio en": "Italy", "descrizione en": "Amalfi Coast lemons: fresh and citrusy.", "categoria de": "", "nome de": "Malfy Con Limone", "dettaglio de": "Italien", "descrizione de": "Zitronen von der Amalfiküste: frisch und spritzig."}, {"sezione": "Gin", "categoria": "", "nome": "Hendrick's", "dettaglio": "", "origine": "Scozia", "descrizione": "Rosa e cetriolo: morbido e floreale.", "prezzo": "", "visibile": "sì", "foto": "", "allergeni": "nessuno", "categoria en": "", "nome en": "Hendrick's", "dettaglio en": "Scotland", "descrizione en": "Rose and cucumber: smooth and floral.", "categoria de": "", "nome de": "Hendrick's", "dettaglio de": "Schottland", "descrizione de": "Rose und Gurke: weich und blumig."}, {"sezione": "Gin", "categoria": "", "nome": "Gin Mare", "dettaglio": "", "origine": "Spagna", "descrizione": "Oliva, rosmarino e basilico: il Mediterraneo nel bicchiere.", "prezzo": "", "visibile": "sì", "foto": "", "allergeni": "nessuno", "categoria en": "", "nome en": "Gin Mare", "dettaglio en": "Spain", "descrizione en": "Olive, rosemary and basil: the Mediterranean in a glass.", "categoria de": "", "nome de": "Gin Mare", "dettaglio de": "Spanien", "descrizione de": "Olive, Rosmarin und Basilikum: das Mittelmeer im Glas."}], "sez": [{"sezione": "Caffetteria", "ordine": "1", "aspetto": "lista", "sopratitolo": "Colazione", "sottotitolo": "Caffè e bevande calde", "nome breve": "Caffè", "visibile": "sì", "sezione en": "Coffee", "sopratitolo en": "Breakfast", "sottotitolo en": "Coffee and hot drinks", "sezione de": "Kaffee", "sopratitolo de": "Frühstück", "sottotitolo de": "Kaffee und Heißgetränke"}, {"sezione": "Aperitivi", "ordine": "2", "aspetto": "lista", "sopratitolo": "Aperitivo", "sottotitolo": "I classici", "nome breve": "", "visibile": "sì", "sezione en": "Aperitivo", "sopratitolo en": "Happy hour", "sottotitolo en": "The classics", "sezione de": "Aperitivo", "sopratitolo de": "Happy Hour", "sottotitolo de": "Die Klassiker"}, {"sezione": "Birre", "ordine": "3", "aspetto": "lista", "sopratitolo": "Alla spina e in bottiglia", "sottotitolo": "", "nome breve": "", "visibile": "sì", "sezione en": "Beers", "sopratitolo en": "On tap and bottled", "sottotitolo en": "", "sezione de": "Biere", "sopratitolo de": "Vom Fass und aus der Flasche", "sottotitolo de": ""}, {"sezione": "Cocktail", "ordine": "4", "aspetto": "lista", "sopratitolo": "La casa", "sottotitolo": "Ricette nostre", "nome breve": "", "visibile": "sì", "sezione en": "Cocktails", "sopratitolo en": "House specials", "sottotitolo en": "Our own recipes", "sezione de": "Cocktails", "sopratitolo de": "Aus unserer Bar", "sottotitolo de": "Eigene Rezepte"}, {"sezione": "Analcolici", "ordine": "5", "aspetto": "lista", "sopratitolo": "Senza alcol", "sottotitolo": "Freschi e alla frutta", "nome breve": "", "visibile": "sì", "sezione en": "Alcohol-free", "sopratitolo en": "No alcohol", "sottotitolo en": "Fresh and fruity", "sezione de": "Alkoholfrei", "sopratitolo de": "Ohne Alkohol", "sottotitolo de": "Frisch und fruchtig"}, {"sezione": "Vini", "ordine": "6", "aspetto": "schede", "sopratitolo": "Carta dei vini", "sottotitolo": "Al calice e in bottiglia", "nome breve": "", "visibile": "sì", "sezione en": "Wines", "sopratitolo en": "Wine list", "sottotitolo en": "By the glass and by the bottle", "sezione de": "Weine", "sopratitolo de": "Weinkarte", "sottotitolo de": "Offen und in der Flasche"}, {"sezione": "Gin", "ordine": "7", "aspetto": "schede", "sopratitolo": "Gin tonic", "sottotitolo": "Ogni gin tonic 10€", "nome breve": "", "visibile": "sì", "sezione en": "Gin", "sopratitolo en": "Gin & tonic", "sottotitolo en": "Every gin & tonic €10", "sezione de": "Gin", "sopratitolo de": "Gin Tonic", "sottotitolo de": "Jeder Gin Tonic 10 €"}], "info": [{"campo": "Nome del locale", "testo": "Bar del Porto", "testo en": "", "testo de": ""}, {"campo": "Luogo", "testo": "Porto canale · Bellaria Igea Marina", "testo en": "Canal harbour · Bellaria Igea Marina", "testo de": "Hafenkanal · Bellaria Igea Marina"}, {"campo": "Orario", "testo": "Lunedì - Venerdì | 7:00 - 22:00", "testo en": "Monday - Friday | 7:00 - 22:00", "testo de": "Montag - Freitag | 7:00 - 22:00"}, {"campo": "Orario", "testo": "Sabato e Domenica | 8:00 - 24:00", "testo en": "Saturday and Sunday | 8:00 - 24:00", "testo de": "Samstag und Sonntag | 8:00 - 24:00"}, {"campo": "Nota in copertina", "testo": "Per informazioni su allergeni e intolleranze chiedi al personale.", "testo en": "For information on allergens and intolerances, please ask our staff.", "testo de": "Informationen zu Allergenen und Unverträglichkeiten erhalten Sie beim Personal."}, {"campo": "Foto di copertina", "testo": "", "testo en": "", "testo de": ""}, {"campo": "Posizione foto", "testo": "in alto", "testo en": "", "testo de": ""}, {"campo": "Mesi di apertura", "testo": "", "testo en": "", "testo de": ""}, {"campo": "Link recensioni", "testo": "", "testo en": "", "testo de": ""}, {"campo": "Crediti Menù in Tasca", "testo": "sì", "testo en": "", "testo de": ""}], "photo": "data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20800%20500%22%3E%3Cdefs%3E%3ClinearGradient%20id=%22s%22%20x1=%220%22%20y1=%220%22%20x2=%220%22%20y2=%221%22%3E%3Cstop%20offset=%220%22%20stop-color=%22%23F6B27A%22/%3E%3Cstop%20offset=%22.55%22%20stop-color=%22%23FAD7A6%22/%3E%3Cstop%20offset=%221%22%20stop-color=%22%23FDEBD0%22/%3E%3C/linearGradient%3E%3ClinearGradient%20id=%22m%22%20x1=%220%22%20y1=%220%22%20x2=%220%22%20y2=%221%22%3E%3Cstop%20offset=%220%22%20stop-color=%22%232D9BC4%22/%3E%3Cstop%20offset=%221%22%20stop-color=%22%230E5C7A%22/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect%20width=%22800%22%20height=%22500%22%20fill=%22url(%23s)%22/%3E%3Ccircle%20cx=%22560%22%20cy=%22265%22%20r=%2270%22%20fill=%22%23FFF3DC%22%20opacity=%22.9%22/%3E%3Cpath%20d=%22M0%20250%20Q120%20232%20240%20246%20T520%20240%20T800%20244%20V300%20H0Z%22%20fill=%22%23E7A774%22%20opacity=%22.55%22/%3E%3Crect%20y=%22292%22%20width=%22800%22%20height=%22208%22%20fill=%22url(%23m)%22/%3E%3Cg%20stroke=%22%23fff%22%20stroke-width=%223%22%20stroke-linecap=%22round%22%20opacity=%22.35%22%3E%3Cpath%20d=%22M470%20318h120M500%20340h70M455%20362h40M610%20360h90M80%20400h110M300%20430h140M620%20450h110%22/%3E%3C/g%3E%3Cpath%20d=%22M0%20330%20L330%20312%20L330%20326%20L0%20350Z%22%20fill=%22%236E4B35%22/%3E%3Cg%20fill=%22%235A3B28%22%3E%3Crect%20x=%2240%22%20y=%22326%22%20width=%226%22%20height=%2240%22/%3E%3Crect%20x=%22120%22%20y=%22322%22%20width=%226%22%20height=%2240%22/%3E%3Crect%20x=%22200%22%20y=%22318%22%20width=%226%22%20height=%2240%22/%3E%3Crect%20x=%22280%22%20y=%22314%22%20width=%226%22%20height=%2240%22/%3E%3C/g%3E%3Crect%20x=%22296%22%20y=%22222%22%20width=%2226%22%20height=%2292%22%20fill=%22%23F4F1EC%22/%3E%3Crect%20x=%22296%22%20y=%22244%22%20width=%2226%22%20height=%2212%22%20fill=%22%23D9453A%22/%3E%3Crect%20x=%22296%22%20y=%22272%22%20width=%2226%22%20height=%2212%22%20fill=%22%23D9453A%22/%3E%3Crect%20x=%22291%22%20y=%22210%22%20width=%2236%22%20height=%2214%22%20rx=%223%22%20fill=%22%233B3B3B%22/%3E%3Cpath%20d=%22M298%20210%20L309%20190%20L320%20210Z%22%20fill=%22%23D9453A%22/%3E%3Cg%20transform=%22translate(610%20360)%22%3E%3Cpath%20d=%22M-46%200%20H46%20L34%2018%20H-34Z%22%20fill=%22%23F4F1EC%22/%3E%3Cpath%20d=%22M0%20-4%20V-96%22%20stroke=%22%233B3B3B%22%20stroke-width=%223%22/%3E%3Cpath%20d=%22M4%20-92%20L50%20-10%20H4Z%22%20fill=%22%23fff%22/%3E%3Cpath%20d=%22M-4%20-80%20L-40%20-10%20H-4Z%22%20fill=%22%23F0D9C2%22/%3E%3C/g%3E%3Cg%20transform=%22translate(430%20300)%20scale(.55)%22%3E%3Cpath%20d=%22M-46%200%20H46%20L34%2018%20H-34Z%22%20fill=%22%23F4F1EC%22/%3E%3Cpath%20d=%22M0%20-4%20V-96%22%20stroke=%22%233B3B3B%22%20stroke-width=%224%22/%3E%3Cpath%20d=%22M4%20-92%20L50%20-10%20H4Z%22%20fill=%22%23fff%22/%3E%3C/g%3E%3Cg%20fill=%22none%22%20stroke=%22%236B5344%22%20stroke-width=%223%22%20stroke-linecap=%22round%22%3E%3Cpath%20d=%22M150%20120%20q10%20-10%2020%200%20q10%20-10%2020%200%22/%3E%3Cpath%20d=%22M215%2095%20q8%20-8%2016%200%20q8%20-8%2016%200%22/%3E%3C/g%3E%3C/svg%3E"};
+if (!COLLEGATO) {   // modello non ancora collegato a un foglio: mostro un esempio
+  const d = buildMenu(DEMO.menu, DEMO.sez, DEMO.info);
+  d.info.note = DEMO.note || {it: UI.it.demo, en: UI.en.demo, de: UI.de.demo};
+  d.info.photo = DEMO.photo || '';
+  show(d);
+}
+let cached = null; try { cached = JSON.parse(store.get(CACHE) || 'null'); } catch (e) {}
+if (!COLLEGATO) {} else if (cached && cached.sections && cached.sections.length) show(cached);
+else app.innerHTML = `<div class="loading"><div class="dot"></div>${T('loading')}</div>`;
+(async () => {
+  if (!COLLEGATO) return;
+  try {
+    const menu = await readTab('Menu');
+    const [sez, info, trad] = await Promise.all([readTab('Sezioni').catch(() => []), readTab('Info').catch(() => []), readTab('Traduzioni').catch(() => [])]);
+    const ok = x => Array.isArray(x) && x.length && ('sezione' in x[0] || 'campo' in x[0]);
+    const data = buildMenu(menu, ok(sez) && 'aspetto' in (sez[0]||{}) ? sez : [], ok(info) && 'campo' in (info[0]||{}) ? info : [],
+      Array.isArray(trad) && trad.length && 'descrizione en' in trad[0] ? trad : []);
+    if (!data.sections.length) throw 'vuoto';
+    store.set(CACHE, JSON.stringify(data));
+    show(data);
+  } catch (e) {
+    if (!(cached && cached.sections && cached.sections.length))
+      app.innerHTML = `<div class="loading">${T('down')}</div>`;
+  }
+})();
+</script>
+<script>
+(function () {
+  var API = "https://script.google.com/macros/s/AKfycbyqnPE9ryeK9Ai75AzhLcbDWUKfTAxKh6iT-tmDAP0rzGmPkGc7vY_3GNrzRs99_TSj/exec";
+  var boot = document.getElementById('mit-boot'), partito = false;
+  var slug = ((new URLSearchParams(location.search)).get('c') || '').toLowerCase().replace(/[^a-z0-9-]/g, '').slice(0, 60);
+  var KEY = 'mit-cfg-' + slug;
+  function messaggio(t) { document.querySelectorAll('body > *:not(#mit-boot):not(script)').forEach(function (e) { e.hidden = true; });
+    boot.hidden = false; boot.innerHTML = t; }
+  function parti(c) {
+    if (partito) return; partito = true; boot.remove();
+    window.MIT_CONFIG = { SHEET_ID: c.sheet, STYLE: c.stile, COLOR: c.colore, MODE: c.modo, LINGUE: c.lingue, LOGO: c.logo || '' };
+    var s = document.createElement('script'); s.textContent = document.getElementById('mit-main').textContent; document.body.appendChild(s);
+  }
+  function leggi() { try { return JSON.parse(localStorage.getItem(KEY) || 'null'); } catch (e) { return null; } }
+  function salva(c) { try { localStorage.setItem(KEY, JSON.stringify(c)); } catch (e) {} }
+  function togli() { try { localStorage.removeItem(KEY); } catch (e) {} }
+  function jsonp(cb) {
+    var nome = 'mitcfg_' + Date.now(), el = document.createElement('script'), fatto = false;
+    function fine(r) { if (fatto) return; fatto = true; clearTimeout(t); try { delete window[nome]; } catch (e) {} el.remove(); cb(r); }
+    var t = setTimeout(function () { fine(null); }, 9000);
+    window[nome] = fine; el.onerror = function () { fine(null); };
+    el.src = API + '?c=' + encodeURIComponent(slug) + '&callback=' + nome; document.head.appendChild(el);
+  }
+  if (!slug) return messaggio('Questo link del menu non è corretto.<br>Controlla di aver scansionato il QR giusto.');
+  var salvato = leggi();
+  if (salvato && salvato.ok && !salvato.sospeso) parti(salvato);          // apertura subito, con l'ultima configurazione salvata
+  jsonp(function (c) {
+    if (!c) { if (!partito) messaggio('Il menu non è raggiungibile in questo momento.<br>Riprova tra poco.'); return; }
+    if (c.ok && c.sospeso) { togli(); return messaggio('Questo menu non è disponibile al momento.'); }
+    if (!c.ok) { togli(); if (!partito) messaggio(c.errore === 'nonpronto' ? 'Il menu è in preparazione.<br>Torna a trovarci tra poco!' : 'Menu non trovato.<br>Controlla il link o il QR.'); return; }
+    salva(c); parti(c);
+  });
+})();
+</script>
+</body>
+</html>
