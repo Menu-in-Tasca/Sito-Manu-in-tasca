@@ -1217,10 +1217,21 @@ else app.innerHTML = `<div class="loading"><div class="dot"></div>${T('loading')
     window[nome] = fine; el.onerror = function () { fine(null); };
     el.src = API + '?c=' + encodeURIComponent(slug) + '&callback=' + nome; document.head.appendChild(el);
   }
+  // La configurazione si chiede prima con una richiesta POST senza cookie (la stessa strada del pannello, che funziona);
+  // se non va, o se lo script non è ancora aggiornato, si ripiega sul vecchio metodo con lo <script>.
+  function leggiConfig(cb) {
+    if (!window.fetch) return jsonp(cb);
+    var ctl = window.AbortController ? new AbortController() : null, t = setTimeout(function () { if (ctl) ctl.abort(); }, 10000);
+    fetch(API, {method: 'POST', credentials: 'omit', redirect: 'follow', body: JSON.stringify({azione: 'config', c: slug}), signal: ctl ? ctl.signal : undefined})
+      .then(function (r) { return r.json(); })
+      .then(function (j) { clearTimeout(t);
+        if (j && (j.ok === true || j.errore === 'nontrovato' || j.errore === 'nonpronto')) cb(j); else jsonp(cb); })
+      .catch(function () { clearTimeout(t); jsonp(cb); });
+  }
   if (!slug) return messaggio('Questo link del menu non è corretto.<br>Controlla di aver scansionato il QR giusto.');
   var salvato = leggi();
   if (salvato && salvato.ok && !salvato.sospeso) parti(salvato);          // apertura subito, con l'ultima configurazione salvata
-  jsonp(function (c) {
+  leggiConfig(function (c) {
     if (!c) { if (!partito) messaggio('Il menu non è raggiungibile in questo momento.<br>Riprova tra poco.'); return; }
     if (c.ok && c.sospeso) { togli(); return messaggio('Questo menu non è disponibile al momento.'); }
     if (!c.ok) { togli(); if (!partito) messaggio(c.errore === 'nonpronto' ? 'Il menu è in preparazione.<br>Torna a trovarci tra poco!' : 'Menu non trovato.<br>Controlla il link o il QR.'); return; }
