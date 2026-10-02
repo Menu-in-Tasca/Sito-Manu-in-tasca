@@ -464,6 +464,18 @@ html[data-style=riviera]{--fh:'Baloo 2','Arial Rounded MT Bold',system-ui,sans-s
   background:radial-gradient(circle,#fff 0 56%,transparent 56.5%),repeating-conic-gradient(from 22.5deg,var(--accent) 0 45deg,#fff 45deg 90deg);
   box-shadow:0 0 0 2px var(--accent),0 4px 12px rgba(0,0,0,.2);font-size:28px;}
 [data-style=riviera] .medal img{padding:22px;background:transparent;}
+/* logo: si adatta alla forma (tondo, largo, pieno) senza mai tagliarlo */
+.medal img{object-fit:contain;}
+[data-style=elegante] .medal.tondo img,[data-style=lavagna] .medal.tondo img,[data-style=notte] .medal.tondo img{padding:12%;}
+[data-style=osteria] .medal.tondo img{padding:10%;}
+[data-style=lavagna] .medal.tondo,[data-style=lavagna] .medal.pieno,[data-style=lavagna] .medal.largo{background:#fff;}
+[data-style] .medal.pieno img{object-fit:cover;padding:0;border-radius:50%;}
+[data-style=riviera] .medal.pieno img{padding:12px;}
+[data-style] .medal.largo{width:auto;height:auto;border-radius:16px;background:#fff;padding:8px 14px;}
+[data-style] .medal.largo img{width:auto;height:auto;max-width:min(230px,66vw);max-height:64px;padding:0;border-radius:0;background:transparent;}
+[data-style=elegante] .medal.largo img{max-height:46px;}
+[data-style=lavagna] .medal.largo img,[data-style=notte] .medal.largo img{max-width:min(120px,34vw);max-height:44px;}
+
 [data-style=riviera] .cphoto{border-radius:26px;}
 [data-style=riviera] .cphoto + .medal{margin-top:-80px;box-shadow:0 0 0 2px var(--accent),0 0 0 7px var(--bg),0 4px 12px rgba(0,0,0,.2);}
 [data-style=riviera] .cover h1{font-size:34px;font-weight:800;line-height:1;margin-top:4px;}
@@ -753,7 +765,7 @@ const head = s => `<div class="pagehead"><div class="eyebrow">${E(L(s.eyebrow))}
 const hoursBox = () => !INFO.hours.length ? '' : `<div class="hours"><h3>${E(T('hours'))}</h3>${INFO.hours.map(t => { const [a,b] = L(t).split('|');
   return `<div class="hr"><span>${E((a||'').trim())}</span><span>${E((b||'').trim())}</span></div>`; }).join('')}</div>`;
 const initials = () => ((L(INFO.name)).match(/\b\p{L}/gu) || []).slice(0,2).join('').toUpperCase();
-const LOGO = () => CONFIG.LOGO ? `<div class="medal"><img src="${E(CONFIG.LOGO)}" alt="" data-i="${E(initials())}" onerror="this.parentNode.textContent=this.dataset.i"></div>` : `<div class="medal">${E(initials())}</div>`;
+const LOGO = () => CONFIG.LOGO ? `<div class="medal${['tondo','largo','pieno'].includes(String(CONFIG.LOGOMODO || '').toLowerCase()) ? ' ' + String(CONFIG.LOGOMODO).toLowerCase() : ''}"><img src="${E(CONFIG.LOGO)}" alt="" data-i="${E(initials())}" onerror="this.parentNode.textContent=this.dataset.i"></div>` : `<div class="medal">${E(initials())}</div>`;
 function coverSrc(f){
   f = String(f || '').trim();
   const m = f.match(/drive\.google\.com\/(?:file\/d\/|open\?id=|uc\?(?:export=\w+&)?id=)([\w-]{20,})/i) || f.match(/docs\.google\.com\/uc\?(?:export=\w+&)?id=([\w-]{20,})/i);
@@ -908,7 +920,10 @@ function setMode(m, at){ const pausa = inPausa(); if (pausa) { cleanup(); cleanu
 // logo mancante -> iniziali del locale; foto di copertina mancante -> si toglie
 function fixImages(){
   app.querySelectorAll('.medal img').forEach(img => { const f = () => img.replaceWith(document.createTextNode(initials()));
-    if (img.complete && !img.naturalWidth && img.getAttribute('src')) f(); else img.addEventListener('error', f, {once:true}); });
+    // forma del logo: se non è stata scelta, si decide dalle proporzioni (largo se è molto più largo che alto, altrimenti tondo)
+    const forma = () => { const m = img.parentNode, w = img.naturalWidth, h = img.naturalHeight; if (!m || !w || !h || /\b(tondo|largo|pieno)\b/.test(m.className)) return;
+      const sc = String(CONFIG.LOGOMODO || '').toLowerCase(); m.classList.add(['tondo','largo','pieno'].includes(sc) ? sc : (w / h > 1.3 ? 'largo' : 'tondo')); };
+    if (img.complete && !img.naturalWidth && img.getAttribute('src')) f(); else { img.addEventListener('error', f, {once:true}); if (img.complete) forma(); else img.addEventListener('load', forma, {once:true}); } });
   app.querySelectorAll('.cphoto img').forEach(img => { const f = () => img.parentElement.remove();
     if (img.complete && !img.naturalWidth) f(); else img.addEventListener('error', f, {once:true}); });
 }
@@ -1180,7 +1195,7 @@ else app.innerHTML = `<div class="loading"><div class="dot"></div>${T('loading')
     boot.hidden = false; boot.innerHTML = t; }
   function parti(c) {
     if (partito) return; partito = true; boot.remove();
-    window.MIT_CONFIG = { SHEET_ID: c.sheet, STYLE: c.stile, COLOR: c.colore, MODE: c.modo, LINGUE: c.lingue, LOGO: c.logo || '' };
+    window.MIT_CONFIG = { SHEET_ID: c.sheet, STYLE: c.stile, COLOR: c.colore, MODE: c.modo, LINGUE: c.lingue, LOGO: c.logo || '', LOGOMODO: c.logoModo || '' };
     var s = document.createElement('script'); s.textContent = document.getElementById('mit-main').textContent; document.body.appendChild(s);
   }
   function leggi() { try { return JSON.parse(localStorage.getItem(KEY) || 'null'); } catch (e) { return null; } }
