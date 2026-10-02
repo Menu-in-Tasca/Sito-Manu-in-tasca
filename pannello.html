@@ -107,6 +107,7 @@ dialog::backdrop{background:rgba(22,22,22,.55);}
 #carica.on{display:flex;}
 #carica i{width:36px;height:36px;border-radius:50%;border:4px solid var(--line);border-top-color:var(--ink);animation:g 0.8s linear infinite;}
 @keyframes g{to{transform:rotate(360deg);}}
+.mostra{display:flex;align-items:center;gap:8px;font-size:14px;color:var(--soft);margin:8px 0 0;cursor:pointer;} .mostra input{width:18px;height:18px;}
 </style>
 </head>
 <body>
@@ -130,6 +131,7 @@ dialog::backdrop{background:rgba(22,22,22,.55);}
     <input id="em" type="email" autocomplete="username" inputmode="email">
     <label class="f" for="pw">Password</label>
     <input id="pw" type="password" autocomplete="current-password">
+    <label class="mostra"><input type="checkbox" id="pwMostra"> Mostra la password</label>
     <button id="entra" class="btn main" type="button">Entra</button>
     <p id="lerr" class="err" role="alert"></p>
     <p class="small">Password dimenticata? Scrivici su WhatsApp al 388 406 4295.</p>
@@ -271,10 +273,11 @@ function esci(msg){
 $('entra').onclick = async () => {
   $('lerr').textContent = '';
   const d = await chiama('login', {email: $('em').value.trim(), password: $('pw').value});
-  if (!d.ok) { $('lerr').textContent = d.errore || 'Non riesco a entrare.'; return; }
+  if (!d.ok) { $('lerr').textContent = (d.errore || 'Non riesco a entrare.') + (/sbagliat/i.test(d.errore || '') ? ' Se il browser ha riempito la password da solo, cancellala e scrivi quella dell\'ultima email che ti abbiamo mandato.' : ''); return; }
   TOKEN = d.token; mem.set('mit_token', TOKEN); $('pw').value = '';
   const m = await chiama('leggi'); if (m.ok) { mostra(m); caricaStatistiche(); } else $('lerr').textContent = m.errore;
 };
+$('pwMostra').addEventListener('change', e => { $('pw').type = e.target.checked ? 'text' : 'password'; });
 $('pw').addEventListener('keydown', e => { if (e.key === 'Enter') $('entra').click(); });
 $('esci').onclick = () => esci();
 

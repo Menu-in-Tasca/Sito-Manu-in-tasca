@@ -1176,8 +1176,17 @@ else app.innerHTML = `<div class="loading"><div class="dot"></div>${T('loading')
     const ok = x => Array.isArray(x) && x.length && ('sezione' in x[0] || 'campo' in x[0]);
     const data = buildMenu(menu, ok(sez) && 'aspetto' in (sez[0]||{}) ? sez : [], ok(info) && 'campo' in (info[0]||{}) ? info : [],
       Array.isArray(trad) && trad.length && 'descrizione en' in trad[0] ? trad : []);
-    if (!data.sections.length) throw 'vuoto';
-    store.set(CACHE, JSON.stringify(data));
+    if (!data.sections.length) {
+      // il foglio si legge ma non ha ancora piatti (cliente appena creato): si vedono comunque copertina, logo, foto e le sezioni scelte
+      const prep = {it: 'Stiamo preparando questa sezione: tra poco qui trovi i nostri prodotti.', en: 'We are preparing this section: our products will be here soon.', de: 'Wir bereiten diesen Bereich vor: bald finden Sie hier unsere Produkte.'};
+      const nomi = (ok(sez) ? sez : []).filter(r => r.sezione && visible(r)).map((r, i) => ({r, o: parseFloat(String(r.ordine).replace(',', '.')) || 100 + i})).sort((a, b) => a.o - b.o);
+      data.sections = nomi.length
+        ? nomi.map((x, i) => ({id: 'p' + i, title: {it: x.r.sezione}, chip: x.r['nome breve'] || '', eyebrow: {}, sub: {}, style: 'list', ord: x.o, show: true, note: {}, groups: [{title: {}, items: [], text: prep}]}))
+        : [{id: 'p0', title: {it: 'Menu in preparazione', en: 'Menu coming soon', de: 'Speisekarte in Vorbereitung'}, chip: '', eyebrow: {}, sub: {}, style: 'list', ord: 1, show: true, note: {},
+            groups: [{title: {}, items: [], text: {it: 'Stiamo preparando il menu: torna a trovarci tra poco!', en: 'We are preparing the menu: come back soon!', de: 'Wir bereiten die Speisekarte vor: schauen Sie bald wieder vorbei!'}}]}];
+      data.prep = true;
+    }
+    if (!data.prep) store.set(CACHE, JSON.stringify(data));
     show(data);
   } catch (e) {
     if (!(cached && cached.sections && cached.sections.length))
