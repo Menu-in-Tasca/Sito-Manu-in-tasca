@@ -108,6 +108,11 @@ dialog::backdrop{background:rgba(22,22,22,.55);}
 #carica i{width:36px;height:36px;border-radius:50%;border:4px solid var(--line);border-top-color:var(--ink);animation:g 0.8s linear infinite;}
 @keyframes g{to{transform:rotate(360deg);}}
 .mostra{display:flex;align-items:center;gap:8px;font-size:14px;color:var(--soft);margin:8px 0 0;cursor:pointer;} .mostra input{width:18px;height:18px;}
+.cam{width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:#fff;font-size:17px;cursor:pointer;flex-shrink:0;padding:0;line-height:1;}
+body.base .cam,body.base #apriSerie{display:none !important;}
+#staffBar input,#staffBar select{margin-top:8px;}
+.serbox{border:1px solid var(--line);border-radius:14px;padding:14px;margin:12px 0;} .serbox b{display:block;font-size:19px;} .serbox small{display:block;color:var(--soft);margin-top:3px;}
+.fisso .btn.serie{max-width:120px;background:#fff;color:var(--ink);border:1.5px solid var(--ink);}
 </style>
 </head>
 <body>
@@ -139,12 +144,15 @@ dialog::backdrop{background:rgba(22,22,22,.55);}
 
   <section id="app" hidden>
     <div class="bar"><span class="hint" style="margin:0" id="barHint">Il tuo menu</span><a id="vedi" href="#" target="_blank" rel="noopener" hidden>Vedi il menu ›</a></div>
+    <div class="card acc" id="staffBar" hidden><span class="piano">STAFF</span><h2>Scegli il locale</h2>
+      <input id="staffCerca" type="text" placeholder="Cerca il locale…" autocomplete="off"><select id="staffSel" aria-label="Locale"></select></div>
     <div class="card acc" id="account" hidden></div>
     <div class="card stat" id="stat" hidden></div>
     <div id="lista"></div>
   </section>
 </main>
-<div class="fisso" id="fisso" hidden><button id="apriPrev" class="btn anteprima" type="button">👁 Anteprima</button><button id="nuovaSez" class="btn" type="button">+ Nuova sezione</button></div>
+<div class="fisso" id="fisso" hidden><button id="apriPrev" class="btn anteprima" type="button">👁 Anteprima</button><button id="nuovaSez" class="btn" type="button">+ Nuova sezione</button><button id="apriSerie" class="btn serie" type="button" aria-label="Foto in serie">📷 Foto</button></div>
+<input type="file" id="camFile" accept="image/*" hidden>
 <dialog id="dlgPrev" aria-label="Anteprima del menu">
   <div class="pv-top">
     <div class="seg" role="group" aria-label="Dispositivo"><button type="button" data-dev="tel" aria-pressed="true">📱 Telefono</button><button type="button" data-dev="tab" aria-pressed="false">Tablet</button></div>
@@ -192,6 +200,15 @@ dialog::backdrop{background:rgba(22,22,22,.55);}
     </div>
   </div>
 </dialog>
+<dialog id="dlgSerie" aria-labelledby="serT">
+  <div class="dlg">
+    <h2 id="serT">Foto in serie</h2>
+    <p class="hint" id="serInfo"></p>
+    <div class="serbox"><b id="serNome"></b><small id="serSez"></small></div>
+    <label class="btn main" for="serFile" id="serFileLbl" style="margin-top:0">📷 Scatta o scegli la foto</label><input id="serFile" type="file" accept="image/*" hidden>
+    <div class="azioni" style="margin-top:12px"><button class="btn sec" type="button" id="serSalta">Salta</button><button class="btn sec" type="button" id="serChiudi">Chiudi</button></div>
+  </div>
+</dialog>
 <div id="toast" role="status" aria-live="polite"></div>
 <div id="carica" aria-hidden="true"><i></i></div>
 
@@ -203,6 +220,7 @@ const $ = id => document.getElementById(id);
 const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const mem = { get(k){ try { return sessionStorage.getItem(k); } catch(e){ return null; } }, set(k,v){ try { sessionStorage.setItem(k,v); } catch(e){} }, del(k){ try { sessionStorage.removeItem(k); } catch(e){} } };
 let TOKEN = mem.get('mit_token'), DATI = {sezioni: [], piatti: []}, ORA = null;
+let STAFF = false, CLIENTI = [], STAFF_SLUG = mem.get('mit_slug') || '';
 
 // anteprima delle foto salvate su Drive
 const thumb = f => { const m = String(f).match(/drive\.google\.com\/(?:file\/d\/|open\?id=|uc\?(?:export=\w+&)?id=)([\w-]{20,})/); return m ? `https://drive.google.com/thumbnail?id=${m[1]}&sz=w300` : f; };
@@ -233,6 +251,12 @@ const wa = t => `https://wa.me/${WA}?text=${encodeURIComponent(t)}`;
 function account(d){
   PIANO = d.piano || PIANO; const loc = d.locale || $('loc').textContent, base = PIANO === 'Base';
   document.body.classList.toggle('base', base);
+  if (d.staff) {                                              // staff: non servono i pulsanti di aiuto dei clienti
+    $('account').innerHTML = `<span class="piano">STAFF</span><h2>Stai modificando: ${esc(loc)}</h2>
+      <p class="hint" style="margin:0">Piano del cliente: <b>${esc(d.pianoReale || '')}</b>. Modifichi come farebbe il titolare e il menu si aggiorna subito.</p>
+      ${d.foglio ? `<div class="aiuto"><a href="${esc(d.foglio)}" target="_blank" rel="noopener"><span>📄 Apri il foglio Google</span><small>solo per voi</small></a></div>` : ''}`;
+    $('account').hidden = false; return;
+  }
   const voci = base ? [
       ['✏️ Richiedi una modifica', '50 €', `Ciao, sono ${loc}. Vorrei modificare il menu: `],
       ['🗓️ Rifare menu e grafica per il nuovo anno', '100 €', `Ciao, sono ${loc}. Vorrei rifare menu e grafica per il nuovo anno.`],
@@ -247,10 +271,20 @@ function account(d){
   $('account').hidden = false;
 }
 function mostra(d){
+  if (d.staff) STAFF = true;
   if (d.locale) $('loc').textContent = d.locale;
-  if (d.menu) { $('vedi').href = d.menu; $('vedi').hidden = false; MENU_LINK = d.menu; }
+  MENU_LINK = d.menu || ''; $('vedi').hidden = !MENU_LINK; if (MENU_LINK) $('vedi').href = MENU_LINK;
+  $('login').hidden = true; $('app').hidden = false; $('esci').hidden = false;
+  $('staffBar').hidden = !STAFF; $('barHint').textContent = STAFF ? 'Menu del locale' : 'Il tuo menu';
+  if (STAFF && !CLIENTI.length) caricaClienti();
+  if (d.scegli) {                                             // staff appena entrato: prima si sceglie il locale
+    CLIENTI = d.clienti || []; disegnaSel(); DATI = {sezioni: [], piatti: []};
+    $('account').hidden = true; $('stat').hidden = true; $('fisso').hidden = true;
+    $('lista').innerHTML = '<div class="card"><p class="hint" style="margin:0">Scegli un locale qui sopra: lo vedi e lo modifichi come farebbe il titolare.</p></div>';
+    return;
+  }
+  $('fisso').hidden = false;
   if (d.sezioni) DATI = {sezioni: d.sezioni, piatti: d.piatti || []};
-  $('login').hidden = true; $('app').hidden = false; $('fisso').hidden = false; $('esci').hidden = false;
   account(d);
   const L = $('lista');
   if (!DATI.sezioni.length) { L.innerHTML = '<div class="card"><p class="hint" style="margin:0">Il menu è vuoto. Crea la prima sezione con il pulsante in basso.</p></div>'; return; }
@@ -260,13 +294,14 @@ function mostra(d){
     return `<div class="sez"><div class="sezh"><h2>${esc(s)}</h2><div class="ord"><button type="button" data-ssu="${esc(s)}" aria-label="Sposta su la sezione ${esc(s)}" ${si === 0 ? 'disabled' : ''}>▲</button><button type="button" data-sgiu="${esc(s)}" aria-label="Sposta giù la sezione ${esc(s)}" ${si === DATI.sezioni.length - 1 ? 'disabled' : ''}>▼</button></div><button class="add" type="button" data-add="${esc(s)}">+ Piatto</button></div>` +
       (pp.length ? pp.map((p, k) => `<div class="it${p.visibile ? '' : ' off'}">
         <button class="it-main" type="button" data-r="${p.riga}">${p.foto ? `<img class="th" src="${esc(thumb(p.foto))}" alt="">` : ''}<div><b>${esc(p.nome)}${p.prezzo ? `<span class="p">${esc(p.prezzo)} €</span>` : ''}</b>${p.descrizione || p.dettaglio ? `<small>${esc([p.dettaglio, p.descrizione].filter(Boolean).join(' · '))}</small>` : ''}</div></button>
+        <button class="cam" type="button" data-cam="${p.riga}" aria-label="Foto di ${esc(p.nome)}">📷</button>
         <div class="ord"><button type="button" data-su="${p.riga}" aria-label="Sposta su ${esc(p.nome)}" ${k === 0 ? 'disabled' : ''}>▲</button><button type="button" data-giu="${p.riga}" aria-label="Sposta giù ${esc(p.nome)}" ${k === pp.length - 1 ? 'disabled' : ''}>▼</button></div>
         <label class="sw"><input type="checkbox" data-v="${p.riga}" ${p.visibile ? 'checked' : ''} aria-label="${esc(p.nome)}: disponibile"><span></span><em>${p.visibile ? "C'è" : 'Finito'}</em></label></div>`).join('')
         : '<div class="vuota">Nessun piatto: tocca "+ Piatto".</div>') + '</div>';
   }).join('');
 }
 function esci(msg){
-  TOKEN = null; mem.del('mit_token');
+  TOKEN = null; mem.del('mit_token'); mem.del('mit_slug'); STAFF = false; CLIENTI = []; STAFF_SLUG = ''; $('staffBar').hidden = true; $('staffCerca').value = '';
   $('app').hidden = true; $('fisso').hidden = true; $('esci').hidden = true; $('login').hidden = false; $('loc').textContent = ''; $('vedi').hidden = true;
   if (msg) $('lerr').textContent = msg;
 }
@@ -275,7 +310,7 @@ $('entra').onclick = async () => {
   const d = await chiama('login', {email: $('em').value.trim(), password: $('pw').value});
   if (!d.ok) { $('lerr').textContent = (d.errore || 'Non riesco a entrare.') + (/sbagliat/i.test(d.errore || '') ? ' Se il browser ha riempito la password da solo, cancellala e scrivi quella dell\'ultima email che ti abbiamo mandato.' : ''); return; }
   TOKEN = d.token; mem.set('mit_token', TOKEN); $('pw').value = '';
-  const m = await chiama('leggi'); if (m.ok) { mostra(m); caricaStatistiche(); } else $('lerr').textContent = m.errore;
+  const m = await chiama('leggi'); if (m.ok) { mostra(m); if (!m.scegli) caricaStatistiche(); } else $('lerr').textContent = m.errore;
 };
 $('pwMostra').addEventListener('change', e => { $('pw').type = e.target.checked ? 'text' : 'password'; });
 $('pw').addEventListener('keydown', e => { if (e.key === 'Enter') $('entra').click(); });
@@ -338,6 +373,54 @@ $('lista').addEventListener('change', async e => {
   if (!d.ok) { c.checked = !c.checked; toast(d.errore, true); return; }
   mostra(d); aggiornaAnteprima(); toast(c.checked ? `"${p.nome}" è di nuovo sul menu.` : `"${p.nome}" segnato come finito.`);
 });
+// ---------- staff: scelta del locale ----------
+function disegnaSel(){
+  const q = $('staffCerca').value.trim().toLowerCase();
+  const l = CLIENTI.filter(c => !q || c.locale.toLowerCase().includes(q) || c.slug.includes(q));
+  $('staffSel').innerHTML = `<option value="">${l.length ? 'Scegli il locale…' : 'Nessun locale trovato'}</option>` +
+    l.map(c => `<option value="${esc(c.slug)}" ${c.slug === STAFF_SLUG ? 'selected' : ''}>${esc(c.locale)} · ${esc(c.piano)}${c.attivo ? '' : ' (sospeso)'}</option>`).join('');
+}
+async function caricaClienti(){ const d = await chiama('clienti', {}, true); if (d.ok) { CLIENTI = d.clienti || []; disegnaSel(); } }
+$('staffCerca').oninput = disegnaSel;
+$('staffSel').onchange = async () => {
+  const slug = $('staffSel').value; if (!slug) return;
+  const d = await chiama('apri', {slug});
+  if (!d.ok) { toast(d.errore, true); return; }
+  STAFF_SLUG = slug; mem.set('mit_slug', slug); mostra(d); caricaStatistiche(); window.scrollTo(0, 0);
+  if ($('dlgPrev').open) caricaAnteprima();
+};
+// ---------- foto veloci: dal pulsante 📷 di ogni piatto, oppure "Foto in serie" ----------
+async function salvaFotoPiatto(p, file){
+  let foto; try { foto = await rimpicciolisci(file); } catch (e) { toast('Questa foto non si riesce ad aprire: provane un\'altra.', true); return null; }
+  const piatto = {sezione: p.sezione, nome: p.nome, prezzo: String(p.prezzo || '').replace(/\s*€$/, ''), dettaglio: p.dettaglio, descrizione: p.descrizione, allergeni: p.allergeni, fotoNuova: foto};
+  const d = await chiama('salva', {piatto, riga: p.riga, nomePrima: p.nome});
+  if (!d.ok) { toast(d.errore, true); return null; }
+  mostra(d); aggiornaAnteprima(); return d;
+}
+let CAM_RIGA = 0;
+$('lista').addEventListener('click', e => { const c = e.target.closest('[data-cam]'); if (!c) return;
+  CAM_RIGA = Number(c.dataset.cam); $('camFile').value = ''; $('camFile').click(); });
+$('camFile').onchange = async () => { const f = $('camFile').files[0]; if (!f) return;
+  const p = DATI.piatti.find(x => x.riga === CAM_RIGA); if (!p) return;
+  if (await salvaFotoPiatto(p, f)) toast(`Foto di "${p.nome}" salvata.`); };
+let SERIE = {coda: [], i: 0};
+function serieDisegna(){
+  const p = DATI.piatti.find(x => x.riga === SERIE.coda[SERIE.i]), fine = !p;
+  $('serFileLbl').hidden = fine; $('serSalta').hidden = fine;
+  $('serInfo').textContent = fine ? '' : `Piatto ${SERIE.i + 1} di ${SERIE.coda.length} senza foto`;
+  $('serNome').textContent = fine ? 'Fatto! 🎉' : p.nome;
+  $('serSez').textContent = fine ? 'Hai finito i piatti senza foto.' : p.sezione + (p.prezzo ? ' · ' + p.prezzo + ' €' : '');
+}
+$('apriSerie').onclick = () => {
+  // i piatti senza foto, nell'ordine in cui compaiono nel menu
+  const coda = []; DATI.sezioni.forEach(s => DATI.piatti.filter(p => p.sezione.toLowerCase() === s.toLowerCase() && !p.foto).forEach(p => coda.push(p.riga)));
+  if (!coda.length) { toast('Tutti i piatti hanno già una foto.'); return; }
+  SERIE = {coda, i: 0}; serieDisegna(); $('dlgSerie').showModal(); };
+$('serFile').onchange = async () => { const f = $('serFile').files[0]; $('serFile').value = ''; if (!f) return;
+  const p = DATI.piatti.find(x => x.riga === SERIE.coda[SERIE.i]); if (!p) return;
+  if (await salvaFotoPiatto(p, f)) { SERIE.i++; serieDisegna(); } };
+$('serSalta').onclick = () => { SERIE.i++; serieDisegna(); };
+$('serChiudi').onclick = () => $('dlgSerie').close();
 // ---------- statistiche ----------
 const NOMI_LINGUE = {it: 'italiano', en: 'inglese', de: 'tedesco', fr: 'francese', es: 'spagnolo'};
 function grafico(giorni){
@@ -395,7 +478,17 @@ $('sCrea').onclick = async () => {
   $('dlgSez').close(); mostra(d); aggiornaAnteprima(); toast(`Sezione "${nome}" creata: ora aggiungi i piatti.`);
 };
 // se la sessione è ancora aperta, rientra da solo
-if (TOKEN) chiama('leggi').then(d => { if (d.ok) { mostra(d); caricaStatistiche(); } });
+// apertura dello staff dal link del foglio:  pannello.html#staff=CHIAVE&c=nome-del-locale  (la chiave si toglie subito dall'indirizzo)
+const HS = new URLSearchParams(location.hash.slice(1));
+if (HS.get('staff')) {
+  const chiave = HS.get('staff'), slug = (HS.get('c') || '').toLowerCase();
+  try { history.replaceState(null, '', location.pathname + location.search); } catch (e) {}
+  chiama('staff', {chiave, slug}).then(d => {
+    if (!d.ok) { $('lerr').textContent = d.errore || 'Link staff non valido: riaprilo dal foglio.'; return; }
+    TOKEN = d.token; mem.set('mit_token', TOKEN); STAFF_SLUG = slug; if (slug) mem.set('mit_slug', slug);
+    mostra(d); if (!d.scegli) caricaStatistiche();
+  });
+} else if (TOKEN) chiama('leggi').then(d => { if (d.ok) { mostra(d); if (!d.scegli) caricaStatistiche(); } });
 </script>
 </body>
 </html>
