@@ -181,6 +181,8 @@ body.base .cam,body.base #apriSerie{display:none !important;}
       <button class="btn sec" type="button" id="fTogli" hidden>Togli foto</button></div>
     <label class="f">Allergeni <small style="font-weight:400;color:var(--soft)">(tocca quelli presenti, oppure "Nessun allergene")</small></label>
     <div class="algs" id="fAlg"></div>
+    <label class="f" style="margin-top:12px">Etichette <small style="font-weight:400;color:var(--soft)">(facoltative: compaiono accanto al piatto)</small></label>
+    <div class="algs" id="fTag"></div>
     <div class="azioni">
       <button class="btn sec" type="button" id="annulla">Annulla</button>
       <button class="btn main" type="button" id="salva" style="margin-top:0">Salva</button>
@@ -326,6 +328,8 @@ function apri(p, sez){
   const on = new Set(testo.split(/[^0-9]+/).filter(Boolean).map(Number));
   $('fAlg').innerHTML = `<button type="button" data-a="0" aria-pressed="${nessuno}">Nessun allergene</button>` +
     ALG.map((a, i) => `<button type="button" data-a="${i + 1}" aria-pressed="${on.has(i + 1)}">${i + 1} · ${a}</button>`).join('');
+  const TAGS = [['vegano', 'Vegano'], ['vegetariano', 'Vegetariano'], ['piccante', 'Piccante'], ['surgelato', 'Surgelato *']], tOn = String(p ? p.tag : '').toLowerCase();
+  $('fTag').innerHTML = TAGS.map(([k, n]) => `<button type="button" data-t="${k}" aria-pressed="${tOn.includes(k)}">${n}</button>`).join('');
   $('elimina').hidden = !p;
   FOTO = {nuova: null, togli: false}; $('fFile').value = ''; mostraFoto(p && p.foto ? thumb(p.foto) : '');
   $('dlg').showModal(); if (!p) setTimeout(() => $('fNome').focus(), 50);
@@ -334,6 +338,11 @@ $('fAlg').onclick = e => { const b = e.target.closest('[data-a]'); if (!b) retur
   const on = b.getAttribute('aria-pressed') !== 'true'; b.setAttribute('aria-pressed', on);
   // "Nessun allergene" e i numeri si escludono a vicenda
   if (on) $('fAlg').querySelectorAll('[data-a]').forEach(x => { if ((x.dataset.a === '0') !== (b.dataset.a === '0')) x.setAttribute('aria-pressed', 'false'); }); };
+$('fTag').onclick = e => { const b = e.target.closest('[data-t]'); if (!b) return;
+  const on = b.getAttribute('aria-pressed') !== 'true'; b.setAttribute('aria-pressed', on);
+  // un piatto vegano è anche vegetariano: i due non si scelgono insieme
+  if (on && b.dataset.t === 'vegano') $('fTag').querySelector('[data-t=vegetariano]').setAttribute('aria-pressed', 'false');
+  if (on && b.dataset.t === 'vegetariano') $('fTag').querySelector('[data-t=vegano]').setAttribute('aria-pressed', 'false'); };
 $('annulla').onclick = () => $('dlg').close();
 $('fFile').onchange = async () => { const f = $('fFile').files[0]; if (!f) return;
   try { FOTO.nuova = await rimpicciolisci(f); FOTO.togli = false; mostraFoto(FOTO.nuova); }
@@ -342,7 +351,8 @@ $('fTogli').onclick = () => { FOTO = {nuova: null, togli: true}; $('fFile').valu
 $('salva').onclick = async () => {
   const piatto = {sezione: $('fSez').value, nome: $('fNome').value.trim(), prezzo: $('fPrezzo').value.trim().replace(/\s*€$/, ''),
     dettaglio: $('fDett').value.trim(), descrizione: $('fDesc').value.trim(),
-    allergeni: $('fAlg').querySelector('[data-a="0"][aria-pressed=true]') ? 'nessuno' : [...$('fAlg').querySelectorAll('[aria-pressed=true]')].map(b => b.dataset.a).join(', ')};
+    allergeni: $('fAlg').querySelector('[data-a="0"][aria-pressed=true]') ? 'nessuno' : [...$('fAlg').querySelectorAll('[aria-pressed=true]')].map(b => b.dataset.a).join(', '),
+    tag: [...$('fTag').querySelectorAll('[aria-pressed=true]')].map(b => b.dataset.t).join(', ')};
   if (FOTO.nuova) piatto.fotoNuova = FOTO.nuova; else if (FOTO.togli) piatto.togliFoto = true;
   if (!piatto.nome) { toast('Scrivi il nome del piatto.', true); $('fNome').focus(); return; }
   const d = await chiama('salva', {piatto, riga: ORA ? ORA.riga : 0, nomePrima: ORA ? ORA.nome : ''});
@@ -392,7 +402,7 @@ $('staffSel').onchange = async () => {
 // ---------- foto veloci: dal pulsante 📷 di ogni piatto, oppure "Foto in serie" ----------
 async function salvaFotoPiatto(p, file){
   let foto; try { foto = await rimpicciolisci(file); } catch (e) { toast('Questa foto non si riesce ad aprire: provane un\'altra.', true); return null; }
-  const piatto = {sezione: p.sezione, nome: p.nome, prezzo: String(p.prezzo || '').replace(/\s*€$/, ''), dettaglio: p.dettaglio, descrizione: p.descrizione, allergeni: p.allergeni, fotoNuova: foto};
+  const piatto = {sezione: p.sezione, nome: p.nome, prezzo: String(p.prezzo || '').replace(/\s*€$/, ''), dettaglio: p.dettaglio, descrizione: p.descrizione, allergeni: p.allergeni, tag: p.tag || '', fotoNuova: foto};
   const d = await chiama('salva', {piatto, riga: p.riga, nomePrima: p.nome});
   if (!d.ok) { toast(d.errore, true); return null; }
   mostra(d); aggiornaAnteprima(); return d;
