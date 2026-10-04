@@ -7,7 +7,6 @@
 <title>Nebula Cocktail Bar – demo Menù in Tasca</title><meta name="robots" content="noindex, noai, noimageai">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Playfair+Display:wght@600;700&family=Bodoni+Moda:wght@500;600&family=Space+Grotesk:wght@500;700&family=Baloo+2:wght@600;700;800&family=Inter:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Jost:wght@400;500;600&family=Caveat:wght@600;700&family=Nunito:wght@400;600;700&family=Alegreya:ital,wght@0,500;0,700;1,500&family=Alegreya+Sans:wght@400;500;700&family=Syne:wght@700;800&family=Manrope:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
   --bg:#139AC8; --on:#062631; --on-soft:#0E4251; --card:#fff; --ink:#0A2A35; --ink-soft:#4A6570;
@@ -825,7 +824,22 @@ const W=[255,255,255], K=[0,0,0];
 const toward = (base, to, ref, target) => { let a = base; for (let t=0; contrast(a,ref) < target && t <= 1.001; t += 0.04) a = mix(base, to, t); return a; };
 let STYLE = 'riviera', COLOR = '#139AC8';
 const gourmetBg = hex => { const c = hex2rgb(hex); return lum(c) < 0.05 ? hex : rgb2hex(mix(c, K, 0.84)); };   // un colore chiaro diventa il suo tono piu' scuro
+// Caratteri: si scaricano solo le 2 famiglie dello stile in uso (prima erano 14 in ogni menu)
+const FONT_Q = {
+  riviera: 'Baloo+2:wght@600;700;800&family=Inter:wght@400;600;700',
+  elegante: 'Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Jost:wght@400;500;600',
+  lavagna: 'Caveat:wght@600;700&family=Nunito:wght@400;600;700',
+  osteria: 'Alegreya:ital,wght@0,500;0,700;1,500&family=Alegreya+Sans:wght@400;500;700',
+  notte: 'Syne:wght@700;800&family=Manrope:wght@400;600;700',
+  marinaro: 'Playfair+Display:wght@600;700&family=Jost:wght@400;500;600',
+  gourmet: 'Bodoni+Moda:wght@500;600&family=Jost:wght@400;500;600',
+  moderno: 'Space+Grotesk:wght@500;700&family=Inter:wght@400;600;700'
+};
+const FONT_FATTI = new Set();
+function caricaFont(st){ const q = FONT_Q[st] || FONT_Q.riviera; if (FONT_FATTI.has(q)) return; FONT_FATTI.add(q);
+  const l = document.createElement('link'); l.rel = 'stylesheet'; l.href = 'https://fonts.googleapis.com/css2?family=' + q + '&display=swap'; document.head.appendChild(l); }
 function applyColor(hex){
+  caricaFont(STYLE);
   if (STYLE === 'gourmet') hex = gourmetBg(hex);
   COLOR = hex;
   const bg = hex2rgb(hex), Lm = lum(bg), r = document.documentElement.style, set = (k,v) => r.setProperty(k,v);

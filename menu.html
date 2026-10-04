@@ -7,7 +7,6 @@
 <title>Menu</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Playfair+Display:wght@600;700&family=Bodoni+Moda:wght@500;600&family=Space+Grotesk:wght@500;700&family=Baloo+2:wght@600;700;800&family=Inter:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Jost:wght@400;500;600&family=Caveat:wght@600;700&family=Nunito:wght@400;600;700&family=Alegreya:ital,wght@0,500;0,700;1,500&family=Alegreya+Sans:wght@400;500;700&family=Syne:wght@700;800&family=Manrope:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
   --bg:#139AC8; --on:#062631; --on-soft:#0E4251; --card:#fff; --ink:#0A2A35; --ink-soft:#4A6570;
@@ -819,7 +818,22 @@ const W=[255,255,255], K=[0,0,0];
 const toward = (base, to, ref, target) => { let a = base; for (let t=0; contrast(a,ref) < target && t <= 1.001; t += 0.04) a = mix(base, to, t); return a; };
 let STYLE = 'riviera', COLOR = '#139AC8';
 const gourmetBg = hex => { const c = hex2rgb(hex); return lum(c) < 0.05 ? hex : rgb2hex(mix(c, K, 0.84)); };   // un colore chiaro diventa il suo tono piu' scuro
+// Caratteri: si scaricano solo le 2 famiglie dello stile in uso (prima erano 14 in ogni menu)
+const FONT_Q = {
+  riviera: 'Baloo+2:wght@600;700;800&family=Inter:wght@400;600;700',
+  elegante: 'Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Jost:wght@400;500;600',
+  lavagna: 'Caveat:wght@600;700&family=Nunito:wght@400;600;700',
+  osteria: 'Alegreya:ital,wght@0,500;0,700;1,500&family=Alegreya+Sans:wght@400;500;700',
+  notte: 'Syne:wght@700;800&family=Manrope:wght@400;600;700',
+  marinaro: 'Playfair+Display:wght@600;700&family=Jost:wght@400;500;600',
+  gourmet: 'Bodoni+Moda:wght@500;600&family=Jost:wght@400;500;600',
+  moderno: 'Space+Grotesk:wght@500;700&family=Inter:wght@400;600;700'
+};
+const FONT_FATTI = new Set();
+function caricaFont(st){ const q = FONT_Q[st] || FONT_Q.riviera; if (FONT_FATTI.has(q)) return; FONT_FATTI.add(q);
+  const l = document.createElement('link'); l.rel = 'stylesheet'; l.href = 'https://fonts.googleapis.com/css2?family=' + q + '&display=swap'; document.head.appendChild(l); }
 function applyColor(hex){
+  caricaFont(STYLE);
   if (STYLE === 'gourmet') hex = gourmetBg(hex);
   COLOR = hex;
   const bg = hex2rgb(hex), Lm = lum(bg), r = document.documentElement.style, set = (k,v) => r.setProperty(k,v);
@@ -1414,10 +1428,35 @@ else app.innerHTML = `<div class="loading"><div class="dot"></div>${T('loading')
         if (j && (j.ok === true || j.errore === 'nontrovato' || j.errore === 'nonpronto')) cb(j); else jsonp(cb); })
       .catch(function () { clearTimeout(t); jsonp(cb); });
   }
+  // Configurazione letta direttamente dal foglio del locale (scheda "Config", pubblica come il resto del menu): niente passaggio dallo script,
+  // quindi più veloce e senza il suo avvio lento. I link nuovi hanno &f=ID-del-foglio. Se la scheda manca o non risponde, si usa la strada di prima.
+  var F = ((new URLSearchParams(location.search)).get('f') || '').replace(/[^A-Za-z0-9_-]/g, '').slice(0, 80);
+  var STILI = ['riviera', 'elegante', 'lavagna', 'osteria', 'notte', 'marinaro', 'gourmet', 'moderno'];
+  function daFoglio(cb) {
+    if (F.length < 20) return cb(null);
+    var nome = 'mitf_' + Date.now(), el = document.createElement('script'), fatto = false, t;
+    function fine(r) { if (fatto) return; fatto = true; clearTimeout(t); try { delete window[nome]; } catch (e) {} el.remove(); cb(r); }
+    t = setTimeout(function () { fine(null); }, 5000);
+    window[nome] = function (j) {
+      try {
+        if (!j || j.status !== 'ok' || !j.table) return fine(null);
+        var c = {};
+        (j.table.rows || []).forEach(function (r) { var k = r.c && r.c[0] && r.c[0].v; if (k == null) return; var x = r.c[1]; c[String(k).trim()] = x && x.v != null ? String(x.v).trim() : ''; });
+        if (c.slug && c.slug !== slug) return fine(null);                   // il foglio non è quello di questo link
+        if (/^s/i.test(c.sospeso || '')) return fine({ ok: true, sospeso: true });
+        if (STILI.indexOf(c.stile) < 0 || !/^#[0-9a-f]{6}$/i.test(c.colore || '')) return fine(null);
+        fine({ ok: true, sheet: F, stile: c.stile, colore: c.colore, modo: c.modo || 'sfoglia', lingue: c.lingue || 'it', logo: c.logo || '', logoModo: c.logoModo || '' });
+      } catch (e) { fine(null); }
+    };
+    el.onerror = function () { fine(null); };
+    el.src = 'https://docs.google.com/spreadsheets/d/' + F + '/gviz/tq?tqx=responseHandler:' + nome + '&sheet=Config&headers=1&_=' + Date.now();
+    document.head.appendChild(el);
+  }
+  function ottieni(cb) { daFoglio(function (c) { if (c) cb(c); else leggiConfig(cb); }); }
   if (!slug) return messaggio('Questo link del menu non è corretto.<br>Controlla di aver scansionato il QR giusto.');
   var salvato = leggi();
   if (salvato && salvato.ok && !salvato.sospeso) parti(salvato);          // apertura subito, con l'ultima configurazione salvata
-  leggiConfig(function (c) {
+  ottieni(function (c) {
     if (!c) { if (!partito) messaggio('Il menu non è raggiungibile in questo momento.<br>Riprova tra poco.'); return; }
     if (c.ok && c.sospeso) { togli(); return messaggio('Questo menu non è disponibile al momento.'); }
     if (!c.ok) { togli(); if (!partito) messaggio(c.errore === 'nonpronto' ? 'Il menu è in preparazione.<br>Torna a trovarci tra poco!' : 'Menu non trovato.<br>Controlla il link o il QR.'); return; }
